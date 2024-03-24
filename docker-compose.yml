@@ -1,16 +1,20 @@
 version: '3'
+x-common:
+  database:
+    &database
+    MYSQL_DATABASE: database
+    MYSQL_ROOT_PASSWORD: "qg&ys946^L8kin*hoU#znDwbPCXU35"
+
 services:
   backend:
     build: .
     ports:
       - "80:5000" # 5000 -> 80
-    image: "backend"
-    container_name: "backend"
     depends_on:
       - db
+    environment:
+      <<: *database
   db:
     image: mysql
-    container_name: "db"
     environment:
-      MYSQL_DATABASE: database
-      MYSQL_ROOT_PASSWORD: "qg&ys946^L8kin*hoU#znDwbPCXU35"
+      <<: *database
