@@ -6,24 +6,24 @@
     The password column stores the SHA256 hash of the user's password.
     The is_admin column is a boolean flag indicating whether the user is an admin or not.
 */
-CREATE TABLE IF NOT EXISTS UTENTI(
+CREATE TABLE IF NOT EXISTS users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(64) NOT NULL, -- SHA256 hash of the real password
     is_admin BOOLEAN NOT NULL DEFAULT FALSE, --TODO : change this with different tables
 );
 
-
 /*
-    This script creates the GIORNI table if it doesn't already exist.
-    The GIORNI table stores information about different days, including their start and end hours.
-    It also includes a placeholder for storing already booked hours.
+    This script creates the EVENTI table if it does not already exist.
+    The table stores information about events, including the day, start and end time, user ID, and category.
 */
-CREATE TABLE IF NOT EXISTS GIORNI(
+CREATE TABLE IF NOT EXISTS events(
     id INT PRIMARY KEY AUTO_INCREMENT,
+    day INT NOT NULL, -- timestamp of the day
     start_hour TIME NOT NULL,
     end_hour TIME NOT NULL,
-    -- TODO : find a way to store already booked hours
+    user_id INT NOT NULL,
+    categories ENUM('prova', 'prova2', 'prova3') NOT NULL, -- TODO : change this actual categories
 );
 
 
@@ -33,11 +33,11 @@ CREATE TABLE IF NOT EXISTS GIORNI(
     the admin who answered the question, the title of the question, the content of the question,
     and the status of the question (open or closed).
 */
-CREATE TABLE IF NOT EXISTS DOMANDE(
+CREATE TABLE IF NOT EXISTS questions(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    id_utente INT NOT NULL,
+    id_users INT NOT NULL,
     id_admin INT NOT NULL DEFAULT -1, -- TODO : change this with different tables
-    titolo VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    stato ENUM('aperta', 'chiusa') NOT NULL DEFAULT 'aperta'
+    status ENUM('aperta', 'chiusa') NOT NULL DEFAULT 'aperta'
 );

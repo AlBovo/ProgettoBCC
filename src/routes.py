@@ -19,8 +19,8 @@ def index():
     if current_user.is_authenticated:
         return redirect(url_for('main.dashboard'))
     else:
-        return render_template('index.html') # TODO: decide if we need to redirect to login page
-
+        return render_template('index.html')
+    
 @mainbp.route('/login')
 def login():
     """
@@ -75,8 +75,37 @@ def api_logout():
     session.pop('session', default=None)
     return redirect('/')
 
-@apibp.route('/month')
+@apibp.route('/month', methods=['POST'])
 @login_required
-def api_month():
+def get_month():
     # TODO: add logic
     return redirect('/') # return data
+
+@apibp.route('/day', methods=['POST'])
+@login_required
+def get_day():
+    # TODO: add logic
+    return redirect('/') # return data
+
+@apibp.route('/add_event', methods=['POST'])
+@login_required
+def add_event():
+    # TODO: add logic
+    return redirect('/') # return data
+
+@apibp.route('/delete_event', methods=['POST'])
+@login_required
+def delete_event():
+    # TODO: add logic
+    return redirect('/') # return data
+
+@apibp.route('/question', methods=['POST'])
+@login_required
+def question():
+    # TODO: add logic
+    return redirect('/') # return data
+
+# @apibp.route('/chat', methods=['POST'])
+# @login_required
+# def chatbot():
+#     return redirect('/') # return data

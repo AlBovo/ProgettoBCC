@@ -1,9 +1,4 @@
 version: '3'
-x-common:
-  database:
-    &database
-    MYSQL_DATABASE: database
-    MYSQL_ROOT_PASSWORD: "qg&ys946^L8kin*hoU#znDwbPCXU35"
 
 services:
   backend:
@@ -12,9 +7,10 @@ services:
       - "80:5000" # 5000 -> 80
     depends_on:
       - db
-    environment:
-      <<: *database
+    env_file:
+      - .env
+      - src/app.env
   db:
     image: mysql
-    environment:
-      <<: *database
+    env_file:
+      - .env
