@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from flask_login import login_required, logout_user, current_user
+from flask_login import login_required, logout_user, login_user, current_user
+from hashlib import sha256
+import json, models
 
 mainbp  =   Blueprint('main', __name__)
 apibp   =   Blueprint('api', __name__)
@@ -60,11 +62,18 @@ def api_login():
     password = request.form.get('password')
     
     if len(email) == 0 or len(password) == 0:
-        return redirect('/login') # TODO : add error message
+        return json.dumps({'error': 'E\' necessario inserire un\'email ed una password.'})
     
     # if not EMAIL_REGEX.match(email):
-    #     return redirect('/login') # TODO : add error message    
-        
+    #     return redirect('/login') # TODO : add error message
+    
+    if not (user := models.Users.getByEmail(email)):
+        return json.dumps({'error': 'L\'email o la password non è corretta.'})
+    
+    if user.hashPassword == sha256(password.encode()).hexdigest():
+        return json.dumps({'error': 'L\'email o la password non è corretta.'})
+    
+    login_user(user)
     return redirect('/')
 
 @apibp.route('/register', methods=['POST'])

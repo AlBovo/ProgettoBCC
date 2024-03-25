@@ -1,6 +1,4 @@
 # PLS DONT CHANGE THIS FILE
-version: '3.4'
-
 services:
   backend:
     image: backend

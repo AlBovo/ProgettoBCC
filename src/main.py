@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_mysqldb import MySQL
 from flask_login import LoginManager
-import os, csp, db
+import csp, db, login
+import os
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST', 'db')
@@ -18,15 +19,10 @@ if __name__ == '__main__':
     app.register_blueprint(apibp, url_prefix='/api')
     from routes import adminbp
     app.register_blueprint(adminbp, url_prefix='/admin')
-    login_manager = LoginManager()
-    login_manager.init_app(app)
     
     # setup application
     csp.init_app(app)
-    
-    # create admin user
-    cur = db.getConnection(app).cursor()
-    cur.execute(open('db/init.sql').read())
-    cur.close()
+    db.init_app(app)
+    login.login_manager.init_app(app)
 
     app.run('0.0.0.0', port=5000, debug = True) # TODO: remove in production
