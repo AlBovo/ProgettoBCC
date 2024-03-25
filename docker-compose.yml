@@ -1,7 +1,9 @@
-version: '3'
+version: '3.1'
 
 services:
   backend:
+    container_name: flask # It gives a significant name to compose container
+    restart: unless-stopped # it will restart on crash, unless stopped by cli or ctrl+c
     build: .
     ports:
       - "80:5000" # 5000 -> 80
@@ -11,6 +13,8 @@ services:
       - .env
       - src/app.env
   db:
+    container-name: mysql # It gives a significant name to compose container
+    restart: unless-stopped # it will restart on crash, unless stopped by cli or ctrl+c
     image: mysql
     env_file:
       - .env
