@@ -1,5 +1,5 @@
 /*
-    Creates the UTENTI table if it does not already exist.
+    Creates the users table if it does not already exist.
     The table stores user information including their email, password, and admin status.
     The id column is the primary key and is auto-incremented.
     The email column is a unique constraint to ensure each user has a unique email address.
@@ -10,11 +10,11 @@ CREATE TABLE IF NOT EXISTS users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(64) NOT NULL, -- SHA256 hash of the real password
-    is_admin BOOLEAN NOT NULL DEFAULT FALSE, --TODO : change this with different tables
+    is_admin BOOLEAN NOT NULL DEFAULT false -- TODO : change this with different tables
 );
 
 /*
-    This script creates the EVENTI table if it does not already exist.
+    This script creates the events table if it does not already exist.
     The table stores information about events, including the day, start and end time, user ID, and category.
 */
 CREATE TABLE IF NOT EXISTS events(
@@ -23,13 +23,13 @@ CREATE TABLE IF NOT EXISTS events(
     start_hour TIME NOT NULL,
     end_hour TIME NOT NULL,
     user_id INT NOT NULL,
-    categories ENUM('prova', 'prova2', 'prova3') NOT NULL, -- TODO : change this actual categories
+    categories ENUM('prova', 'prova2', 'prova3') NOT NULL -- TODO : change this actual categories
 );
 
 
 /*
-    This script creates the 'DOMANDE' table if it does not already exist.
-    The 'DOMANDE' table stores information about questions, including the user who asked the question,
+    This script creates the 'questions' table if it does not already exist.
+    The 'questions' table stores information about questions, including the user who asked the question,
     the admin who answered the question, the title of the question, the content of the question,
     and the status of the question (open or closed).
 */
@@ -41,3 +41,5 @@ CREATE TABLE IF NOT EXISTS questions(
     content TEXT NOT NULL,
     status ENUM('aperta', 'chiusa') NOT NULL DEFAULT 'aperta'
 );
+
+INSERT INTO users (email, password, is_admin) VALUES ('admin@admin.com', 'admin', true);

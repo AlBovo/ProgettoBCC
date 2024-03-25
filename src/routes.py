@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, redirect, session, url_for
-from flask_login import login_required, login_user, current_user
+from flask import Blueprint, render_template, redirect, url_for, request
+from flask_login import login_required, logout_user, current_user
 
 mainbp  =   Blueprint('main', __name__)
 apibp   =   Blueprint('api', __name__)
@@ -56,7 +56,15 @@ def dashboard():
 
 @apibp.route('/login', methods=['POST'])
 def api_login():
-    # TODO: add logic
+    email = request.form.get('email')
+    password = request.form.get('password')
+    
+    if len(email) == 0 or len(password) == 0:
+        return redirect('/login') # TODO : add error message
+    
+    # if not EMAIL_REGEX.match(email):
+    #     return redirect('/login') # TODO : add error message    
+        
     return redirect('/')
 
 @apibp.route('/register', methods=['POST'])
@@ -72,7 +80,7 @@ def api_logout():
     Returns:
         Redirect the user to the home page after logout.
     """
-    session.pop('session', default=None)
+    logout_user()
     return redirect('/')
 
 @apibp.route('/month', methods=['POST'])
