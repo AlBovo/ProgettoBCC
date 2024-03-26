@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_mysqldb import MySQL
 from flask_login import LoginManager
 import csp, db, login
 import os
@@ -23,6 +22,7 @@ if __name__ == '__main__':
     # setup application
     csp.init_app(app)
     db.init_app(app)
+    db.addAdmin(app)
     login.login_manager.init_app(app)
 
     app.run('0.0.0.0', port=5000, debug = True) # TODO: remove in production

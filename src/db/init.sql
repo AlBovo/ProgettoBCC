@@ -7,7 +7,7 @@
     The is_admin column is a boolean flag indicating whether the user is an admin or not.
 */
 CREATE TABLE IF NOT EXISTS users(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT IDENTITY PRIMARY KEY ,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(64) NOT NULL, -- SHA256 hash of the real password
     is_admin BOOLEAN NOT NULL DEFAULT false -- TODO : change this with different tables
@@ -41,5 +41,3 @@ CREATE TABLE IF NOT EXISTS questions(
     content TEXT NOT NULL,
     status ENUM('aperta', 'chiusa') NOT NULL DEFAULT 'aperta'
 );
-
-INSERT INTO users (email, password, is_admin) VALUES ('admin@admin.com', 'admin', true);

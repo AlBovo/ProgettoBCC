@@ -4,22 +4,27 @@ import db
 
 class User(UserMixin):
     def __init__(self, id: int, email: str, hashPassword: str) -> None:
-        self.id = id
-        self.email = email
-        self.hashPassword = hashPassword
+        self.__id = id
+        self.__email = email
+        self.__hashPassword = hashPassword
         super().__init__()
 
     def get_id(self):
-        return str(self.id)
+        return str(self.__id)
     
+    def get_password(self):
+        return str(self.__hashPassword)
+        
 class Users(object):
     @staticmethod
-    def resultRowToUser(res: dict):
-        return User(res['id'], res['email'], res['hashPassword'])
+    def resultRowToUser(res: tuple):
+        return User(res[0], res[1], res[2]) # id, email, password
 
     @staticmethod
     def get(id: int | str) -> User | None:
-        cur = db.getDatabaseCursor(current_app)
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
         cur.execute("SELECT * FROM users WHERE id = %s", (id, ))
         res = cur.fetchone()
         if res:
@@ -27,22 +32,24 @@ class Users(object):
 
     @staticmethod
     def getByEmail(email: str):
-        cur = db.getDatabaseCursor(current_app)
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
         cur.execute("SELECT * FROM users WHERE email = %s", (email, ))
         res = cur.fetchone()
         if res:
             return Users.resultRowToUser(res)
-        else:
-            return None
 
     @staticmethod
     def add(email: str, hashPassword: str) -> User | None:
-        cur = db.getDatabaseCursor(current_app)
-        # try:
-        cur.execute("INSERT INTO users VALUES (?, ?, ? )", (email, hashPassword, False))
-        cur.commit() # TODO : test
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        cur.execute("SELECT * FROM users WHERE email = %s", (email, ))
+        if cur.fetchone():
+            return None # cannot use 
+
+        cur.execute("INSERT INTO users (email, password, is_admin) VALUES (%s, %s, %s)", (email, hashPassword, False))
+        conn.commit() # TODO : test
         added_user = User(email, hashPassword, False)
         return added_user
-        # except Exception as error:
-        #     current_app.logger.error(error)
-        #     con.rollback()

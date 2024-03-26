@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, current_app
 from flask_login import login_required, logout_user, login_user, current_user
-from hashlib import sha256
+from werkzeug.security import generate_password_hash, check_password_hash
 import json, models
 
 mainbp  =   Blueprint('main', __name__)
@@ -61,7 +61,7 @@ def api_login():
     email = request.form.get('email')
     password = request.form.get('password')
     
-    if len(email) == 0 or len(password) == 0:
+    if not email or not password:
         return json.dumps({'error': 'E\' necessario inserire un\'email ed una password.'})
     
     # if not EMAIL_REGEX.match(email):
@@ -69,8 +69,9 @@ def api_login():
     
     if not (user := models.Users.getByEmail(email)):
         return json.dumps({'error': 'L\'email o la password non è corretta.'})
-    
-    if user.hashPassword == sha256(password.encode()).hexdigest():
+
+    current_app.logger.info(f"{password}, {generate_password_hash(password)}, {user.get_password()}")
+    if not check_password_hash(user.get_password(), password):
         return json.dumps({'error': 'L\'email o la password non è corretta.'})
     
     login_user(user)
