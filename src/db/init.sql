@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS users(
     password VARCHAR(255) NOT NULL, -- Hash of the real password
     is_admin BOOLEAN NOT NULL DEFAULT false -- TODO : change this with different tables
 ) AUTO_INCREMENT = 0;
--- SPLIT
+
+
 /*
     This script creates the events table if it does not already exist.
     The table stores information about events, including the day, start and end time, user ID, and category.
@@ -25,7 +26,8 @@ CREATE TABLE IF NOT EXISTS events(
     user_id INT NOT NULL,
     categories ENUM('prova', 'prova2', 'prova3') NOT NULL -- TODO : change this actual categories
 );
--- SPLIT
+
+
 /*
     This script creates the 'questions' table if it does not already exist.
     The 'questions' table stores information about questions, including the user who asked the question,

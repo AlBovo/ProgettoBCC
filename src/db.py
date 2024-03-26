@@ -9,20 +9,16 @@ def addAdmin(app: Flask):
         
         conn = g.db
         cur = conn.cursor()
-        
-        for i in open('db/init.sql').read().split('-- SPLIT'):
-            cur.execute(i)
-            conn.commit()
         try:
             cur.execute("INSERT INTO users (email, password, is_admin) VALUES (%s, %s, %s)",
-                        ("admin@admin.com", generate_password_hash("admin"), True))
+                        ("admin@admin.com", generate_password_hash("admin123"), True)) # TODO : admin must change the password
             conn.commit()
         except:
             pass # admin already exists
 
 def getConnection(app: Flask):
     if 'db' not in g or not g.db.is_connected():
-        while True: # TODO : find a better way to do this
+        while True: # wait for connection
             try:
                 g.db = mysql.connector.connect(
                     host = current_app.config['MYSQL_HOST'],

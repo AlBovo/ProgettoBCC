@@ -47,9 +47,9 @@ class Users(object):
         
         cur.execute("SELECT * FROM users WHERE email = %s", (email, ))
         if cur.fetchone():
-            return None # cannot use 
+            return None 
 
         cur.execute("INSERT INTO users (email, password, is_admin) VALUES (%s, %s, %s)", (email, hashPassword, False))
-        conn.commit() # TODO : test
+        conn.commit()
         added_user = User(email, hashPassword, False)
         return added_user
