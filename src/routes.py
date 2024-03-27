@@ -180,13 +180,15 @@ def api_logout():
 def get_month():
     #event query response: [id, Month, day, start_hour, end_hour, user_id, Operator]
     Operator = request.cookies.get('Operator', type=int) #gets the id of the operator from the cookies
+    Operator = int(Operator) if Operator is not None else None
     Month = time.localtime().tm_mon                      #gets current month
 
     data = []
     counter = 0
     previousDay = 0
 
-    cursor.execute(f"SELECT * FROM EVENTS WHERE OPERATOR = {Operator} AND MONTH = {Month}")
+    query = "SELECT * FROM EVENTS WHERE OPERATOR = %s AND MONTH = %s"
+    cursor.execute(query, (Operator, Month))
 
     for event in cursor.fetchall():
         if previousDay == 0:
