@@ -11,12 +11,12 @@ app.secret_key = os.urandom(32).hex()
 
 if __name__ == '__main__':
     # add routes
-    from routes import mainbp
-    app.register_blueprint(mainbp, url_prefix='/')
-    from routes import apibp
-    app.register_blueprint(apibp, url_prefix='/api')
-    from routes import adminbp
-    app.register_blueprint(adminbp, url_prefix='/admin')
+    from routes import main
+    app.register_blueprint(main.mainbp, url_prefix='/')
+    from routes import api
+    app.register_blueprint(api.apibp, url_prefix='/api')
+    from routes import admin
+    app.register_blueprint(admin.adminbp, url_prefix='/admin')
     
     # setup application
     csp.init_app(app)
