@@ -179,9 +179,12 @@ def api_logout():
 @login_required
 def get_month():
     #event query response: [id, Month, day, start_hour, end_hour, user_id, Operator]
-    Operator = request.cookies.get('Operator', type=int) #gets the id of the operator from the cookies
+
+    Operator = request.args["Operator"]         #gets the id of the operator from the cookies
     Operator = int(Operator) if Operator is not None else None
-    Month = time.localtime().tm_mon                      #gets current month
+
+    Month = request.args["Month"]               #gets month
+    Month = int(Month) if Month is not None else None
 
     data = []
     counter = 0
