@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS users(
 CREATE TABLE IF NOT EXISTS events(
     id INT PRIMARY KEY AUTO_INCREMENT,
     date DATE NOT NULL, -- timestamp of the day
-    start_hour TIME NOT NULL,
-    end_hour TIME NOT NULL,
+    start_hour INT NOT NULL, -- military time ex. 830 == 8:30
+    end_hour INT NOT NULL,   -- military time
     user_id INT NOT NULL,
     operator_id INT NOT NULL
 );
