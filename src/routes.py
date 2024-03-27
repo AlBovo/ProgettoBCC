@@ -1,8 +1,21 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import login_required, logout_user, login_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from email_validator import validate_email, EmailNotValidError
 import models
+import json
+import mysql.connector
+import time
+
+# Establish a connection to the MySQL database
+connection = mysql.connector.connect( # TODO: insert db info
+    host="",
+    user="",
+    password="",
+    database=""
+)
+
+cursor = connection.cursor()
 
 mainbp  =   Blueprint('main', __name__)
 apibp   =   Blueprint('api', __name__)
@@ -165,8 +178,34 @@ def api_logout():
 @apibp.route('/month', methods=['POST'])
 @login_required
 def get_month():
-    # TODO: add logic
-    return redirect('/') # return data
+    #event query response: [id, Month, day, start_hour, end_hour, user_id, Operator]
+    Operator = request.cookies.get('Operator', type=int) #gets the id of the operator from the cookies
+    Month = time.localtime().tm_mon                      #gets current month
+
+    data = []
+    counter = 0
+    previousDay = 0
+
+    cursor.execute(f"SELECT * FROM EVENTS WHERE OPERATOR = {Operator} AND MONTH = {Month}")
+
+    for event in cursor.fetchall():
+        if previousDay == 0:
+            previousDay = event[1]
+
+        if event[1] == previousDay:
+            counter += 1
+            
+        else:
+            data.append(json.dumps(
+                {
+                    "day":previousDay,
+                    "events Number":counter
+                }))
+                
+            counter = 1
+            previousDay = event[1]
+    
+    return jsonify(data) # return data
 
 @apibp.route('/day', methods=['POST'])
 @login_required
