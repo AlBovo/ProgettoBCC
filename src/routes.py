@@ -84,7 +84,7 @@ def api_login():
     
     try:
         validate_email(email)
-    except:
+    except EmailNotValidError as e: # TODO : decide if we want to show the error message to the user
         flash('L\'email non ha un formato valido.', category="error")
         return redirect(url_for('main.login'))
     
@@ -136,7 +136,7 @@ def api_register():
     
     try:
         validate_email(email)
-    except:
+    except EmailNotValidError as e: # TODO : decide if we want to show the error message to the user
         flash('L\'email non ha un formato valido.', category="error")
         return redirect(url_for('main.login'))
     

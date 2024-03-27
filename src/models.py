@@ -1,24 +1,28 @@
-from flask_login import UserMixin, current_user
+from flask_login import UserMixin
 from flask import current_app
 import db
 
 class User(UserMixin):
-    def __init__(self, id: int, email: str, hashPassword: str) -> None:
+    def __init__(self, id: int, email: str, hashPassword: str, privilege: bool) -> None:
         self.__id = id
         self.__email = email
         self.__hashPassword = hashPassword
+        self.__isadmin = privilege
         super().__init__()
 
-    def get_id(self):
+    def get_id(self) -> int:
         return str(self.__id)
     
-    def get_password(self):
+    def get_password(self) -> str:
         return str(self.__hashPassword)
-        
+    
+    def get_privilege(self) -> bool:
+        return self.__isadmin
+    
 class Users(object):
     @staticmethod
     def resultRowToUser(res: tuple):
-        return User(res[0], res[1], res[2]) # id, email, password
+        return User(res[0], res[1], res[2], res[3]) # id, email, password
 
     @staticmethod
     def get(id: int | str) -> User | None:
@@ -51,5 +55,6 @@ class Users(object):
 
         cur.execute("INSERT INTO users (email, password, is_admin) VALUES (%s, %s, %s)", (email, hashPassword, False))
         conn.commit()
-        added_user = User(email, hashPassword, False)
+        added_user = Users.getByEmail(email)
+        assert added_user != None
         return added_user
