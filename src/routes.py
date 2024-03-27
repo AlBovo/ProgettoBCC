@@ -160,7 +160,7 @@ def api_logout():
         Redirect the user to the home page after logout.
     """
     logout_user()
-    return redirect('/')
+    return redirect(url_for('main.index'))
 
 @apibp.route('/month', methods=['POST'])
 @login_required

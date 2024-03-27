@@ -1,5 +1,4 @@
 from flask import Flask
-from flask_login import LoginManager
 import csp, db, login
 import os
 
