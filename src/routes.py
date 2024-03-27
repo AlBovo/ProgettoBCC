@@ -2,20 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 from flask_login import login_required, logout_user, login_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from email_validator import validate_email, EmailNotValidError
-import models
-import json
-import mysql.connector
-import time
-
-# Establish a connection to the MySQL database
-connection = mysql.connector.connect( # TODO: insert db info
-    host="",
-    user="",
-    password="",
-    database=""
-)
-
-cursor = connection.cursor()
+import models, json
 
 mainbp  =   Blueprint('main', __name__)
 apibp   =   Blueprint('api', __name__)

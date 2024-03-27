@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users(
     id INT AUTO_INCREMENT PRIMARY KEY ,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL, -- Hash of the real password
-    is_admin BOOLEAN NOT NULL DEFAULT false -- TODO : change this with different tables
+    is_admin BOOLEAN NOT NULL DEFAULT false
 ) AUTO_INCREMENT = 0;
 
 
@@ -20,13 +20,23 @@ CREATE TABLE IF NOT EXISTS users(
 */
 CREATE TABLE IF NOT EXISTS events(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    day INT NOT NULL, -- timestamp of the day
+    date DATE NOT NULL, -- timestamp of the day
     start_hour TIME NOT NULL,
     end_hour TIME NOT NULL,
     user_id INT NOT NULL,
-    categories ENUM('prova', 'prova2', 'prova3') NOT NULL -- TODO : change this actual categories
+    operator_id INT NOT NULL
 );
 
+/*
+    This script initializes the 'operators' table in the database.
+    The 'operators' table stores information about operators, including their name, surname, and categories.
+*/
+CREATE TABLE IF NOT EXISTS operators(
+    id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL,
+    categories ENUM('prova1', 'prova2', 'prova3') NOT NULL -- TODO : change this actual categories
+);
 
 /*
     This script creates the 'questions' table if it does not already exist.
@@ -37,7 +47,7 @@ CREATE TABLE IF NOT EXISTS events(
 CREATE TABLE IF NOT EXISTS questions(
     id INT PRIMARY KEY AUTO_INCREMENT,
     id_users INT NOT NULL,
-    id_admin INT NOT NULL DEFAULT -1, -- TODO : change this with different tables
+    id_admin INT NOT NULL DEFAULT 1,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
     status ENUM('aperta', 'chiusa') NOT NULL DEFAULT 'aperta'

@@ -16,6 +16,8 @@ def addAdmin(app: Flask):
         except:
             pass # admin already exists
 
+# TODO : clear old months data
+
 def getConnection(app: Flask):
     if 'db' not in g or not g.db.is_connected():
         while True: # wait for connection
