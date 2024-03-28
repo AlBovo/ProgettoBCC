@@ -38,11 +38,11 @@ def login():
         flash('La password deve essere lunga almeno 8 caratteri.', category="error")
         return redirect(url_for('main.login'))
     
-    if not (user := UserManager.getByEmail(email)):
+    if not (user := UserManager.getByEmail(email)): # email not found
         flash('L\'email o la password non è corretta.', category="error")
         return redirect(url_for('main.login'))
 
-    if not check_password_hash(user.get_password(), password):
+    if not check_password_hash(user.get_password(), password): # password incorrect
         flash('L\'email o la password non è corretta.', category="error")
         return redirect(url_for('main.login'))
     
