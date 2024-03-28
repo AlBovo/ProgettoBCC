@@ -1,3 +1,4 @@
+from flask_wtf import CSRFProtect
 from flask import Flask
 import csp, db, login
 import os
@@ -8,6 +9,7 @@ app.config['MYSQL_USER'] = os.getenv('MYSQL_USER', 'root')
 app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_ROOT_PASSWORD', 'root')
 app.config['MYSQL_DB'] = os.getenv('MYSQL_DATABASE', 'flask')
 app.secret_key = os.urandom(32).hex()
+csrf = CSRFProtect(app)
 
 if __name__ == '__main__':
     # add routes

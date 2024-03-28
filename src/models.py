@@ -137,7 +137,7 @@ class UserManager(object):
         if UserManager.getByEmail(email):
             return None
 
-        cur.execute("INSERT INTO users (email, password, is_admin) VALUES (%s, %s, %s)", (email, hashPassword, False))
+        cur.execute("INSERT INTO users (email, password, is_admin) VALUES (%s, %s, %s)", (email, hashPassword, False, ))
         conn.commit()
         added_user = UserManager.getByEmail(email)
         assert added_user != None
@@ -207,7 +207,7 @@ class Operator(object):
                 return event
         return None
 
-    def dayIsFull(self, day: int) -> bool:
+    def dayIsFull(self, day: int) -> bool: # TODO : check if there's actual time
         """
         Checks if the specified day is full.
 
@@ -445,7 +445,7 @@ class EventManager(object):
         if utils.is_valid_date(date):
             return None
         
-        if EventManager.getEventsByTimeRange(start_hour, end_hour) is not None:
+        if EventManager.getEventsByTimeRange(date, start_hour, end_hour) is not None:
             return None
         
         conn = db.getConnection(current_app)
@@ -453,7 +453,24 @@ class EventManager(object):
         
         cur.execute("INSERT INTO events VALUES (%s, %s, %s, %s, %s)", (date, start_hour, end_hour, user_id, operator_id,))
         conn.commit()
+        added_event = EventManager.get(cur.lastrowid)
+        assert added_event != None
+        return added_event
+    
+    @staticmethod
+    def deleteEvent(id: int, user_id: int) -> bool:
+        assert UserManager.get(user_id) != None # user must exist
         
+        if not EventManager.get(id):
+            return False
+        
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        cur.execute("DELETE FROM events WHERE id = %s AND user_id = %s", (id, user_id, ))
+        conn.commit()
+        return True
+    
     @staticmethod
     def getEventsByMonth(month: int) -> list[Event]:
         """
