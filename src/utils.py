@@ -2,6 +2,15 @@ from datetime import datetime
 import calendar
 
 def is_valid_date(date_str):
+    """
+    Check if a given date string is a valid date in the format 'YYYY-MM-DD'.
+
+    Args:
+        date_str (str): The date string to be checked.
+
+    Returns:
+        bool: True if the date string is valid, False otherwise.
+    """
     try:
         datetime.strptime(date_str, '%Y-%m-%d')
         return True
@@ -9,6 +18,18 @@ def is_valid_date(date_str):
         return False
     
 def get_week_days(day:int, month:int, year:int) -> list[tuple[int,int,int]]:
+    """
+    Returns a list of tuples representing the days of the week surrounding the given date.
+
+    Args:
+        day (int): The day of the month.
+        month (int): The month of the year.
+        year (int): The year.
+
+    Returns:
+        list[tuple[int,int,int]]: A list of tuples, where each tuple represents a day in the week.
+                                  Each tuple contains three integers: (day, month, year).
+    """
     dayWeek = datetime(year, month, day).isoweekday()
     MonthDays = calendar.monthrange(year=year, month=month)[1]
     if month == 1: 
