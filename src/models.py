@@ -145,180 +145,6 @@ class UserManager(object):
     
 ################## END OF USER MANAGER ##################
 
-##################### OPERATOR CLASS ####################
-class Operator(object):
-    def __init__(self, id: int, name: str, surname: str, categories: list[str], events: dict[int, list[tuple]]) -> None:
-        """
-        Initializes an Operator object.
-
-        Args:
-            id (int): The ID of the operator.
-            name (str): The name of the operator.
-            surname (str): The surname of the operator.
-            categories (list[str]): The categories the operator belongs to.
-            events (dict[int, list[tuple]]): The events associated with the operator, organized by day.
-
-        Returns:
-            None
-        """
-        self.__id = id
-        self.__name = name
-        self.__surname = surname
-        self.__categories = categories
-        self.__events = events
-        super.__init__()
-
-    def getEventsByDay(self, day: int) -> list[tuple]:
-        """
-        Returns the events associated with the operator on a specific day.
-
-        Args:
-            day (int): The day for which to retrieve the events.
-
-        Returns:
-            list[tuple]: The events associated with the operator on the specified day.
-        """
-        return self.__events[day]
-
-    def getEventByUserId(self, user_id: int) -> list[tuple]:
-        """
-        Returns the events associated with a specific user ID.
-
-        Args:
-            user_id (int): The ID of the user.
-
-        Returns:
-            list[tuple]: The events associated with the specified user ID.
-        """
-        return [event for event in self.__events if event[3] == user_id]
-
-    def getEventById(self, event_id: int) -> tuple | None:
-        """
-        Returns the event with the specified ID.
-
-        Args:
-            event_id (int): The ID of the event.
-
-        Returns:
-            tuple | None: The event with the specified ID, or None if not found.
-        """
-        for event in self.__events:
-            if event[0] == event_id:
-                return event
-        return None
-
-    def dayIsFull(self, day: int) -> bool: # TODO : check if there's actual time
-        """
-        Checks if the specified day is full.
-
-        Args:
-            day (int): The day to check.
-
-        Returns:
-            bool: True if the day is full, False otherwise.
-        """
-        events = self.__events[day]
-        for i in range(len(events) - 1):
-            if events[i][2] < events[i+1][1]:
-                return False
-        return True
-
-    def getInformations(self) -> tuple:
-        """
-        Returns the operator's information.
-
-        Returns:
-            tuple: A tuple containing the operator's name, surname, and categories.
-        """
-        return (self.__name, self.__surname, self.__categories)
-    
-################ END OF OPERATOR CLASS ###############
-
-################## OPERATOR MANAGER ##################
-class OperatorManager(object):
-    """
-    A class that manages operators in the system.
-    """
-
-    @staticmethod
-    def resultRowToOperator(res: tuple, events: list[tuple]) -> Operator:
-        """
-        Converts a result row from the database to an Operator object.
-
-        Args:
-            res (tuple): The result row from the database.
-            events (list[tuple]): The events associated with the operator.
-
-        Returns:
-            Operator: The Operator object.
-        """
-        return Operator(res[0], res[1], res[2], res[3], events) # id, name, surname, categories, events
-    
-    @staticmethod
-    def get(id: int) -> Operator | None:
-        """
-        Retrieves an operator by its ID.
-
-        Args:
-            id (int): The ID of the operator.
-
-        Returns:
-            Operator | None: The Operator object if found, None otherwise.
-        """
-        conn = db.getConnection(current_app)
-        cur = conn.cursor()
-        
-        cur.execute("SELECT * FROM operators WHERE id = %s", (id, ))
-        res = cur.fetchone()
-        if res:
-            return OperatorManager.resultRowToOperator(res)
-    
-    @staticmethod
-    def getOperatorsByCategory(category: str) -> list[Operator]:
-        """
-        Retrieves operators by category.
-
-        Args:
-            category (str): The category of the operators.
-
-        Returns:
-            list[Operator]: A list of Operator objects.
-        """
-        conn = db.getConnection(current_app)
-        cur = conn.cursor()
-        
-        cur.execute("SELECT * FROM operators WHERE categories = %s", (category, ))
-        res = cur.fetchall()
-        return [OperatorManager.resultRowToOperator(row) for row in res]
-    
-    @staticmethod
-    def add(id: int, name: str, surname: str, categories: list[str]) -> Operator | None:
-        """
-        Adds a new operator to the system.
-
-        Args:
-            id (int): The ID of the operator.
-            name (str): The name of the operator.
-            surname (str): The surname of the operator.
-            categories (list[str]): The categories of the operator.
-
-        Returns:
-            Operator | None: The added Operator object if successful, None if the operator already exists.
-        """
-        conn = db.getConnection(current_app)
-        cur = conn.cursor()
-        
-        if OperatorManager.get(id):
-            return None
-        
-        cur.execute("INSERT INTO operators (id, name, surname, categories) VALUES (%s, %s, %s, %s)", (id, name, surname, categories))
-        conn.commit()
-        added_operator = OperatorManager.get(cur.lastrowid)
-        assert added_operator != None
-        return added_operator
-    
-################## END OF OPERATOR MANAGER ##################
-
 ######################## EVENT CLASS ########################
 class Event(object):
     def __init__(self, id: int, date: str, start_hour: int, end_hour: int, user_id: int, operator_id: int) -> None:
@@ -338,7 +164,7 @@ class Event(object):
         self.__start_hour = start_hour
         self.__end_hour = end_hour
         self.__user_id = user_id
-        self.__operator_id = operator_id
+        self.operator_id = operator_id
         super.__init__()
 
     def getTimeSpan(self) -> tuple:
@@ -348,16 +174,7 @@ class Event(object):
         Returns:
             tuple: A tuple containing the start hour and end hour of the event.
         """
-        return (self.__start_hour, self.__end_hour)
-    
-    def getOperator(self) -> Operator:
-        """
-        Get the operator associated with the event.
-
-        Returns:
-            Operator: The operator object associated with the event.
-        """
-        return OperatorManager.get(self.__operator_id)
+        return (self.__date, self.__start_hour, self.__end_hour)
     
     def getUser(self) -> User:
         """
@@ -367,6 +184,15 @@ class Event(object):
             User: The user object associated with the event.
         """
         return UserManager.get(self.__user_id)
+    
+    def getId(self) -> int:
+        """
+        Get the ID of the event.
+
+        Returns:
+            int: The ID of the event.
+        """
+        return self.__id
     
 ################## END OF EVENT CLASS ##################
 
@@ -449,7 +275,7 @@ class EventManager(object):
             return None
         
         conn = db.getConnection(current_app)
-        cur = conn.cursor()
+        cur = conn.cursor() 
         
         cur.execute("INSERT INTO events VALUES (%s, %s, %s, %s, %s)", (date, start_hour, end_hour, user_id, operator_id,))
         conn.commit()
@@ -459,6 +285,16 @@ class EventManager(object):
     
     @staticmethod
     def deleteEvent(id: int, user_id: int) -> bool:
+        """
+        Deletes an event with the given ID for the specified user.
+
+        Args:
+            id (int): The ID of the event to delete.
+            user_id (int): The ID of the user who owns the event.
+
+        Returns:
+            bool: True if the event was successfully deleted, False otherwise.
+        """
         assert UserManager.get(user_id) != None # user must exist
         
         if not EventManager.get(id):
@@ -505,5 +341,134 @@ class EventManager(object):
         cur.execute("SELECT * FROM events WHERE DAY(date) = %s", (day,))
         return [EventManager.resultRowToEvent(event) for event in cur.fetchall()]
 
-    # TODO : add function to add/remove event
 #################### END OF EVENT MANAGER #####################
+
+##################### OPERATOR CLASS ####################
+class Operator(object):
+    def __init__(self, id: int, name: str, surname: str, categories: list[str]) -> None:
+        """
+        Initializes an Operator object.
+
+        Args:
+            id (int): The ID of the operator.
+            name (str): The name of the operator.
+            surname (str): The surname of the operator.
+            categories (list[str]): The categories the operator belongs to.
+            events (dict[int, list[tuple]]): The events associated with the operator, organized by day.
+
+        Returns:
+            None
+        """
+        self.__id = id
+        self.__name = name
+        self.__surname = surname
+        self.__categories = categories
+        super.__init__()
+
+    def getEventsByDay(self, day: int) -> list[Event]:
+        """
+        Retrieves events associated with the operator for a specific day.
+
+        Args:
+            day (int): The day to retrieve events for.
+
+        Returns:
+            list[tuple]: A list of events associated with the operator for the specified day.
+        """
+        return [event for event in EventManager.getEventsByDay(day) if event.operator_id == self.__id]
+
+    def getInformations(self) -> tuple:
+        """
+        Returns the operator's information.
+
+        Returns:
+            tuple: A tuple containing the operator's name, surname, and categories.
+        """
+        return (self.__name, self.__surname, self.__categories)
+    
+################ END OF OPERATOR CLASS ###############
+
+################## OPERATOR MANAGER ##################
+class OperatorManager(object):
+    """
+    A class that manages operators in the system.
+    """
+
+    @staticmethod
+    def resultRowToOperator(res: tuple) -> Operator:
+        """
+        Converts a result row from the database to an Operator object.
+
+        Args:
+            res (tuple): The result row from the database.
+            events (list[tuple]): The events associated with the operator.
+
+        Returns:
+            Operator: The Operator object.
+        """
+        return Operator(res[0], res[1], res[2], res[3]) # id, name, surname, categories, events
+    
+    @staticmethod
+    def get(id: int) -> Operator | None:
+        """
+        Retrieves an operator by its ID.
+
+        Args:
+            id (int): The ID of the operator.
+
+        Returns:
+            Operator | None: The Operator object if found, None otherwise.
+        """
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        cur.execute("SELECT * FROM operators WHERE id = %s", (id, ))
+        res = cur.fetchone()
+        if res:
+            return OperatorManager.resultRowToOperator(res)
+    
+    @staticmethod
+    def getOperatorsByCategory(category: str) -> list[Operator]:
+        """
+        Retrieves operators by category.
+
+        Args:
+            category (str): The category of the operators.
+
+        Returns:
+            list[Operator]: A list of Operator objects.
+        """
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        cur.execute("SELECT * FROM operators WHERE categories = %s", (category, ))
+        res = cur.fetchall()
+        return [OperatorManager.resultRowToOperator(row) for row in res]
+    
+    @staticmethod
+    def add(id: int, name: str, surname: str, categories: list[str]) -> Operator | None:
+        """
+        Adds a new operator to the system.
+
+        Args:
+            id (int): The ID of the operator.
+            name (str): The name of the operator.
+            surname (str): The surname of the operator.
+            categories (list[str]): The categories of the operator.
+
+        Returns:
+            Operator | None: The added Operator object if successful, None if the operator already exists.
+        """
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        if OperatorManager.get(id):
+            return None
+        
+        cur.execute("INSERT INTO operators (id, name, surname, categories) VALUES (%s, %s, %s, %s)", (id, name, surname, categories))
+        conn.commit()
+        added_operator = OperatorManager.get(cur.lastrowid)
+        assert added_operator != None
+        return added_operator
+    
+################## END OF OPERATOR MANAGER ##################
