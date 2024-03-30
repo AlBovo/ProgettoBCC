@@ -8,7 +8,7 @@ def is_valid_date(date_str):
     except ValueError:
         return False
     
-def get_week_days(day:int, month:int, year:int):
+def get_week_days(day:int, month:int, year:int) -> list[int]:
     dayWeek = datetime(year, month, day).isoweekday()
     MonthDays = calendar.monthrange(year=year, month=month)[1]
     print(MonthDays, dayWeek)
