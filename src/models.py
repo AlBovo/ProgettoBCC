@@ -165,7 +165,7 @@ class Event(object):
         self.__end_hour = end_hour
         self.__user_id = user_id
         self.operator_id = operator_id
-        super.__init__()
+        super().__init__()
 
     def getTimeSpan(self) -> tuple:
         """
@@ -250,7 +250,7 @@ class EventManager(object):
         conn = db.getConnection(current_app)
         cur = conn.cursor()
 
-        cur.execute("SELECT * FROM events WHERE date = %s AND start_hour >= %s AND end_hour <= %s", (date, start, end,))
+        cur.execute("SELECT * FROM events WHERE date = %s AND start_hour >= %s AND end_hour <= %s", (date, start, end,))  # TODO check if this is correct
         return [EventManager.resultRowToEvent(event) for event in cur.fetchall()]
         
     @staticmethod
@@ -268,16 +268,19 @@ class EventManager(object):
         Returns:
             Event | None: The added Event object if successful, None otherwise.
         """
-        if utils.is_valid_date(date):
+        if EventManager.getEventsByTimeRange(date, start_hour, end_hour):
             return None
-        
-        if EventManager.getEventsByTimeRange(date, start_hour, end_hour) is not None:
+        current_app.logger.info(f"start_hour: {start_hour}")
+
+        if OperatorManager.get(operator_id) is None:
             return None
+        current_app.logger.info(f"operator_id: {operator_id}")
         
         conn = db.getConnection(current_app)
         cur = conn.cursor() 
         
-        cur.execute("INSERT INTO events VALUES (%s, %s, %s, %s, %s)", (date, start_hour, end_hour, user_id, operator_id,))
+        cur.execute("INSERT INTO events (date, start_hour, end_hour, user_id, operator_id) VALUES (%s, %s, %s, %s, %s)", 
+                    (date, start_hour, end_hour, user_id, operator_id,))
         conn.commit()
         added_event = EventManager.get(cur.lastrowid)
         assert added_event != None
@@ -345,7 +348,7 @@ class EventManager(object):
 
 ##################### OPERATOR CLASS ####################
 class Operator(object):
-    def __init__(self, id: int, name: str, surname: str, categories: list[str]) -> None:
+    def __init__(self, id: int, name: str, surname: str, categories: str) -> None: # TODO list should be list[str]
         """
         Initializes an Operator object.
 
@@ -363,7 +366,7 @@ class Operator(object):
         self.__name = name
         self.__surname = surname
         self.__categories = categories
-        super.__init__()
+        super().__init__()
 
     def getEventsByDay(self, day: int) -> list[Event]:
         """
@@ -373,7 +376,7 @@ class Operator(object):
             day (int): The day to retrieve events for.
 
         Returns:
-            list[tuple]: A list of events associated with the operator for the specified day.
+            list[Event]: A list of events associated with the operator for the specified day.
         """
         return [event for event in EventManager.getEventsByDay(day) if event.operator_id == self.__id]
 

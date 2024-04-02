@@ -13,6 +13,9 @@ def addAdmin(app: Flask):
             cur.execute("INSERT INTO users (email, password, is_admin) VALUES (%s, %s, %s)",
                         ("admin@admin.com", generate_password_hash("admin123"), True)) # TODO : admin must change the password
             conn.commit()
+            cur.execute("INSERT INTO operators (id, name, surname, categories) VALUES (%s, %s, %s, %s)",
+                        (1, "admin", "admin", "prova1")) # TODO : admin must change the password
+            conn.commit()
         except:
             pass # admin already exists
 
