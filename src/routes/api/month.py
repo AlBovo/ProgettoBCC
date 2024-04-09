@@ -32,6 +32,9 @@ def get_month():
     
     if not data["year"] in range(datetime.now().year, datetime.now().year+2):
         return jsonify({"error":"Invalid year"}), 400
+    
+    if datetime(data["year"], data["month"], 1) < datetime(datetime.now().year, datetime.now().month, 1):
+        return "Invalid year - month", 400
 
     response = []
     for day in range(1, calendar.monthrange(data["year"], data["month"])[1]):

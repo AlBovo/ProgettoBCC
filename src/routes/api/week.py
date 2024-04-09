@@ -1,7 +1,13 @@
 from flask import redirect, url_for, request, jsonify
-import calendar
+import calendar, datetime
 from models import OperatorManager, Operator, EventManager, Event
 from utils import get_week_days
+
+def is_valid_date(year:int, month:int, day:int):
+    try:
+        datetime(year, month, day)
+        return True
+    except: return False
 
 def get_week():
     #structure of post request: "operator":"operatorID", "day":"dayNumber", "month":"monthNumber", "year":"yearNumber"
@@ -9,6 +15,9 @@ def get_week():
     operator = OperatorManager.get(data["operator"])
     
     if not Operator: return None #TODO: add error to user
+    if not is_valid_date(data["year"], data["month"], data["day"]): return "Invalid Date", 400
+    if datetime(data["year"], data["month"], data["day"]) < datetime.now():
+        return "Invalid date", 400
 
     response = []
     for date in get_week_days(day=data["day"], month=data["month"], year=data["year"]):
