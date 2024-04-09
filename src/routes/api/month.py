@@ -34,12 +34,12 @@ def get_month():
         return jsonify({"error":"Invalid year"}), 400
 
     response = []
-    for day in range(1, calendar.monthrange(data["year"], data["month"])[1]): # TODO change year to current year
-        date = f"{data["year"]}-{data["month"]:02d}-{day:02d}"
+    for day in range(1, calendar.monthrange(data["year"], data["month"])[1]):
+        date = f"{data['year']}-{data['month']:02d}-{day:02d}"
         events = operator.getEventsByDate(date) # returns a list of events in that day
         
         response.append({
-            "date":date,
+            "month":data["month"],
             "events":len(events)
         })
     
