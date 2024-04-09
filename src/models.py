@@ -328,12 +328,12 @@ class EventManager(object):
         return [EventManager.resultRowToEvent(event) for event in cur.fetchall()]
     
     @staticmethod
-    def getEventsByDay(day: int) -> list[Event]:
+    def getEventsByDate(date: str) -> list[Event]:
         """
         Retrieves events within a specified day.
 
         Args:
-            day (int): The day of the events.
+            date (string): The date of the events. format = YYYY-MM-GG
 
         Returns:
             list[Event]: A list of Event objects within the specified day.
@@ -341,7 +341,7 @@ class EventManager(object):
         conn = db.getConnection(current_app)
         cur = conn.cursor()
 
-        cur.execute("SELECT * FROM events WHERE DAY(date) = %s", (day,))
+        cur.execute("SELECT * FROM events WHERE date = %s", (date,))
         return [EventManager.resultRowToEvent(event) for event in cur.fetchall()]
 
 #################### END OF EVENT MANAGER #####################
@@ -368,17 +368,17 @@ class Operator(object):
         self.__categories = categories
         super().__init__()
 
-    def getEventsByDay(self, day: int) -> list[Event]:
+    def getEventsByDate(self, date: str) -> list[Event]:
         """
         Retrieves events associated with the operator for a specific day.
 
         Args:
-            day (int): The day to retrieve events for.
+            date (str): The date to retrieve events for. format = YYYY-MM-GG
 
         Returns:
             list[Event]: A list of events associated with the operator for the specified day.
         """
-        return [event for event in EventManager.getEventsByDay(day) if event.operator_id == self.__id]
+        return [event for event in EventManager.getEventsByDate(date) if event.operator_id == self.__id]
 
     def getInformations(self) -> tuple:
         """

@@ -1,11 +1,11 @@
 from flask import request, jsonify
 from models import OperatorManager, Operator
-import calendar
+import calendar, datetime
 
 def get_month():
     """
     Retrieves the number of events for each day in a given month for a specific operator.
-    structure of post request: {"operator": operatorID, "month": monthNumber}
+    structure of post request: {"operator": operatorID, "month": monthNumber, "year": yearNumber}
 
     Returns:
         A JSON response containing the number of events for each day in the specified month.
@@ -29,13 +29,17 @@ def get_month():
     
     if not data["month"] in range(1,13):
         return jsonify({"error":"Invalid month"}), 400
+    
+    if not data["year"] in range(datetime.now().year, datetime.now().year+2):
+        return jsonify({"error":"Invalid year"}), 400
 
     response = []
-    for day in range(1, calendar.monthrange(2024, data["month"])[1]): # TODO change year to current year
-        events = operator.getEventsByDay(day) # returns a list of events in that day
+    for day in range(1, calendar.monthrange(data["year"], data["month"])[1]): # TODO change year to current year
+        date = f"{data["year"]}-{data["month"]:02d}-{day:02d}"
+        events = operator.getEventsByDate(date) # returns a list of events in that day
         
         response.append({
-            "day":day,
+            "date":date,
             "events":len(events)
         })
     
