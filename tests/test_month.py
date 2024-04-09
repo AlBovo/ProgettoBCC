@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from src import app
-import pytest, os, requests, datetime, json
+from flask import jsonify
+import pytest, os, requests, datetime, json, calendar
 
 @pytest.fixture
 def client():
@@ -17,10 +18,14 @@ def test_month():
         "month"   : datetime.now().month
     }
 
-    expected = json.loads({
-        "month"   : datetime.now().month,
-        "events"  : 0
-    })
+    expected = []
+    for day in range(1, calendar.monthrange(datetime.now().year, datetime.now().month)[1]):
+        expected.append({
+            "day":day,
+            "events":0
+        })
+    
+    expected = jsonify(expected)
 
     r = requests.post(URL_month, data=data, allow_redirects=True)
     assert r.json() == expected and r.status_code == 200

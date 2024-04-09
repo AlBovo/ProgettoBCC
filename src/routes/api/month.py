@@ -42,7 +42,7 @@ def get_month():
         events = operator.getEventsByDate(date) # returns a list of events in that day
         
         response.append({
-            "month":data["month"],
+            "day":day,
             "events":len(events)
         })
     
