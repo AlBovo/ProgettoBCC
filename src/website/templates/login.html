@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+
+  {%block content%}
+  <title> Login </title>
+
+  <body class="bg-stone-950">
+    <div class="mx-auto">
+
+      {%include 'navbar.html'%}
+
+    <div class="grid grid-cols-2">
+      <div class="p-4">
+        <!-- parte sfondo -->
+
+      </div>
+      <div class="bg-stone-900 p-4 flex-grow">
+        <!-- parte login -->
+        <div class="flex justify-center items-center h-screen">
+          <div class="w-full max-w-xs">
+            <!-- card form -->
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post">
+
+              <!-- username -->
+              <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                  Email
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="text" placeholder="Email">
+              </div>
+
+              <!-- password -->
+              <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                  Password
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="**********">
+              </div>
+              <div class="flex items-center justify-between">
+                <!-- sign in button -->
+                <button class="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                  Sign In
+                </button>
+                <!-- forgot password -->
+                <a class="inline-block align-baseline font-bold text-sm text-green-800 hover:text-green-700" href="#">
+                  Forgot Password?
+                </a>
+              </div>
+
+              <!-- create an account -->
+              <div class="relative flex pt-5 items-center">
+                <div class="flex-grow border-t border-green-800"></div>
+                <a class="flex-shrink mx-4 text-green-800 hover:text-green-700" href="#">
+                  Create an Account
+                </a>
+                <div class="flex-grow border-t border-blue-500"></div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+</body>
+
+{%endblock%}
