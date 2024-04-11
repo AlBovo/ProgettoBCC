@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
-
+{% import 'components/buttons.html' as buttons %}
+{% import 'components/navbar.html' as navbar %}
 
   {%block content%}
   <title> Eventi </title>
-  {%include 'navbar.html'%}
+    {{ navbar.render() }}
     <body class="bg-gray-200">
         <!-- Overlay -->
         <div id="overlay" class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-50 hidden"></div>
@@ -13,13 +14,12 @@
             <div class="w-full">
                 <!-- Calendar Header -->
                 <div class="flex justify-between mb-6">
-                    <button id="prevBtn" class="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Previous
-                    </button>
+                    
+                    <!-- Buttons Components -->
+                    {{ buttons.primary('Previous', 'prevBtn') }}
                     <h2 id="currentMonth" class="text-2xl font-semibold"></h2>
-                    <button id="nextBtn" class="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                        Next
-                    </button>
+                    {{ buttons.primary('Next', 'nextBtn') }}
+
                 </div>
                 <!-- Calendar Grid -->
                 <div id="calendarGrid" class="grid grid-cols-7 gap-4"></div>

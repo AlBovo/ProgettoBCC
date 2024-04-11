@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% import 'components/navbar.html' as navbar %}
 
   {%block content%}
   <title> Login </title>
@@ -7,7 +7,7 @@
   <body class="bg-stone-950">
     <div class="mx-auto">
 
-      {%include 'navbar.html'%}
+      {{ navbar.render() }}
 
     <div class="grid grid-cols-2">
       <div class="p-4">
