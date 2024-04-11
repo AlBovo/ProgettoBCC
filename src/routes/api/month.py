@@ -17,7 +17,7 @@ def get_month():
     """
     data = request.json
 
-    if not "operator" in data or not "month" in data:
+    if not data.get("operator", type=int) or not data.get("month", type=int):
         return jsonify({"error":"Missing parameters"}), 400
     if not isinstance(data["operator"], int) or not isinstance(data["month"], int):
         return jsonify({"error":"Invalid parameters"}), 400
@@ -34,7 +34,7 @@ def get_month():
         return jsonify({"error":"Invalid year"}), 400
     
     if datetime(data["year"], data["month"], 1) < datetime(datetime.now().year, datetime.now().month, 1):
-        return "Invalid year - month", 400
+        return jsonify({'error': 'Invalid year or month'}), 400
 
     response = []
     for day in range(1, calendar.monthrange(data["year"], data["month"])[1]):

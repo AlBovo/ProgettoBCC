@@ -1,6 +1,6 @@
-from flask import redirect, url_for, request, jsonify
+from flask import request, jsonify
 from models import OperatorManager
-import datetime
+from datetime import datetime
 
 def get_day():
     
@@ -8,13 +8,17 @@ def get_day():
 
     data = request.json()
 
-    if not data["date"]: return "Invalid date", 400
-    if not data["operator"]: return "Invalid operator", 400
+    if not data["date"] or not data["operator"]: return jsonify({'error': 'Missing parameters'}), 400
+    if not isinstance(data["date"], str): return jsonify({'error': 'Invalid date'}), 400
+    if not isinstance(data["operator"], int): return jsonify({'error' : 'Invalid operator'}), 400
 
     #check invalid date (date is in the past)
-    if datetime(data["date"][:4], data["date"][5:7], data["date"][8:]) < datetime.now():
-        return "Invalid Date", 400
-
+    try:
+        if datetime.strptime(data["date"], "%Y-%m-%d") < datetime.now():
+            return jsonify({'error': 'Invalid date'}), 400
+    except:
+        return jsonify({'error': 'Invalid format date'}), 400
+    
     operator = OperatorManager.get(data["operator"])
     events = operator.getEventsByDate(data["date"])
 

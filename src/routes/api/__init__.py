@@ -9,6 +9,7 @@ from . import logout
 from . import month
 from . import question
 from . import register
+from . import week
 
 apibp  =   Blueprint('api', __name__)
 
@@ -21,3 +22,4 @@ apibp.route('/logout', methods=['GET'])(logout.logout)
 apibp.route('/month', methods=['POST'])(login_required(month.get_month))
 apibp.route('/question', methods=['POST'])(login_required(question.question))
 apibp.route('/register', methods=['POST'])(register.register)
+apibp.route('/week', methods=['POST'])(login_required(week.get_week))

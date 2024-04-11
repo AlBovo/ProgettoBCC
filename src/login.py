@@ -1,4 +1,3 @@
-from flask import url_for
 from flask_login import LoginManager
 from models import UserManager
 

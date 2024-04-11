@@ -22,7 +22,7 @@ def add_event():
     operator_id = request.json.get('operator_id', None)
     user_id = current_user.get_id()
     
-    if date is None or start_hour is None or end_hour is None or operator_id is None:
+    if date == None or start_hour == None or end_hour == None or operator_id == None:
         return jsonify({'error': 'Missing parameters in request'}), 400
     if not isinstance(date, str) or not isinstance(start_hour, int) or not isinstance(end_hour, int) or not isinstance(operator_id, int):
         return jsonify({'error': 'Invalid parameter types in request'}), 400

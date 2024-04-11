@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash
 from flask import Flask, g, current_app
 import mysql.connector, time
 
+# TODO: MUST ADD ASYNC QUERIES
 def addAdmin(app: Flask):
     with app.app_context():
         if 'db' not in g or not g.db.is_connected():
