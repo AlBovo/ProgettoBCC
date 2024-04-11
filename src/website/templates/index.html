@@ -51,11 +51,9 @@
                 let days = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
 
                 function get_day_cell(day, day_of_week) {
-                    return `<div class="bg-white p-4 m-4 rounded-lg shadow-md aspect-w-1 aspect-h-2 text-left p-2 border cell"
+                    return `<div class="bg-white p-4 m-4 rounded-lg shadow-md aspect-w-1 aspect-h-2 text-left p-2 border cell hover:scale-105"
                                 data-day="${day}"
-                                data-day-of-week="${days[day_of_week]}"
-                                onmouseover="this.classList.add('scale-105')" 
-                                onmouseout="this.classList.remove('scale-105')">
+                                data-day-of-week="${days[day_of_week]}">
                                 ${day < 10 ? day + '&nbsp;' : day}&nbsp;&nbsp;&nbsp;${days[day_of_week]}&nbsp;&nbsp;
                                 <!-- Horizontal line -->
                                 <hr class="my-4 border-t border-gray-300">
