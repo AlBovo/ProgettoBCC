@@ -14,6 +14,10 @@ def index():
 @app.route('/register')
 def register():
   return render_template('register.html')
+  
+@app.route('/operator')
+def operator():
+  return render_template('operator.html')
 
 if __name__ == '__main__':
   app.run('0.0.0.0', debug=True)

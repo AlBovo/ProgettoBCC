@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% import 'components/buttons.html' as buttons %}
+{% import 'components/navbar.html' as navbar %}
+
+  {%block content%}
+  {{ navbar.render() }}
+  <div class="flex h-screen">
+    
+    <!-- Left column -->
+    <div class="w-2/3" style="background-color: #FAF9F6;">
+        <ul class="pl-8 pt-8 pr-8">
+            <li class="block bg-gray-200 rounded-lg p-4 mb-2">Evento1</li>
+            <li class="block bg-gray-200 rounded-lg p-4 mb-2">Evento2</li>
+            <li class="block bg-gray-200 rounded-lg p-4 mb-2">Evento3</li>
+        </ul>
+    </div>
+
+    <!-- Right column -->
+    <div class="w-1/3 flex items-start justify-center" style="background-color: #007034;">
+        <div class="relative">
+            <div class="h-1/2 rounded-md p-4 mt-8" style="background-color: #FAF9F6;">
+                <div id="generics" class="border-4 rounded-lg p-6 " style="background-color: #94bf73">
+                    <!-- Content inside the inner frame -->
+                    <p>This is the content inside the inner frame.</p>
+                </div>
+                <!-- Content inside the frame -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        //page loaded
+                        var parent = document.getElementById('generics');
+
+                        //TODO: al load della pagina richiedere le generalità dell'operatore e aggiungerle
+                        //parent.innerHTML += ``
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    {%endblock%}
