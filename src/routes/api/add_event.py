@@ -34,6 +34,6 @@ def add_event():
         return jsonify({'error': 'Invalid date format'}), 400
     
     if EventManager.addEvent(date, start_hour, end_hour, user_id, operator_id):
-        return jsonify({'message': 'Event deleted successfully'}), 200
+        return jsonify({'message': 'Event added successfully'}), 200
     else:
         return jsonify({'error': 'Invalid request, the event is not valid.'}), 404

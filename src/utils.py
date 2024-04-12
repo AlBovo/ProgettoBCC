@@ -65,3 +65,9 @@ def get_week_days(day:int, month:int, year:int) -> list[tuple[int,int,int]]:
             days.append((PreviousMonthDays - abs(temp), PreviousMonth, PreviousMonthYear))
 
     return days
+
+def code_to_category(code: str) -> str: #TODO: add logic
+    """
+    Returns the correspondig category of a code
+    """
+    return ""

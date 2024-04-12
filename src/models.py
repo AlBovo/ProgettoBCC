@@ -48,6 +48,16 @@ class User(UserMixin):
         """
         return self.__hashPassword
     
+    def get_email(self) -> str:
+        """
+        Gets the email of the user.
+
+        Returns:
+            str: The email of the user.
+        """
+
+        return self.__email
+    
     def get_privilege(self) -> bool:
         """
         Checks if the user has admin privileges.
@@ -147,7 +157,7 @@ class UserManager(object):
 
 ######################## EVENT CLASS ########################
 class Event(object):
-    def __init__(self, id: int, date: str, start_hour: int, end_hour: int, user_id: int, operator_id: int) -> None:
+    def __init__(self, id: int, date: str, start_hour: int, end_hour: int, category:str, user_id: int, operator_id: int) -> None:
         """
         Initialize an Event object.
 
@@ -163,6 +173,7 @@ class Event(object):
         self.__date = date
         self.__start_hour = start_hour
         self.__end_hour = end_hour
+        self.__category = category
         self.__user_id = user_id
         self.operator_id = operator_id
         super().__init__()
@@ -194,6 +205,16 @@ class Event(object):
         """
         return self.__id
     
+    def getCategory(self) -> str:
+        """
+        Get the category of the event as unique code for each category.
+
+        Returns:
+            str: The category code.
+        """
+
+        return self.__category
+    
 ################## END OF EVENT CLASS ##################
 
 #################### EVENT MANAGER #####################
@@ -213,7 +234,7 @@ class EventManager(object):
         Returns:
             Event: The converted Event object.
         """
-        return Event(res[0], res[1], res[2], res[3], res[4], res[5])
+        return Event(res[0], res[1], res[2], res[3], res[4], res[5], res[6])
     
     @staticmethod
     def get(id: int) -> Event | None :
@@ -254,7 +275,7 @@ class EventManager(object):
         return [EventManager.resultRowToEvent(event) for event in cur.fetchall()]
         
     @staticmethod
-    def addEvent(date: str, start_hour:int, end_hour:int, user_id: int, operator_id: int) -> Event | None:
+    def addEvent(date: str, start_hour:int, end_hour:int, category: str, user_id: int, operator_id: int) -> Event | None:
         """
         Adds a new event to the system.
 
@@ -270,17 +291,15 @@ class EventManager(object):
         """
         if EventManager.getEventsByTimeRange(date, start_hour, end_hour):
             return None
-        current_app.logger.info(f"start_hour: {start_hour}")
 
         if OperatorManager.get(operator_id) is None:
             return None
-        current_app.logger.info(f"operator_id: {operator_id}")
         
         conn = db.getConnection(current_app)
         cur = conn.cursor() 
         
-        cur.execute("INSERT INTO events (date, start_hour, end_hour, user_id, operator_id) VALUES (%s, %s, %s, %s, %s)", 
-                    (date, start_hour, end_hour, user_id, operator_id,))
+        cur.execute("INSERT INTO events (date, start_hour, end_hour, category, user_id, operator_id) VALUES (%s, %s, %s, %s, %s)", 
+                    (date, start_hour, end_hour, category, user_id, operator_id,))
         conn.commit()
         added_event = EventManager.get(cur.lastrowid)
         assert added_event != None

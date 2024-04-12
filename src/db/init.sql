@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS events(
     date DATE NOT NULL, -- timestamp of the day
     start_hour INT NOT NULL, -- military time ex. 830 == 8:30
     end_hour INT NOT NULL,   -- military time
+    category VARCHAR(15) NOT NULL,    -- unique code for each category
     user_id INT NOT NULL,
     operator_id INT NOT NULL
 );
@@ -33,9 +34,9 @@ CREATE TABLE IF NOT EXISTS events(
 */
 CREATE TABLE IF NOT EXISTS operators(
     id INT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    surname VARCHAR(255) NOT NULL,
-    categories ENUM('prova1', 'prova2', 'prova3') NOT NULL -- TODO : change this actual categories
+    name VARCHAR(30) NOT NULL,
+    surname VARCHAR(30) NOT NULL,
+    category VARCHAR(MAX) NOT NULL    -- unique code for each category
 );
 
 /*
