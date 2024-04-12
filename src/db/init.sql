@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS operators(
     id INT PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
     surname VARCHAR(30) NOT NULL,
-    category VARCHAR(MAX) NOT NULL    -- unique code for each category
-);
+    category TEXT NOT NULL
+);  -- unique code for each category
 
 /*
     This script creates the 'questions' table if it does not already exist.

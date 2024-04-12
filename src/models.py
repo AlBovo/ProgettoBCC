@@ -255,7 +255,7 @@ class EventManager(object):
             return EventManager.resultRowToEvent(event)
         
     @staticmethod
-    def getEventsByTimeRange(date: str, start: int, end: int):
+    def getEventsByTimeRange(date: str, start: int, end: int, operator_id: int):
         """
         Retrieves events within a specified time range.
 
@@ -263,6 +263,7 @@ class EventManager(object):
             date (str): The date of the events.
             start (int): The start hour of the time range.
             end (int): The end hour of the time range.
+            operator_id (int): The ID of the operator associated with the event.
 
         Returns:
             list[Event]: A list of Event objects within the specified time range.
@@ -271,7 +272,7 @@ class EventManager(object):
         conn = db.getConnection(current_app)
         cur = conn.cursor()
 
-        cur.execute("SELECT * FROM events WHERE date = %s AND start_hour >= %s AND end_hour <= %s", (date, start, end,))  # TODO check if this is correct
+        cur.execute("SELECT * FROM events WHERE date = %s AND start_hour >= %s AND end_hour <= %s AND operator_id = %s", (date, start, end, operator_id, ))  # TODO check if this is correct
         return [EventManager.resultRowToEvent(event) for event in cur.fetchall()]
         
     @staticmethod
@@ -289,7 +290,7 @@ class EventManager(object):
         Returns:
             Event | None: The added Event object if successful, None otherwise.
         """
-        if EventManager.getEventsByTimeRange(date, start_hour, end_hour):
+        if EventManager.getEventsByTimeRange(date, start_hour, end_hour, operator_id):
             return None
 
         if OperatorManager.get(operator_id) is None:
