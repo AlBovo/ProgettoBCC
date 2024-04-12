@@ -45,13 +45,21 @@
                 const details = document.getElementById('details');
                 const detailsContent = document.getElementById('detailsContent');
                 const overlay = document.getElementById('overlay');
-
+    
                 let currentDate = new Date();
-
+    
                 let days = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
-
+    
                 function get_day_cell(day, day_of_week) {
-                    return `<div class="bg-white p-4 m-4 rounded-lg shadow-md aspect-w-1 aspect-h-2 text-left p-2 border cell hover:scale-105"
+                    // Funzione Jinja per determinare se è un weekend
+                    const isWeekend = day_of_week == 0 || day_of_week == 6; // Sabato o Domenica
+    
+                    //TODO: isHoliday
+    
+                    // Se è un weekend o una festività italiana, aggiungi le classi corrette
+                    const cellClass = isWeekend ? 'bg-gray-300 cursor-not-allowed' : 'cell';
+    
+                    return `<div class="bg-white p-4 m-4 rounded-lg shadow-md aspect-w-1 aspect-h-2 text-left p-2 border ${cellClass} hover:scale-105"
                                 data-day="${day}"
                                 data-day-of-week="${days[day_of_week]}">
                                 ${day < 10 ? day + '&nbsp;' : day}&nbsp;&nbsp;&nbsp;${days[day_of_week]}&nbsp;&nbsp;
@@ -59,17 +67,27 @@
                                 <hr class="my-4 border-t border-gray-300">
                             </div>`;
                 }
-
-
+    
 
                 function openDetails(day, dayOfWeek) {
                     details.classList.remove('hidden');
                     overlay.classList.remove('hidden');
+
+                    setTimeout(() => {
+                        details.style.transition = 'transform 0.2s ease-out';
+                        details.style.transitionProperty = 'transform, opacity';
+                        details.style.transform = 'translateX(0)';
+                        details.style.opacity = '1';
+                    }, 200);
                 }
 
                 function closeDetails() {
-                    details.classList.add('hidden');
-                    overlay.classList.add('hidden');
+                    details.style.transition = 'transform 0.2s ease-in';
+                    details.style.transform = 'translateX(-100%)';
+                    setTimeout(() => {
+                        details.classList.add('hidden');
+                        overlay.classList.add('hidden');
+                    }, 200);
                 }
 
                 function renderCalendar() {
