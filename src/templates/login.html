@@ -7,7 +7,7 @@
 
 {% block content %}
   <script src="{{ url_for('static', filename='login.js') }}"></script>
-  <div class="mx-auto overflow-hidden">
+  <div class="mx-auto overflow-hidden bg-gray-900">
     <div class="grid grid-cols-3">
       <div id="background-container" class="p-0 col-span-3 sm:col-span-2">
         <!-- parte sfondo -->
@@ -20,7 +20,7 @@
         <div class="flex justify-center items-center h-screen">
           <div class="w-full max-w-xs">
             <!-- card form -->
-            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-0" method="post">
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-0" method="post" action="{{ url_for('api.login') }}">
 
               <!-- username -->
               <div class="mb-4">
