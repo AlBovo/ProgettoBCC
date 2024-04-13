@@ -29,8 +29,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>`;
     }
 
+    function daysInPreviousMonth(currentDate) {
+        const currentMonth = currentDate.getMonth();
+        const currentYear = currentDate.getFullYear();
+        let previousMonth = currentMonth - 1;
+        let previousYear = currentYear;
+      
+        // If the current month is January, set the previous month to December of the previous year
+        if (previousMonth === -1) {
+          previousMonth = 11; // December
+          previousYear--;
+        }
+      
+        // Get the last day of the previous month
+        const lastDayOfPreviousMonth = new Date(previousYear, previousMonth + 1, 0);
+      
+        return lastDayOfPreviousMonth.getDate();
+      }
 
-    function openDetails(day, dayOfWeek) {
+
+    function openDetails() {
         details.classList.remove('hidden');
         overlay.classList.remove('hidden');
 
@@ -78,18 +96,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Get the total number of days in the month
         const totalDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        // Get the current date
-        const tempDate = new Date();
-        // Set the date to the first day of the current month
-        tempDate.setDate(1);
-        // Subtract one day to move to the last day of the previous month
-        tempDate.setDate(0);
-        // Get the number of the last day of the previous month
-        const lastDayOfPreviousMonth = tempDate.getDate();
+
+        const lastDayOfPreviousMonth = daysInPreviousMonth(currentDate);
 
         for (let i = 0; i < startingDayOfWeek; i++) {
             calendarGrid.innerHTML += `<div class="opacity-70 p-4 m-4 rounded-lg aspect-w-1 aspect-h-2 text-left p-2 border">
-            ${lastDayOfPreviousMonth + i - startingDayOfWeek}&nbsp;&nbsp;&nbsp;${days[startingDayOfWeek-startingDayOfWeek+i+1]}&nbsp;&nbsp;
+            ${lastDayOfPreviousMonth + i - (startingDayOfWeek-1)}&nbsp;&nbsp;&nbsp;${days[startingDayOfWeek-startingDayOfWeek+i+1]}&nbsp;&nbsp;
             <!-- Horizontal line -->
             <hr class="my-4 border-t border-gray-300">
             </div>`
