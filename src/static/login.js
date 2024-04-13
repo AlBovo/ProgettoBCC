@@ -21,9 +21,10 @@ function changeBackground() {
   backgroundImage.hidden = false;
   backgroundImage.style.opacity = 0;
 
+
   setTimeout(function() {
     backgroundImage.style.opacity = 1;
-  }, 500); 
+  }, 200); 
 }
 
 setInterval(changeBackground, 10000);
