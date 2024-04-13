@@ -5,6 +5,7 @@
 <title> Login </title>
 
 <body class="overflow-hidden bg-gray-900">
+  <script src="{{ url_for('static', filename='login.js') }}"></script>
   <div class="mx-auto overflow-hidden">
 
     {{ navbar.render() }}
@@ -63,11 +64,7 @@
         </div>
       </div>
     </div>
-
   </div>
-
-  <script>
-  </script>
 </body>
 
 {% endblock %}
