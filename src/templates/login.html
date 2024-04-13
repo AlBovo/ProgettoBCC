@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 {% import 'components/navbar.html' as navbar %}
 
+{% block title %}
+<title>Login</title>
+{% endblock %}
+
 {% block content %}
-<title> Login </title>
   <script src="{{ url_for('static', filename='login.js') }}"></script>
   <div class="mx-auto overflow-hidden">
     <div class="grid grid-cols-3">

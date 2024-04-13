@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-    {% include 'head.html' %}
-    <body class="overflow-hidden bg-gray-900">
+    <head>
+        {% include 'head.html' %}
+        {% block title %}{% endblock %}
+    </head>
+    <body class="overflow-hidden bg-gray-200">
         {{ navbar.render() }}
 
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </body>
 </html>
 

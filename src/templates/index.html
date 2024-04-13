@@ -2,8 +2,11 @@
 {% import 'components/buttons.html' as buttons %}
 {% import 'components/navbar.html' as navbar %}
 
+{% block title %}
 <title>Eventi</title>
-{%block content%}
+{% endblock %}
+
+{% block content %}
     <script src="{{ url_for('static', filename='index.js') }}"></script>
     <!-- Overlay -->
     <div id="overlay" class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-50 hidden"></div>
@@ -34,4 +37,4 @@
             </ul>
         </div>
     </div>
-{%endblock%}
+{% endblock %}
