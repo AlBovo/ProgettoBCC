@@ -20,7 +20,7 @@
         <div class="flex justify-center items-center h-screen">
           <div class="w-full max-w-xs">
             <!-- card form -->
-            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-0" method="post" action="{{ url_for('api.login') }}">
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-0" method="post" action="{{ url_for('api.login') if not config['FRONTEND'] else None }}">
 
               <!-- username -->
               <div class="mb-4">
