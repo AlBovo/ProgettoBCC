@@ -14,9 +14,9 @@
                 <!-- Div di sinistra -->
                 <div class="bg-[#FAF9F6] w-1/2 p-8 shadow-md flex flex-col justify-center items-start">
                     <div class="text-left">
-                        <p class="text-2xl font-bold mb-4 text-[#94bf73]">404</p>
-                        <h1 class="mb-5 text-3xl font-bold text-[#212427]">Pagina non trovata</h1>
-                        <p class="mb-8 text-base leading-7 text-[#212427]">Scusa, non siamo riusciti a trovare la pagina che stai cercando.</p>
+                        <p class="text-2xl font-bold mb-4 text-[#94bf73]">{{ status_code }}</p>
+                        <h1 class="mb-5 text-3xl font-bold text-[#212427]">{{ error.title }}</h1>
+                        <p class="mb-8 text-base leading-7 text-[#212427]">{{ error.description }}</p>
                         <a href="{{ url_for('main.index') }}" class="items-center text-[#007034] hover:text-[#4d9ee0] font-bold text-lg"><i class="w-3 h-4 mr-2 fa-solid fa-arrow-left"></i>
                             Torna alla home
                         </a>
