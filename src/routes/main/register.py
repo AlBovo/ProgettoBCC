@@ -7,4 +7,4 @@ def register():
     Returns:
         The rendered register.html template.
     """
-    return render_template('register.html', login=False)
+    return render_template('login.html', login=False)
