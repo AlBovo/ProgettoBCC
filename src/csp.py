@@ -13,8 +13,7 @@ def init_app(app: Flask):
     @app.after_request
     def csp(response: Response):
         response.headers['Content-Security-Policy'] = '; '.join([
-            "default-src 'self' cdn.tailwindcss.com", # TODO : add links
-            
+            "default-src 'self'", # TODO : add links
         ])
         return response
     pass

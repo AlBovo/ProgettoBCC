@@ -7,4 +7,4 @@ def login():
     Returns:
         The rendered login.html template.
     """
-    return render_template('login.html')
+    return render_template('login.html', login=True)
