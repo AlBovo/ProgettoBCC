@@ -205,6 +205,15 @@ class Event(object):
         """
         return self.__id
     
+    def getDate(self) -> str:
+        """
+        Get the date of the event.
+
+        Returns:
+            str: The Date of the event.
+        """
+        return self.__date
+    
     def getCategory(self) -> str:
         """
         Get the category of the event as unique code for each category.

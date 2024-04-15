@@ -19,6 +19,7 @@ def get_operator_day():
         timeSpan = event.getTimeSpan()
 
         response.append({
+            "date"      : event.getDate(),
             "email"     : event.getUser().get_email(),
             "category"  : category,
             "start_hour": timeSpan[0],
