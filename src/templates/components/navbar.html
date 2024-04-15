@@ -1,10 +1,10 @@
 <nav class="bg-gray-900 p-4">
   <div class="mx-auto flex px-8 justify-between items-center">
     <!-- Logo e nome azienda -->
-    <div class="flex items-center">
+    <a class="flex items-center" href="{{ url_for("main.index") }}">
         <img class="h-8 w-auto mr-2" src="{{ url_for('static', filename='BCC_Logo.png')}}" alt="Logo">
         <span class="text-white text-xl font-semibold">Progetto</span>
-    </div>
+    </a>
 
     <!-- Menu e Account Button -->
     <div class="flex items-center">
