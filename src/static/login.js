@@ -29,12 +29,15 @@ function changeBackground() {
 
 setInterval(changeBackground, 10000);
 
-window.openModal = function(modalId) {
-  document.getElementById(modalId).style.display = 'block'
-  document.getElementsByTagName('body')[0].classList.add('overflow-y-hidden')
-}
+modalError = [document.getElementById('buttonClose'), document.getElementById('buttonOk')]
 
 window.closeModal = function(modalId) {
   document.getElementById(modalId).style.display = 'none'
   document.getElementsByTagName('body')[0].classList.remove('overflow-y-hidden')
 }
+
+modalError.forEach(function(button) {
+  button.addEventListener('click', function() {
+    closeModal('modelConfirm')
+  })
+});

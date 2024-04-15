@@ -11,26 +11,21 @@ main = Blueprint('main', __name__)
 @api.route('/login', methods=['POST'])
 def login():
   flash('You have been logged in!', 'success')
-  return redirect(url_for('login'))
+  return redirect(url_for('main.login'))
 
-@api.route('/logout', methods=['POST'])
+@api.route('/logout')
 def logout():
   flash('You have been logged out!', 'success')
-  return redirect(url_for('login'))
+  return redirect(url_for('main.login'))
 
 @api.route('/register', methods=['POST'])
 def register():
   flash('You have been registered!', 'success')
-  return redirect(url_for('register'))
+  return redirect(url_for('main.register'))
 
 @main.route('/login')
 def login():
   return render_template('login.html', login=True)
-
-@main.route('/logout')
-def logout():
-  flash('You have been logged out!', 'success')
-  return redirect(url_for('login'))
 
 @main.route('/')
 def index():

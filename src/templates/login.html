@@ -5,16 +5,14 @@
 <title>Login</title>
 {% endblock %}
 
-{% block content %}
-  <script src="{{ url_for('static', filename='login.js') }}"></script>
-  
+{% block content %}  
   {% with messages = get_flashed_messages() %}
     {% if messages %}
       <div id="modelConfirm" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 ">
         <div class="relative top-40 mx-auto shadow-xl rounded-md bg-white max-w-md">
     
             <div class="flex justify-end p-2">
-                <button onclick="closeModal('modelConfirm')" type="button"
+                <button id="buttonClose" type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -31,7 +29,7 @@
                       d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
               <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">{{ messages[0] }}</h3>
-              <a href="#"  onclick="closeModal('modelConfirm')"
+              <a href="#" id="buttonOk"
                   class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
                   OK
               </a>
@@ -40,6 +38,9 @@
       </div>
     {% endif %}
   {% endwith %}
+  
+  <script src="{{ url_for('static', filename='login.js') }}"></script>
+
   <div class="mx-auto overflow-hidden bg-gray-900">
     <div class="grid grid-cols-3">
       <div id="background-container" class="p-0 col-span-3 sm:col-span-2">
