@@ -4,27 +4,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentMonthDisplay = document.getElementById('currentMonth');
     const calendarGrid = document.getElementById('calendarGrid');
     const details = document.getElementById('details');
-    const detailsContent = document.getElementById('detailsContent');
     const overlay = document.getElementById('overlay');
+    const eventListContainer = document.getElementById('event-list');
 
     let currentDate = new Date();
-
     let days = ['Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'];
 
-    function get_day_cell(day, day_of_week) {
-        // Funzione Jinja per determinare se è un weekend
-        const isWeekend = day_of_week == 0 || day_of_week == 6; // Sabato o Domenica
-
-        //TODO: isHoliday
-
-        // Se è un weekend o una festività italiana, aggiungi le classi corrette
+    function getDayCell(day, dayOfWeek) {
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
         const cellClass = isWeekend ? 'bg-gray-300 cursor-not-allowed' : 'cell';
 
         return `<div class="bg-white p-4 m-4 rounded-lg shadow-md aspect-w-1 aspect-h-2 text-left p-2 border ${cellClass} hover:scale-105"
                     data-day="${day}"
-                    data-day-of-week="${days[day_of_week]}">
-                    ${day < 10 ? day + '&nbsp;' : day}&nbsp;&nbsp;&nbsp;${days[day_of_week]}&nbsp;&nbsp;
-                    <!-- Horizontal line -->
+                    data-day-of-week="${days[dayOfWeek]}">
+                    ${day < 10 ? day + '&nbsp;' : day}&nbsp;&nbsp;&nbsp;${days[dayOfWeek]}&nbsp;&nbsp;
                     <hr class="my-4 border-t border-gray-300">
                 </div>`;
     }
@@ -35,20 +28,61 @@ document.addEventListener('DOMContentLoaded', function () {
         let previousMonth = currentMonth - 1;
         let previousYear = currentYear;
       
-        // If the current month is January, set the previous month to December of the previous year
         if (previousMonth === -1) {
-          previousMonth = 11; // December
+          previousMonth = 11;
           previousYear--;
         }
       
-        // Get the last day of the previous month
         const lastDayOfPreviousMonth = new Date(previousYear, previousMonth + 1, 0);
       
         return lastDayOfPreviousMonth.getDate();
-      }
+    }
 
+    async function getEvents(selectedDate) {
+        try {
+            const response = await fetch('/get_day', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    date: selectedDate,
+                })
+            });
 
-    function openDetails() {
+            if (!response.ok) {
+                throw new Error('Errore nel recupero degli eventi');
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
+
+    async function renderEventList(selectedDate) {
+        try {
+            const events = await getEvents(selectedDate);
+            eventListContainer.innerHTML = ''; 
+
+            events.forEach(event => {
+                const listItem = document.createElement('div');
+                listItem.className = 'bg-gray-100 p-4 my-2 rounded-md';
+                listItem.innerHTML = `
+                    <div class="flex justify-between">
+                        <span>${event.start_hour} - ${event.end_hour}</span>
+                    </div>
+                `;
+                eventListContainer.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    function openDetails(selectedDate, day, dayOfWeek) {
+        renderEventList(selectedDate);
         details.classList.remove('hidden');
         overlay.classList.remove('hidden');
 
@@ -70,31 +104,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderCalendar() {
-        // Clear previous content
         calendarGrid.innerHTML = '';
 
-        // Get the current month and year
         const currentMonth = currentDate.getMonth();
         const currentYear = currentDate.getFullYear();
-
-        // Set the current month in the header
         currentMonthDisplay.textContent = new Date(currentYear, currentMonth).toLocaleString('default', {
             month: 'long',
             year: 'numeric'
         });
 
-        // Get the first day of the month
         let firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-        let startingDayOfWeek = firstDayOfMonth.getDay(); // Sunday is 0, Monday is 1
+        let startingDayOfWeek = firstDayOfMonth.getDay(); 
 
-        // If the starting day is Sunday (0), adjust it to Monday (6)
         if (startingDayOfWeek === 0) {
             startingDayOfWeek = 6;
         } else {
             startingDayOfWeek -= 1;
         }
 
-        // Get the total number of days in the month
         const totalDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
         const lastDayOfPreviousMonth = daysInPreviousMonth(currentDate);
@@ -102,14 +129,13 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let i = 0; i < startingDayOfWeek; i++) {
             calendarGrid.innerHTML += `<div class="opacity-70 p-4 m-4 rounded-lg aspect-w-1 aspect-h-2 text-left p-2 border">
             ${lastDayOfPreviousMonth + i - (startingDayOfWeek-1)}&nbsp;&nbsp;&nbsp;${days[startingDayOfWeek-startingDayOfWeek+i+1]}&nbsp;&nbsp;
-            <!-- Horizontal line -->
             <hr class="my-4 border-t border-gray-300">
-            </div>`
+            </div>`;
         }
 
         let dayOfWeek = firstDayOfMonth.getDay();
         for (let day = 1; day <= totalDaysInMonth; day++) {
-            calendarGrid.innerHTML += get_day_cell(day, dayOfWeek);
+            calendarGrid.innerHTML += getDayCell(day, dayOfWeek);
             dayOfWeek = (dayOfWeek + 1) % 7;
         }
 
@@ -117,13 +143,11 @@ document.addEventListener('DOMContentLoaded', function () {
             if (dayOfWeek == 7) {
                 calendarGrid.innerHTML += `<div class="opacity-70 p-4 m-4 rounded-lg aspect-w-1 aspect-h-2 text-left p-2 border">
                 ${i}&nbsp;&nbsp;&nbsp;${days[0]}&nbsp;&nbsp;
-                <!-- Horizontal line -->
                 <hr class="my-4 border-t border-gray-300">
                 </div>`;
             } else {
                 calendarGrid.innerHTML += `<div class="opacity-70 p-4 m-4 rounded-lg aspect-w-1 aspect-h-2 text-left p-2 border">
                 ${i}&nbsp;&nbsp;&nbsp;${days[dayOfWeek]}&nbsp;&nbsp;
-                <!-- Horizontal line -->
                 <hr class="my-4 border-t border-gray-300">
                 </div>`;
             }
@@ -131,31 +155,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    renderCalendar();
-
-    // Event listener for previous month button
     prevBtn.addEventListener('click', function () {
         currentDate.setMonth(currentDate.getMonth() - 1);
         renderCalendar();
     });
 
-    // Event listener for next month button
     nextBtn.addEventListener('click', function () {
         currentDate.setMonth(currentDate.getMonth() + 1);
         renderCalendar();
     });
 
-    // Event delegation for cell clicks
     calendarGrid.addEventListener('click', function(event) {
         if (event.target.classList.contains('cell')) {
             const day = event.target.dataset.day;
             const dayOfWeek = event.target.dataset.dayOfWeek;
-            openDetails(day, dayOfWeek);
+            const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toISOString().split('T')[0];
+            openDetails(selectedDate, day, dayOfWeek);
         }
     });
 
-    // Event listener to close details
     overlay.addEventListener('click', function () {
         closeDetails();
     });
+
+    renderCalendar();
 });
