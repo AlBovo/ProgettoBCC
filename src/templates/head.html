@@ -1,9 +1,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="../static/animation.css" rel="stylesheet" type="text/css" />
+<link href="{{ url_for('static', filename='animation.css') }}" rel="stylesheet" type="text/css" />
 {% if config['FRONTEND'] %}
     <script src="https://cdn.tailwindcss.com"></script>
 {% else %}
     <link rel="stylesheet" href="{{ url_for('static', filename='tailwind.css') }}">
-    <link href="../templates/style.css" type="text/css" />
 {% endif %}

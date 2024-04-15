@@ -4,20 +4,33 @@
 
 {%block content%}
     <div class="flex h-screen">
-    
+        {% if events %}
         <!-- Left column -->
-        <div class="w-2/3" style="background-color: #FAF9F6;">
-        <!-- to remove once finished
-            {% for event in events %}
-            <ul class="pl-8 pt-8 pr-8">
-                <li class="block bg-gray-200 rounded-lg p-4 mb-2" onclick="showPopup('Item 1', this)">{{ event.category }}&nbsp;-&nbsp;{{ event.start_hour }}</li>
-            </ul>
-            {% endfor %}
-        -->
-        <ul class="pl-8 pt-8 pr-8">
-            <li class="block bg-gray-200 rounded-lg p-4 mb-2 cursor-pointer" onclick="//popup">item1</li>
-        </ul>
-        </div>
+        <nav class="w-2/3 flex-1 overflow-y-scroll bg-white">
+            <table class="table-auto">
+                <thead>
+                    <tr>
+                      <th>Category</th>
+                      <th>Email</th>
+                      <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event.category }}</td>
+                        <td>{{ event.email }}</td>
+                        <td>{{ event.start_hour }}-{{ event.end_hour }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </nav>
+        {% else %}
+            <div class="w-2/3 flex-1 overflow-y-scroll bg-white">
+                <!--TODO add no events page-->
+            </div>
+        {% endif %}
 
         <!-- Right column -->
         <div class="w-1/3 flex items-start justify-center" style="background-color: #007034;">
