@@ -1,10 +1,106 @@
 {% macro render() %}
-<div class="flex justify-between items-center py-4 bg-gray-900"> 
-    <div class="text-2xl text-white font-bold ml-10">
-      <img src= "{{ url_for('static', filename='BCC_Logo.png') }}" alt="BCC Logo" href="#" class="h-8 md:h-12 lg:h-16"></img>
+ <link href="../components/style.css" rel="stylesheet" type="text/css" />
+ <nav class="bg-gray-900 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo e nome azienda -->
+            <div class="flex items-center">
+                <img class="h-8 w-auto mr-2" src="../static/bcc_logo.png" alt="Logo">
+                <span class="text-white text-xl font-semibold">!! NERD ALERT !!</span>
+            </div>
+
+            <!-- Menu e Account Button -->
+            <div class="flex items-center">
+                <!-- Menu -->
+                <div class="hidden md:flex space-x-4 mr-4">
+                    <a href="#" class="text-white hover:text-gray-300">Home</a>
+                    <a href="#" class="text-white hover:text-gray-300">Prodotti</a>
+                    <a href="#" class="text-white hover:text-gray-300">Servizi</a>
+                    <a href="#" class="text-white hover:text-gray-300">Contatti</a>
+                </div>
+
+                <!-- Account Button for desktop -->
+                <button class="hidden md:block bg-white text-gray-900 rounded-full p-2" id="user-menu-button">
+                    <img class="h-8 w-8 rounded-full" src="../static/omino_stilizzato.png" alt="Profilo">
+                </button>
+
+                <!-- Account Button for mobile -->
+                <button class="md:hidden bg-white text-gray-900 rounded-full p-1" id="user-menu-button-mobile">
+                    <img class="h-8 w-8 rounded-full" src="../static/omino_stilizzato.png" alt="Profilo">
+                </button>
+
+                <!-- Hamburger icon per il menu mobile -->
+              <button id="menuToggle" class="md:hidden focus:outline-none pl-5">
+                  <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"></path>
+                  </svg>
+              </button>
+            </div>
+        </div>
+    </nav>
+
+  <!-- Menu mobile -->
+  <div class="mobile-menu md:hidden bg-gray-900 overflow-hidden" id="mobileMenu">
+      <a href="#" class="block text-white py-2 px-4 hover:bg-gray-800">Home</a>
+      <a href="#" class="block text-white py-2 px-4 hover:bg-gray-800">Prodotti</a>
+      <a href="#" class="block text-white py-2 px-4 hover:bg-gray-800">Servizi</a>
+      <a href="#" class="block text-white py-2 px-4 hover:bg-gray-800">Contatti</a>
+  </div>
+  <!-- Dropdown menu -->
+  <div class="z-50 hidden text-xs list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg dark:bg-gray-700 dark:divide-gray-600 absolute top-0 right-0 mt-8 mr-4" id="user-dropdown">
+    <div class="px-4 py-3">
+      <span class="block text-gray-900 dark:text-white">Alan Davide Bovo</span>
+      <span class="block text-gray-500 truncate dark:text-gray-400">simone.ceccarelli3h.stud@ispascalcomandini.it</span>
     </div>
-    <div>
-      <a href="#" class="text-white font-bold mr-10">Register</a>
-    </div>
-</div>
+    <ul class="py-2" aria-labelledby="user-menu-button">
+      <li>
+        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+      </li>
+    </ul>
+  </div>
+
+    <!-- Script per il menu mobile -->
+  <script>
+      document.getElementById('menuToggle').addEventListener('click', function () {
+          const mobileMenu = document.getElementById('mobileMenu');
+          mobileMenu.classList.toggle('hidden'); 
+      });
+  </script>
+  <!-- Script per l'account button -->
+  <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const userMenuButton = document.getElementById("user-menu-button");
+        const userMenuButtonMobile = document.getElementById("user-menu-button-mobile");
+        const userDropdown = document.getElementById("user-dropdown");
+
+        window.addEventListener("click", function(event) {
+          if (!userDropdown.contains(event.target) && !userMenuButton.contains(event.target) && !userMenuButtonMobile.contains(event.target)) {
+            userDropdown.classList.add("hidden");
+            userMenuButton.setAttribute("aria-expanded", false);
+            userMenuButtonMobile.setAttribute("aria-expanded", false);
+          }
+        });
+
+        userMenuButton.addEventListener("click", toggleDropdown);
+        userMenuButtonMobile.addEventListener("click", toggleDropdown);
+
+        function toggleDropdown() {
+          const isExpanded = this.getAttribute("aria-expanded") === "true";
+
+          this.setAttribute("aria-expanded", !isExpanded);
+          userDropdown.classList.toggle("hidden");
+        }
+      });
+  </script>
+
 {% endmacro %}

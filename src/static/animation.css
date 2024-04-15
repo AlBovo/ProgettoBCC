@@ -1,0 +1,32 @@
+  /* Animazione di apertura del menu */
+  @keyframes slideDown {
+      from {
+          max-height: 0;
+          opacity: 0;
+      }
+      to {
+          max-height: 500px; /* Altezza massima del menu mobile */
+          opacity: 1;
+      }
+  }
+  
+  /* Animazione di chiusura del menu */
+  @keyframes slideUp {
+      from {
+          max-height: 500px; /* Altezza massima del menu mobile */
+          opacity: 1;
+      }
+      to {
+          max-height: 0;
+          opacity: 0;
+      }
+  }
+  
+  /* Stili per il menu mobile */
+  .mobile-menu {
+      animation: slideDown 0.3s forwards; /* Applica l'animazione di apertura */
+  }
+  
+  .mobile-menu.hidden {
+      animation: slideUp 0.3s forwards; /* Applica l'animazione di chiusura */
+  }
