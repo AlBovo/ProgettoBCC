@@ -9,7 +9,7 @@ app.config['MYSQL_USER'] = os.getenv('MYSQL_USER', 'root')
 app.config['MYSQL_PASSWORD'] = os.getenv('MYSQL_ROOT_PASSWORD', 'root')
 app.config['MYSQL_DB'] = os.getenv('MYSQL_DATABASE', 'flask')
 app.secret_key = os.urandom(32).hex()
-# csrf = CSRFProtect(app) # TODO uncomment in production
+csrf = CSRFProtect()
 
 if __name__ == '__main__':
     # add routes
@@ -21,6 +21,7 @@ if __name__ == '__main__':
     app.register_blueprint(admin.adminbp, url_prefix='/admin')
     
     # setup application
+    csrf.init_app(app)
     csp.init_app(app)
     db.init_app(app)
     db.addAdmin(app)

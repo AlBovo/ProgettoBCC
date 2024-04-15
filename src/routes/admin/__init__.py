@@ -1,5 +1,6 @@
 from flask import Blueprint
+from . import events
 
 adminbp  =   Blueprint('admin', __name__)
 
-from . import *
+adminbp.route('/events', methods=['GET'])(events.get_events)

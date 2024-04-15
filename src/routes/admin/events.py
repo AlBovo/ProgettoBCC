@@ -1,18 +1,17 @@
-from flask import request, jsonify
+from flask import flash, render_template, redirect, url_for
+from flask_login import current_user
 from models import OperatorManager
-from datetime import datetime
 from utils import code_to_category
 
-def get_operator_day():
-    
+def get_operator_day():    
     # Post request with: "operator":operatorId
 
-    data = request.json()
-
-    if not data["operator"]: return jsonify({'error': 'Missing parameters'}), 400
-    if not isinstance(data["operator"], int): return jsonify({'error' : 'Invalid operator'}), 400
+    id = current_user.get_id()
+    operator = OperatorManager.get(id)
+    if operator == None:
+        flash("You are not an operator at the moment", "error")
+        return redirect(url_for('main.login'))
     
-    operator = OperatorManager.get(data["operator"])
     response = []
 
     for event in operator.getAllEvents():
@@ -26,4 +25,4 @@ def get_operator_day():
             "end_hour"  : timeSpan[1]
         })
     
-    return jsonify(response), 200
+    return render_template('operator.html', events=response)
