@@ -363,7 +363,21 @@ class EventManager(object):
 
         cur.execute("SELECT * FROM events WHERE date = %s", (date,))
         return [EventManager.resultRowToEvent(event) for event in cur.fetchall()]
+    
+    @staticmethod
+    def getEventsByoperator(operatorId: int) -> list[Event]:
+        """
+        Retrieves events associated with the operator.
 
+        Returns:
+            list[Event]: A list of events associated with the operator.
+        """
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+
+        cur.execute("SELECT * FROM events WHERE operator_id = %s", (operatorId,))
+        return [EventManager.resultRowToEvent(event) for event in cur.fetchall()]
+    
 #################### END OF EVENT MANAGER #####################
 
 ##################### OPERATOR CLASS ####################
@@ -400,6 +414,16 @@ class Operator(object):
         """
         return [event for event in EventManager.getEventsByDate(date) if event.operator_id == self.__id]
 
+    def getAllEvents(self) -> list[Event]:
+        """
+        Retrieves events associated with the operator.
+
+        Returns:
+            list[Event]: A list of events associated with the operator.
+        """
+
+        return EventManager.getEventsByoperator(self.__id)
+    
     def getInformations(self) -> tuple:
         """
         Returns the operator's information.
