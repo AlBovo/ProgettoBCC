@@ -82,6 +82,7 @@
               {% endif %}
 
               <div class="flex items-center justify-between mb-3">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <!-- sign in button -->
                 <button class="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                   Sign In
@@ -96,7 +97,7 @@
               <!-- create an account -->
               <div class="relative flex pt-5 items-center">
                 <div class="flex-grow border-t border-green-800"></div>
-                <a class="flex-shrink mx-4 text-[#4D9DE0] hover:text-[#6EABDC]" href="{{ url_for('register') }}">
+                <a class="flex-shrink mx-4 text-[#4D9DE0] hover:text-[#6EABDC]" href="{{ url_for('main.register') }}">
                   Create an Account
                 </a>
                 <div class="flex-grow border-t border-[#4D9DE0]"></div>

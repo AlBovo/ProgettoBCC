@@ -7,13 +7,16 @@
     
         <!-- Left column -->
         <div class="w-2/3" style="background-color: #FAF9F6;">
+        <!-- to remove once finished
             {% for event in events %}
             <ul class="pl-8 pt-8 pr-8">
-                <li class="block bg-gray-200 rounded-lg p-4 mb-2">{{ event.email }}</li>
-                <li class="block bg-gray-200 rounded-lg p-4 mb-2">{{ event.start_hour }}</li>
-                <li class="block bg-gray-200 rounded-lg p-4 mb-2">{{ event.end_hour }}</li>
+                <li class="block bg-gray-200 rounded-lg p-4 mb-2" onclick="showPopup('Item 1', this)">{{ event.category }}&nbsp;-&nbsp;{{ event.start_hour }}</li>
             </ul>
             {% endfor %}
+        -->
+        <ul class="pl-8 pt-8 pr-8">
+            <li class="block bg-gray-200 rounded-lg p-4 mb-2 cursor-pointer" onclick="//popup">item1</li>
+        </ul>
         </div>
 
         <!-- Right column -->
@@ -28,5 +31,15 @@
                 </div>
             </div>
         </div>
+
+         <!-- Popup -->
+        <div id="popup" class="fixed bg-white p-6 rounded-lg border border-gray-300 shadow-lg" style="display: none;">
+            <p id="popupText"></p>
+            <button onclick="hidePopup()" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">Close</button>
+        </div>
+
+    
     </div>
+
+    
 {%endblock%}
