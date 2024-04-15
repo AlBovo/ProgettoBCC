@@ -53,7 +53,7 @@
         <div class="flex justify-center items-center h-screen">
           <div class="w-full max-w-xs">
             <!-- card form -->
-            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-0" method="post" action="{{ url_for('api.login') if not config['FRONTEND'] else None }}">
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-0" method="post" action="{{ url_for('api.login') if login else url_for('api.register') }}">
 
               <!-- username -->
               <div class="mb-4">
@@ -64,13 +64,24 @@
               </div>
 
               <!-- password -->
-              <div class="mb-6">
+              <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                   Password
                 </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="**********">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="**********" minlength="8" required>
               </div>
-              <div class="flex items-center justify-between">
+
+              <!-- confirm password -->
+              {% if not login %}
+              <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                  Confirm password
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password_confirm" type="password" placeholder="**********" minlength="8" required>
+              </div>
+              {% endif %}
+
+              <div class="flex items-center justify-between mb-3">
                 <!-- sign in button -->
                 <button class="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                   Sign In
@@ -80,16 +91,17 @@
                   Forgot Password?
                 </a>
               </div>
-
+              
+              {% if login %}
               <!-- create an account -->
               <div class="relative flex pt-5 items-center">
                 <div class="flex-grow border-t border-green-800"></div>
-                <a class="flex-shrink mx-4 text-[#4D9DE0] hover:text-[#6EABDC]" href="#">
+                <a class="flex-shrink mx-4 text-[#4D9DE0] hover:text-[#6EABDC]" href="{{ url_for('register') }}">
                   Create an Account
                 </a>
                 <div class="flex-grow border-t border-[#4D9DE0]"></div>
               </div>
-
+              {% endif %}
             </form>
           </div>
         </div>
