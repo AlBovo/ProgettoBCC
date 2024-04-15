@@ -7,11 +7,13 @@
     
         <!-- Left column -->
         <div class="w-2/3" style="background-color: #FAF9F6;">
+            {% for event in events %}
             <ul class="pl-8 pt-8 pr-8">
-                <li class="block bg-gray-200 rounded-lg p-4 mb-2">Evento1</li>
-                <li class="block bg-gray-200 rounded-lg p-4 mb-2">Evento2</li>
-                <li class="block bg-gray-200 rounded-lg p-4 mb-2">Evento3</li>
+                <li class="block bg-gray-200 rounded-lg p-4 mb-2">{{ event.email }}</li>
+                <li class="block bg-gray-200 rounded-lg p-4 mb-2">{{ event.start_hour }}</li>
+                <li class="block bg-gray-200 rounded-lg p-4 mb-2">{{ event.end_hour }}</li>
             </ul>
+            {% endfor %}
         </div>
 
         <!-- Right column -->
