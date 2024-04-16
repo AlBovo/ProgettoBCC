@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 
 def init_app(app : Flask):
     @app.errorhandler(404)
