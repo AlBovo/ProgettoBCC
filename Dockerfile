@@ -9,6 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src /src
 COPY tailwind.config.js /src
 WORKDIR /src
+RUN mkdir logs
 
 RUN npm install -D tailwindcss
 RUN npx tailwindcss -i ./static/input.css -o ./static/tailwind.css
