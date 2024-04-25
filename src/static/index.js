@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const response = await fetch('/api/day', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': document.getElementById('csrf_token').value
                 },
                 body: JSON.stringify({
                     date: selectedDate,
