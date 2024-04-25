@@ -19,7 +19,7 @@ def login():
         A redirect response to the dashboard page if the email and password are correct and the user is successfully logged in.
     """
     if current_user.is_authenticated:
-        return redirect('/dashboard')
+        return redirect('main.dashboard')
     
     email = request.form.get('email', type=str)
     password = request.form.get('password', type=str)
