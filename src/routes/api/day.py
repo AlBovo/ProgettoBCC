@@ -12,7 +12,7 @@ def get_day():
         If there are any errors, an error message is returned with an appropriate status code.
     """
     
-    data = request.json()
+    data = request.json
 
     if not data["date"]: return jsonify({'error': 'Missing parameters'}), 400
     if not isinstance(data["date"], str): return jsonify({'error': 'Invalid date'}), 400
