@@ -3,11 +3,12 @@
 {% import 'components/navbar.html' as navbar %}
 
 {% block title %}
-<title>Homepage</title>
+    <title>Homepage</title>
 {% endblock %}
+
 {% block content %}
  <div class="banner">
-      <img src="{{ url_for('static', filename='Banner.png')}}" alt="Banner Image" class="image">
+      <img src="{{ url_for('static', filename='Banner.png') }}" alt="Banner Image" class="image">
   </div>
 
   <div class="rp1-section">

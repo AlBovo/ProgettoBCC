@@ -30,49 +30,6 @@
         <div id="details" class="fixed top-0 left-0 w-1/4 h-full bg-white p-4 rounded-lg shadow-md z-50 hidden transition-all duration-500 transform translate-x-0">
             <h3 class="text-xl font-semibold mb-2">Dettagli del giorno</h3>
             <!-- For loop -->
-            <script>
-                fetch("url-giusto-con-parametri-giusti")
-                .then(response => {
-                    if (!response.ok) throw new Error('network response not ok');
-                    else return response.json()
-                })
-                .then(data => {
-                    list = document.getElementById('details')
-                    data.events.forEach(event => {
-                        list.innerHTML += 
-                        `
-                        <div class="inline-flex shadow-sm">
-                            <a href="#" aria-current="page" class="px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                            Prenota
-                            </a>
-                            <a class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200">
-                            ${event.start_hour}
-                            </a>
-                            <a class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg">
-                            ${event.end_hour}
-                            </a>
-                        </div>
-                        `
-                    });
-                })
-                
-
-            </script>
-            {% if events %}
-                {% for event in events %}
-                    <div class="inline-flex shadow-sm">
-                        <a href="#" aria-current="page" class="px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
-                        Prenota
-                        </a>
-                        <a class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200">
-                        {{ event.start_hour }}
-                        </a>
-                        <a class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg">
-                        {{ event.end_hour }}
-                        </a>
-                    </div>
-                {% endfor %}  
-            {% endif %}
             <div id="event-list" class="space-y-4">
             </div>
         </div>

@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function getEvents(selectedDate) {
         try {
-            const response = await fetch('/get_day', {
+            const response = await fetch('/api/day', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function openDetails(selectedDate, day, dayOfWeek) {
+    function openDetails(selectedDate) {
         renderEventList(selectedDate);
         details.classList.remove('hidden');
         overlay.classList.remove('hidden');
