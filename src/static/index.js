@@ -62,6 +62,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function getHourString(hour) {
+        let ihour = parseInt(hour, 10);
+        let minutes = ihour % 100;
+        let hours = (ihour - minutes) / 100;
+        return `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${ihour < 1200 ? 'AM' : 'PM'}`;
+    }
+
     async function renderEventList(selectedDate) {
         try {
             const events = await getEvents(selectedDate);
@@ -71,8 +78,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 const listItem = document.createElement('div');
                 listItem.className = 'bg-gray-100 p-4 my-2 rounded-md';
                 listItem.innerHTML = `
-                    <div class="flex justify-between">
-                        <span>${event.start_hour} - ${event.end_hour}</span>
+                    <div class="flex justify-items-stretch shadow-sm">
+                        <a href="#" aria-current="page" class="flex-none justify-self-start text-center px-4 py-3 text-sm font-medium text-blue-700 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-blue-500 dark:focus:text-white">
+                            Prenota
+                        </a>
+                        <a class="flex-1 justify-self-start text-center px-4 py-3 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200">
+                            <i class="fa-solid fa-clock"></i>&#32;${getHourString(event.start_hour)}
+                        </a>
+                        <a class="flex-1 justify-self-start text-center px-4 py-3 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg">
+                            <i class="fa-solid fa-clock"></i>&#32;${getHourString(event.end_hour)}
+                        </a>
                     </div>
                 `;
                 eventListContainer.appendChild(listItem);

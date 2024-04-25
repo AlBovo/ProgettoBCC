@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, flash, redirect, Blueprint
+from flask import Flask, render_template, url_for, flash, redirect, Blueprint, jsonify
 from flask_wtf import CSRFProtect
 
 app = Flask(__name__)
@@ -22,6 +22,10 @@ def logout():
 def register():
   flash('You have been registered!', 'success')
   return redirect(url_for('main.register'))
+
+@api.route('/day', methods=['POST'])
+def day():
+  return jsonify([{'start_hour': '830', 'end_hour': '900'}] * 20), 200
 
 @main.route('/login')
 def login():
