@@ -24,9 +24,13 @@ def get_day():
     except:
         return jsonify({'error': 'Invalid format date'}), 400
     
+    events = EventManager.getEventsByDate(data["date"])
+    for i in range(len(events)):
+        events[i] = {"start_hour": events[i].getTimeSpan()[1], "end_hour": events[i].getTimeSpan()[2]}
+    
     events = [
-        {"start_hour": 0, "end_hour": 830}, # not avaible before 8:30 
-        EventManager.getEventsByDate(data["date"]),
+        {"start_hour": 0, "end_hour": 830}, # not avaible before 8:30
+        *events, # merged with the events
         {"start_hour": 1700, "end_hour": 2400} # not avaible after 17:00
     ]
     
@@ -38,9 +42,10 @@ def get_day():
             hour = events[e]["end_hour"]
             e += 1
         else:
+            new_hour = hour + 30
             response.append({
                 "start_hour": hour,
-                "end_hour"  : (hour := (hour if hour % 100 < 60 else (hour // 100 + 1) * 100))
+                "end_hour"  : (hour := (new_hour if new_hour % 100 < 60 else (new_hour // 100 + 1) * 100))
             })
             
     return jsonify(response), 200
