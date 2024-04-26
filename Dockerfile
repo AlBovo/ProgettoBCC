@@ -12,6 +12,6 @@ WORKDIR /src
 RUN mkdir logs
 
 RUN npm install -D tailwindcss
-RUN npx tailwindcss -i ./static/input.css -o ./static/tailwind.css
+RUN npx tailwindcss -i ./static/css/input.css -o ./static/css/tailwind.css
 
 CMD ["python", "__init__.py"]

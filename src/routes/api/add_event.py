@@ -19,6 +19,7 @@ def add_event():
     date = request.json.get('date', None)
     start_hour = request.json.get('start_hour', None)
     end_hour = request.json.get('end_hour', None)
+    category = request.json.get('category', None)
     operator_id = request.json.get('operator_id', None)
     user_id = current_user.get_id()
     
@@ -33,7 +34,7 @@ def add_event():
     if not utils.is_valid_date(date):
         return jsonify({'error': 'Invalid date format'}), 400
     
-    if EventManager.addEvent(date, start_hour, end_hour, user_id, operator_id):
+    if EventManager.addEvent(date, start_hour, end_hour, category, user_id, operator_id):
         return jsonify({'message': 'Event added successfully'}), 200
     else:
         return jsonify({'error': 'Invalid request, the event is not valid.'}), 404
