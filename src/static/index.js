@@ -120,6 +120,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderCalendar() {
+        if(new Date().getMonth() === currentDate.getMonth() && new Date().getFullYear() === currentDate.getFullYear()) {
+            document.getElementById('prevBtn').classList.add('cursor-not-allowed');
+        }
+
         calendarGrid.innerHTML = '';
 
         const currentMonth = currentDate.getMonth();
@@ -172,6 +176,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     prevBtn.addEventListener('click', function () {
+        if(new Date().getMonth() === currentDate.getMonth() && new Date().getFullYear() === currentDate.getFullYear()) {
+            return;
+        }
         currentDate.setMonth(currentDate.getMonth() - 1);
         renderCalendar();
     });
@@ -184,9 +191,8 @@ document.addEventListener('DOMContentLoaded', function () {
     calendarGrid.addEventListener('click', function(event) {
         if (event.target.classList.contains('cell')) {
             const day = event.target.dataset.day;
-            const dayOfWeek = event.target.dataset.dayOfWeek;
-            const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day).toISOString().split('T')[0];
-            openDetails(selectedDate, day, dayOfWeek);
+            const selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day, 12).toISOString().split('T')[0];
+            openDetails(selectedDate);
         }
     });
 
