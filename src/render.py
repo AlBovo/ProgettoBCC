@@ -49,7 +49,7 @@ def operator():
 
 @main.route('/error')
 def error():
-  return render_template('error.html')
+  return render_template('error.html', status_code=404, error={'message': 'Page not found', 'description': 'The page you are looking for does not exist.'})
 
 if __name__ == '__main__':
   app.register_blueprint(api, url_prefix='/api')
