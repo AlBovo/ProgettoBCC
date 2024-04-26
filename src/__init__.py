@@ -3,6 +3,9 @@ from flask_wtf import CSRFProtect
 from flask import Flask
 import os
 
+# TODO: REMOVE IN PRODUCTION
+DEBUG = True
+
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = os.getenv('MYSQL_HOST', 'db')
 app.config['MYSQL_USER'] = os.getenv('MYSQL_USER', 'root')
@@ -12,6 +15,16 @@ app.config['LOG_DIR'] = os.getenv('LOG_DIR', './logs/')
 app.secret_key = os.urandom(32).hex()
 csrf = CSRFProtect()
 
+if DEBUG:
+    with app.app_context():
+        import addEvents
+        try:
+            addEvents.addEvents()
+            app.logger.info('Events added successfully.')
+        except Exception as e:
+            app.logger.error(f'An error occurred while adding events: {e}')
+            pass
+    
 if __name__ == '__main__':
     # add routes
     from routes import main
@@ -30,4 +43,4 @@ if __name__ == '__main__':
     logs.init_app(app)
     login.login_manager.init_app(app)
 
-    app.run('0.0.0.0', port=5000, debug = True) # TODO: remove in production
+    app.run('0.0.0.0', port=5000, debug = DEBUG)
