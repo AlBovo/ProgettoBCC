@@ -1,68 +1,70 @@
-<nav class="bg-gray-900 p-4 fixed top-0 left-0 w-full z-50">
-  <div class="mx-auto flex px-8 justify-between items-center">
-    <!-- Logo e nome azienda -->
-    <a class="flex items-center" href="{{ url_for("main.index") }}">
-      <i class="w-auto m-4 fa-solid fa-dollar-sign fa-xl" style="color: #006F34;"></i>
-      <span class="text-white text-xl font-semibold">Progetto</span>
-    </a>
+{% macro navbar(current_user) %}
+  <nav class="bg-gray-900 p-4 fixed top-0 left-0 w-full z-50">
+    <div class="mx-auto flex px-8 justify-between items-center">
+      <!-- Logo e nome azienda -->
+      <a class="flex items-center" href="{{ url_for("main.index") }}">
+        <i class="w-auto m-4 fa-solid fa-dollar-sign fa-xl" style="color: #006F34;"></i>
+        <span class="text-white text-xl font-semibold">Progetto</span>
+      </a>
 
-    <!-- Menu e Account Button -->
-    <div class="flex items-center">
-      <!-- Menu -->
-      <div class="hidden md:flex space-x-4 mr-4">
-        <a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">Home</a>
-        {% if session['email'] %}
-        <a href="{{ url_for('main.dashboard') }}" class="text-white hover:text-gray-300">Dashboard</a>
-        {% else %}
-        <a href="{{ url_for('main.login') }}" class="text-white hover:text-gray-300">Login</a>
-        <a href="{{ url_for('main.register') }}" class="text-white hover:text-gray-300">Register</a>
+      <!-- Menu e Account Button -->
+      <div class="flex items-center">
+        <!-- Menu -->
+        <div class="hidden md:flex space-x-4 mr-4">
+          <a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">Home</a>
+          {% if session['email'] %}
+          <a href="{{ url_for('main.dashboard') }}" class="text-white hover:text-gray-300">Dashboard</a>
+          {% else %}
+          <a href="{{ url_for('main.login') }}" class="text-white hover:text-gray-300">Login</a>
+          <a href="{{ url_for('main.register') }}" class="text-white hover:text-gray-300">Register</a>
+          {% endif %}
+        </div>
+
+        <!-- Account Button for desktop -->
+        {% if current_user.is_authenticated %}
+        <button class="hidden md:block bg-white text-gray-900 rounded-full p-2" id="user-menu-button">
+          <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='images/omino_stilizzato.png') }}" alt="Profilo">
+        </button>
+
+        <!-- Account Button for mobile -->
+        <button class="md:hidden bg-white text-gray-900 rounded-full p-1" id="user-menu-button-mobile">
+          <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='images/omino_stilizzato.png') }}" alt="Profilo">
+        </button>
+
+        <!-- Hamburger icon per il menu mobile -->
+        <button id="menuToggle" class="md:hidden focus:outline-none pl-5">
+          <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
         {% endif %}
       </div>
-
-      <!-- Account Button for desktop -->
-      {% if session['email'] %}
-      <button class="hidden md:block bg-white text-gray-900 rounded-full p-2" id="user-menu-button">
-        <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='images/omino_stilizzato.png') }}" alt="Profilo">
-      </button>
-
-      <!-- Account Button for mobile -->
-      <button class="md:hidden bg-white text-gray-900 rounded-full p-1" id="user-menu-button-mobile">
-        <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='images/omino_stilizzato.png') }}" alt="Profilo">
-      </button>
-
-      <!-- Hamburger icon per il menu mobile -->
-      <button id="menuToggle" class="md:hidden focus:outline-none pl-5">
-        <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-      {% endif %}
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- Menu mobile -->
-<div class="mobile-menu md:hidden bg-gray-900 overflow-hidden hidden px-8 pb-8" id="mobileMenu">
-  <a href="{{ url_for('main.index') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Home</a>
-  {% if session['email'] %}
-  <a href="{{ url_for('main.dashboard') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Dashboard</a>
-  {% else %}
-  <a href="{{ url_for('main.login') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Login</a>
-  <a href="{{ url_for('main.register') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Register</a>
-  {% endif %}
-</div>
-<!-- Dropdown menu -->
-{% if session['email'] %}
-<div class="z-50 hidden text-xs list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg dark:bg-gray-700 dark:divide-gray-600 absolute top-0 right-0 mt-8 mr-4" id="user-dropdown">
-  <div class="px-4 py-3">
-    <span class="block text-gray-900 dark:text-white">Utente</span>
-    <span class="block text-gray-500 truncate dark:text-gray-400">{{ session['email'] }}</span>
+  <!-- Menu mobile -->
+  <div class="mobile-menu md:hidden bg-gray-900 overflow-hidden hidden px-8 pb-8" id="mobileMenu">
+    <a href="{{ url_for('main.index') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Home</a>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('main.dashboard') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Dashboard</a>
+    {% else %}
+    <a href="{{ url_for('main.login') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Login</a>
+    <a href="{{ url_for('main.register') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Register</a>
+    {% endif %}
   </div>
-  <ul class="py-2" aria-labelledby="user-menu-button">
-    <li>
-      <a href="{{ url_for('api.logout') }}" id="OutButton" class="block px-4 py-2 text-red-700 hover:bg-red-100 dark:hover:bg-gray-600 dark:text-red-600 dark:hover:text-white">Sign out</a>
-    </li>
-  </ul>
-</div>
-{% endif %}
-<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+  <!-- Dropdown menu -->
+  {% if current_user.is_authenticated %}
+  <div class="z-50 hidden text-xs list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg dark:bg-gray-700 dark:divide-gray-600 absolute top-0 right-0 mt-8 mr-4" id="user-dropdown">
+    <div class="px-4 py-3">
+      <span class="block text-gray-900 dark:text-white">Utente</span>
+      <span class="block text-gray-500 truncate dark:text-gray-400">{{ current_user.get_email() }}</span>
+    </div>
+    <ul class="py-2" aria-labelledby="user-menu-button">
+      <li>
+        <a href="{{ url_for('api.logout') }}" id="OutButton" class="block px-4 py-2 text-red-700 hover:bg-red-100 dark:hover:bg-gray-600 dark:text-red-600 dark:hover:text-white">Sign out</a>
+      </li>
+    </ul>
+  </div>
+  {% endif %}
+  <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+{% endmacro %}

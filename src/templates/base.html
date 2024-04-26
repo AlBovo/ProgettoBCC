@@ -1,3 +1,5 @@
+{% import 'components/navbar.html' as navbar %}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,8 +7,9 @@
         {% block title %}{% endblock %}
     </head>
     <body class="bg-gray-200">
-        {% include 'components/navbar.html' %}
-
+        {{ navbar.navbar(current_user) }}
+        
+        <input type="hidden" id="csrf_token" value="{{ csrf_token() }}"/>
         {% block content %}{% endblock %}
     </body>
 </html>
