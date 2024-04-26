@@ -10,34 +10,16 @@
       <!-- Menu e Account Button -->
       <div class="flex items-center">
         <!-- Menu -->
-        <div class="hidden md:flex space-x-4 mr-4">
+        <div class="hidden md:flex space-x-4 mr-4 p-2">
           <a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">Home</a>
-          {% if session['email'] %}
+          {% if current_user.is_authenticated %}
           <a href="{{ url_for('main.dashboard') }}" class="text-white hover:text-gray-300">Dashboard</a>
+          <i class="fa-solid fa-user fa-xl" style="color: #ffffff;"></i>
           {% else %}
           <a href="{{ url_for('main.login') }}" class="text-white hover:text-gray-300">Login</a>
           <a href="{{ url_for('main.register') }}" class="text-white hover:text-gray-300">Register</a>
           {% endif %}
         </div>
-
-        <!-- Account Button for desktop -->
-        {% if current_user.is_authenticated %}
-        <button class="hidden md:block bg-white text-gray-900 rounded-full p-2" id="user-menu-button">
-          <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='images/omino_stilizzato.png') }}" alt="Profilo">
-        </button>
-
-        <!-- Account Button for mobile -->
-        <button class="md:hidden bg-white text-gray-900 rounded-full p-1" id="user-menu-button-mobile">
-          <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='images/omino_stilizzato.png') }}" alt="Profilo">
-        </button>
-
-        <!-- Hamburger icon per il menu mobile -->
-        <button id="menuToggle" class="md:hidden focus:outline-none pl-5">
-          <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-        {% endif %}
       </div>
     </div>
   </nav>

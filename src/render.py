@@ -8,6 +8,14 @@ csrf = CSRFProtect(app)
 api = Blueprint('api', __name__)
 main = Blueprint('main', __name__)
 
+class prova:
+  def __init__(self, name, surname):
+    self.name = name
+    self.surname = surname
+    self.is_authenticated = True
+  def get_email(self):
+    return 'prova@prova.com'
+
 @api.route('/login', methods=['POST'])
 def login():
   flash('You have been logged in!', 'success')
@@ -29,23 +37,23 @@ def day():
 
 @main.route('/login')
 def login():
-  return render_template('login.html', login=True)
+  return render_template('login.html', login=True, current_user=prova('John', 'Doe'))
 
 @main.route('/')
-def index():
-  return render_template('index.html', current_user='palle')
+def index():  
+  return render_template('index.html', current_user=prova('John', 'Doe'))
 
 @main.route('/dashboard')
 def dashboard():
-  return render_template('dashboard.html')
+  return render_template('dashboard.html', current_user=prova('John', 'Doe'))
 
 @main.route('/register')
 def register():
-  return render_template('login.html', login=False)
+  return render_template('login.html', login=False, current_user=prova('John', 'Doe'))
   
 @main.route('/operator')
 def operator():
-  return render_template('operator.html')
+  return render_template('operator.html', current_user=prova('John', 'Doe'))
 
 @main.route('/error')
 def error():
