@@ -4,13 +4,18 @@ from models import OperatorManager
 from utils import code_to_category
 
 def get_operator_day():    
-    # Post request with: "operator":operatorId
+    """
+    Retrieves the events for the current operator and renders them on the operator.html template.
 
-    id = current_user.get_id()
-    operator = OperatorManager.get(id)
-    if operator == None:
+    Returns:
+        The rendered operator.html template with the events for the current operator.
+    """
+  
+    if not current_user.get_privilege():
         flash("You are not an operator at the moment", "error")
         return redirect(url_for('main.login'))
+    
+    operator = OperatorManager().get(current_user.get_id())
     
     response = []
 

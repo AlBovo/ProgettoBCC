@@ -1,3 +1,4 @@
+import mysql.connector.cursor
 from werkzeug.security import generate_password_hash
 from flask import Flask, g, current_app
 import mysql.connector, time
@@ -11,14 +12,15 @@ def addAdmin(app: Flask):
         conn = g.db
         cur = conn.cursor()
         try:
-            cur.execute("INSERT INTO users (email, password, is_admin) VALUES (%s, %s, %s)",
+            cur.execute("INSERT IGNORE INTO users (email, password, is_admin) VALUES (%s, %s, %s)",
                         ("admin@admin.com", generate_password_hash("admin123"), True)) # TODO : admin must change the password
-            conn.commit()
-            cur.execute("INSERT INTO operators (id, name, surname, categories) VALUES (%s, %s, %s, %s)",
+            
+            cur.execute("INSERT IGNORE INTO operators (id, name, surname, category) VALUES (%s, %s, %s, %s)",
                         (1, "admin", "admin", "prova1")) # TODO : admin must change the password
             conn.commit()
-        except:
-            pass # admin already exists
+        except mysql.connector.Error as err:
+            conn.rollback()
+            current_app.logger.error(err)
 
 # TODO : clear old months data
 
