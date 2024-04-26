@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% import 'components/buttons.html' as buttons %}
+{% import 'components/navbar.html' as navbar %}
+
+{% block title %}
+    <title>Eventi</title>
+{% endblock %}
+
+{% block content %}
+    <input type="hidden" id="csrf_token" value="{{ csrf_token() }}"/>
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <!-- Overlay -->
+    <div id="overlay" class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-50 hidden"></div>
+
+    <div class="container mx-auto p-6">
+        <!-- Calendar -->
+        <div class="w-full">
+            <!-- Calendar Header -->
+            <div class="flex justify-between mb-6">
+                
+                <!-- Buttons Components -->
+                {{ buttons.primary('Previous', 'prevBtn') }}
+                <h2 id="currentMonth" class="text-2xl font-semibold"></h2>
+                {{ buttons.primary('Next', 'nextBtn') }}
+
+            </div>
+            <!-- Calendar Grid -->
+            <div id="calendarGrid" class="grid grid-cols-7 gap-4"></div>
+        </div>
+        <!-- TODO: add scroll -->
+        <!-- Details Section -->
+        <div id="details" class="fixed top-0 left-0 w-1/4 h-full bg-white p-4 rounded-lg shadow-md z-50 hidden transition-all duration-500 transform translate-x-0">
+            <h3 class="text-xl font-semibold mb-2">Dettagli del giorno</h3>
+            <!-- For loop -->
+            <div id="event-list" class="space-y-4">
+            </div>
+        </div>
+    </div>
+{% endblock %}
