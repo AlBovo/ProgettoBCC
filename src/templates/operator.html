@@ -3,28 +3,27 @@
 {% import 'components/navbar.html' as navbar %}
 
 {%block content%}
-    <div class="flex h-screen pt-12">
-
+    <div class="flex h-screen">
         <!-- Left column -->
-        <nav class="w-2/3 flex-1 overflow-y-auto bg-gray-900 pt-4 ">
+        <nav class="w-2/3 flex-1 overflow-y-auto bg-gray-900">
             <div class="relative overflow-x-auto shadow-md ">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-slate-950 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
-                                User email
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Email dell'utente</b>
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                Category
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Categoria</b>
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                Date
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Data</b>
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                Start hour
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Ora d'inizio</b>
                             </th>
-                            <th scope="col" class="px-6 py-3">
-                                End hour
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Ora di fine</b>
                             </th>
                         </tr>
                     </thead>
@@ -92,9 +91,8 @@
                 </div>
             </div>
         </div>
-                
 
-         <!-- Popup -->
+        <!-- Popup -->
         <div id="popup" class="fixed bg-white p-6 rounded-lg border border-gray-300 shadow-lg" style="display: none;">
             <p id="popupText"></p>
             <button onclick="hidePopup()" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">Close</button>
