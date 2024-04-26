@@ -1,3 +1,27 @@
+async function getMorningAndAfternoonPercentages() {
+    try {
+        const response = await fetch('/admin/stats', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': document.getElementById('csrf_token').value
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Errore nella richiesta');
+        }
+
+        const data = await response.json();
+
+        return [parseFloat(data.morning), parseFloat(data.afternoon)];
+    } catch (error) {
+        console.error('Errore durante il recupero delle percentuali di mattina e pomeriggio:', error);
+        return null;
+    }
+}
+
+
 const pieOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -29,7 +53,7 @@ const pieOptions = {
 const pieData = {
     labels: ['Morning', 'Afternoon'],
     datasets: [{
-        data: [30, 70],
+        data: getMorningAndAfternoonPercentages(),
         backgroundColor: ['#006F34', '#95BF74']
     }]
 };
