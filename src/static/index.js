@@ -121,7 +121,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderCalendar() {
         if(new Date().getMonth() === currentDate.getMonth() && new Date().getFullYear() === currentDate.getFullYear()) {
-            document.getElementById('prevBtn').classList.add('cursor-not-allowed');
+            prevBtn.disabled = true;
+            prevBtn.classList.add('cursor-not-allowed');
+        } else {
+            prevBtn.disabled = false;
+            prevBtn.classList.remove('cursor-not-allowed');
         }
 
         calendarGrid.innerHTML = '';
