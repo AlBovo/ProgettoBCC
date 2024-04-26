@@ -29,3 +29,7 @@ def addEvents():
         assert r.status_code == 200
 
         i += 30
+        
+if  __name__ == '__main__':
+    addEvents()
+    print('Events added successfully.')

@@ -17,6 +17,14 @@ def init_app(app : Flask):
         }
         return render_template('error.html', status_code=403, error=error), 403
     
+    @app.errorhandler(405)
+    def method_not_allowed(error):
+        error = {
+            'title' : 'Metodo Non Consentito',
+            'description' : 'Il metodo che hai utilizzato non è consentito.'
+        }
+        return render_template('error.html', status_code=405, error=error), 405
+    
     @app.errorhandler(400)
     def bad_request(error):
         error = {
