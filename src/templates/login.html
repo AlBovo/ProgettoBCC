@@ -38,8 +38,6 @@
     {% endif %}
   {% endwith %}
   
-  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
-
   <div class="mx-auto overflow-hidden bg-gray-900">
     <div class="grid grid-cols-3">
       <div id="background-container" class="p-0 col-span-3 sm:col-span-2">
@@ -113,4 +111,5 @@
       </div>
     </div>
   </div>
+  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 {% endblock %}

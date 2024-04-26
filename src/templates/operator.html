@@ -3,8 +3,6 @@
 {% import 'components/navbar.html' as navbar %}
 
 {%block content%}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{{ url_for('static', filename='js/operator.js') }}"></script>
     <div class="flex h-screen pt-12">
 
         <!-- Left column -->
@@ -102,4 +100,6 @@
             <button onclick="hidePopup()" class="mt-4 px-4 py-2 bg-gray-500 text-white rounded-md">Close</button>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/operator.js') }}"></script>
 {%endblock%}

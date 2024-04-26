@@ -1,35 +1,35 @@
-  /* Animazione di apertura del menu */
-  @keyframes slideDown {
-      from {
-          max-height: 0;
-          opacity: 0;
-      }
-      to {
-          max-height: 500px; /* Altezza massima del menu mobile */
-          opacity: 1;
-      }
-  }
+/* Animazione di apertura del menu */
+@keyframes slideDown {
+    from {
+        max-height: 0;
+        opacity: 0;
+    }
+    to {
+        max-height: 500px; /* Altezza massima del menu mobile */
+        opacity: 1;
+    }
+}
   
-  /* Animazione di chiusura del menu */
-  @keyframes slideUp {
-      from {
-          max-height: 500px; /* Altezza massima del menu mobile */
-          opacity: 1;
-      }
-      to {
-          max-height: 0;
-          opacity: 0;
-      }
-  }
+/* Animazione di chiusura del menu */
+@keyframes slideUp {
+    from {
+        max-height: 500px; /* Altezza massima del menu mobile */
+        opacity: 1;
+    }
+    to {
+        max-height: 0;
+        opacity: 0;
+    }
+}
   
-  /* Stili per il menu mobile */
-  .mobile-menu {
-      animation: slideDown 0.3s forwards; /* Applica l'animazione di apertura */
-  }
+/* Stili per il menu mobile */
+.mobile-menu {
+    animation: slideDown 0.3s forwards; /* Applica l'animazione di apertura */
+}
   
-  .mobile-menu.hidden {
-      animation: slideUp 0.3s forwards; /* Applica l'animazione di chiusura */
-  }
+.mobile-menu.hidden {
+    animation: slideUp 0.3s forwards; /* Applica l'animazione di chiusura */
+}
 .banner {
     width: 100%; /* Imposta la larghezza del banner al 100% del contenitore genitore */
 }
@@ -80,23 +80,10 @@
     margin-bottom: 20px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 992px) {
     .banner {
         width: 100%; /* Adjust width for smaller screens */
         max-width: none; /* Remove maximum width constraint */
         height: auto; /* Let the height be determined by the content */
     }
-
 }

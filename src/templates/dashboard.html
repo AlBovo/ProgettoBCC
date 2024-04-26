@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block content %}
-    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
     <!-- Overlay -->
     <div id="overlay" class="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-50 hidden"></div>
 
@@ -34,4 +33,5 @@
             </div>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}

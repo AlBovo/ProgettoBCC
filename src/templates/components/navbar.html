@@ -14,11 +14,31 @@
           <a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">Home</a>
           {% if current_user.is_authenticated %}
           <a href="{{ url_for('main.dashboard') }}" class="text-white hover:text-gray-300">Dashboard</a>
-          <i class="fa-solid fa-user fa-xl" style="color: #ffffff;"></i>
+
+          <!-- Account Button for desktop -->
+          <button class="hidden md:block" id="user-menu-button">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="21" viewBox="0 0 448 512">
+              <path fill="#ffffff" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+            </svg>          
+          </button>
+  
+          <!-- Account Button for mobile -->
+          <button class="md:hidden" id="user-menu-button-mobile">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" width="21" viewBox="0 0 448 512">
+              <path fill="#ffffff" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/>
+            </svg>          
+          </button>
           {% else %}
           <a href="{{ url_for('main.login') }}" class="text-white hover:text-gray-300">Login</a>
           <a href="{{ url_for('main.register') }}" class="text-white hover:text-gray-300">Register</a>
           {% endif %}
+
+          <!-- Hamburger icon per il menu mobile -->
+          <button id="menuToggle" class="md:hidden focus:outline-none">
+            <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -47,6 +67,6 @@
       </li>
     </ul>
   </div>
-  {% endif %}
   <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+  {% endif %}
 {% endmacro %}
