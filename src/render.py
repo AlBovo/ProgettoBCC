@@ -33,7 +33,7 @@ def login():
 
 @main.route('/')
 def index():
-  return render_template('index.html')
+  return render_template('index.html', current_user='palle')
 
 @main.route('/dashboard')
 def dashboard():
