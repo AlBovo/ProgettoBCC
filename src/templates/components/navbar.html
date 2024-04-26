@@ -2,7 +2,7 @@
   <div class="mx-auto flex px-8 justify-between items-center">
     <!-- Logo e nome azienda -->
     <a class="flex items-center" href="{{ url_for("main.index") }}">
-      <img class="h-8 w-auto mr-2" src="{{ url_for('static', filename='BCC_Logo.png')}}" alt="Logo">
+      <img class="h-8 w-auto mr-2" src="{{ url_for('static', filename='images/BCC_Logo.png')}}" alt="Logo">
       <span class="text-white text-xl font-semibold">Progetto</span>
     </a>
 
@@ -22,12 +22,12 @@
       <!-- Account Button for desktop -->
       {% if session['email'] %}
       <button class="hidden md:block bg-white text-gray-900 rounded-full p-2" id="user-menu-button">
-        <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='omino_stilizzato.png') }}" alt="Profilo">
+        <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='images/omino_stilizzato.png') }}" alt="Profilo">
       </button>
 
       <!-- Account Button for mobile -->
       <button class="md:hidden bg-white text-gray-900 rounded-full p-1" id="user-menu-button-mobile">
-        <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='omino_stilizzato.png') }}" alt="Profilo">
+        <img class="h-8 w-8 rounded-full" src="{{ url_for('static', filename='images/omino_stilizzato.png') }}" alt="Profilo">
       </button>
 
       <!-- Hamburger icon per il menu mobile -->
@@ -65,4 +65,4 @@
   </ul>
 </div>
 {% endif %}
-<script src="{{ url_for('static', filename='navbar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
