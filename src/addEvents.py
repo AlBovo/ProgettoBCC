@@ -13,10 +13,10 @@ def addEvents():
     
     s = requests.Session()
     r = s.post(URL_register, data=data, allow_redirects=True)
-    assert r.status_code == 200 and r.url == 'http://127.0.0.1:5000/api/login'
+    assert r.status_code == 200 and r.url == 'http://127.0.0.1:5000/login'
     data.pop("password_confirm")
     r = s.post(URL_login, data=data, allow_redirects=True)
-    assert r.status_code == 200 and r.url == 'http://127.0.0.1:5000/api/dashboard'
+    assert r.status_code == 200 and r.url == 'http://127.0.0.1:5000/dashboard'
 
     categories = ["Mutuo", "Consulenza", "Assicurazione", "Investimento", "Apertura conto", "Chiusura conto", "Consulenza finanziaria"]
     for e in range(1, 31):

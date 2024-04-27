@@ -308,7 +308,7 @@ class EventManager(object):
         conn = db.getConnection(current_app)
         cur = conn.cursor() 
         
-        cur.execute("INSERT INTO events (date, start_hour, end_hour, category, user_id, operator_id) VALUES (%s, %s, %s, %s, %s)", 
+        cur.execute("INSERT INTO events (date, start_hour, end_hour, category, user_id, operator_id) VALUES (%s, %s, %s, %s, %s, %s)", 
                     (date, start_hour, end_hour, category, user_id, operator_id,))
         conn.commit()
         added_event = EventManager.get(cur.lastrowid)
