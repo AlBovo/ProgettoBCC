@@ -1,7 +1,6 @@
-from flask import flash, render_template, redirect, url_for
+from flask import flash, redirect, url_for, jsonify
 from flask_login import current_user
 from models import OperatorManager
-import json
 
 def operator_stats():    
     """
@@ -27,4 +26,4 @@ def operator_stats():
         else:
             afternoon += 1
     
-    return json({'morning' : f'{morning/len(events):.2f}', 'afternoon': f'{afternoon/len(events):.2f}'}), 200
+    return jsonify({'morning' : f'{morning/len(events):.2f}', 'afternoon': f'{afternoon/len(events):.2f}'}), 200

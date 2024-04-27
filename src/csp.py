@@ -13,7 +13,8 @@ def init_app(app: Flask):
     @app.after_request
     def csp(response: Response):
         response.headers['Content-Security-Policy'] = '; '.join([
-            "style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com",
+            "default-src 'self'",
+            "style-src 'unsafe-inline' cdnjs.cloudflare.com",
             "script-src 'self' cdn.jsdelivr.net"
         ])
         return response
