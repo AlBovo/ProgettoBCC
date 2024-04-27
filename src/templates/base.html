@@ -8,8 +8,11 @@
     </head>
     <body class="bg-gray-200">
         {{ navbar.navbar(current_user) }}
-        
+
+        {% if csrf_token is defined %}
         <input type="hidden" id="csrf_token" value="{{ csrf_token() }}"/>
+        {% endif %}
+
         {% block content %}{% endblock %}
     </body>
 </html>

@@ -40,11 +40,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function getEvents(selectedDate) {
         try {
+            let csrftoken = document.getElementById('csrf_token');
+            csrftoken = csrftoken === null ? "testingvalue" : csrftoken.value;
+    
             const response = await fetch('/api/day', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': document.getElementById('csrf_token').value
+                    'X-CSRFToken': csrftoken
                 },
                 body: JSON.stringify({
                     date: selectedDate,

@@ -80,7 +80,9 @@
               {% endif %}
 
               <div class="flex items-center justify-between mb-3">
+                {% if csrf_token is defined %}
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                {% endif %}
                 <!-- sign in button -->
                 <button class="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                   {% if login %}

@@ -6,15 +6,9 @@
 
 {% block content %}
     <div class="flex h-screen">
-        <!-- Logo in alto a sinistra -->
-        <div class="absolute top-0 left-0 w-full h-40">
-            <img src="{{ url_for('static', filename='images/BCC_Logo.png') }}" alt="background" class="h-20">
-        </div>
-
         <!-- Div di sinistra -->
         <div class="bg-[#FAF9F6] w-1/2 p-8 shadow-md flex flex-col justify-center items-start">
             <div class="text-left">
-                
                 <p class="text-2xl font-bold mb-4 text-[#94bf73]">{{ status_code }}</p>
                 <h1 class="mb-5 text-3xl font-bold text-[#212427]">{{ error.title }}</h1>
                 <p class="mb-8 text-base leading-7 text-[#212427]">{{ error.description }}</p>
