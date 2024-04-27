@@ -26,7 +26,7 @@ def operator_stats():
         else:
             afternoon += 1
     morning = float(f'{morning/len(events):.2f}') * 100
-    afternoon = float(f'{afternoon/len(events)*100:.2f}') * 100
+    afternoon = float(f'{afternoon/len(events):.2f}') * 100
     if morning + afternoon < 100:
         morning += 100 - (morning + afternoon)
     
