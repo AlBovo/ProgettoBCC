@@ -19,7 +19,7 @@ async function getMorningAndAfternoonPercentages() {
         return [parseFloat(data.morning), parseFloat(data.afternoon)];
     } catch (error) {
         console.error('Errore durante il recupero delle percentuali di mattina e pomeriggio:', error);
-        return null;
+        return [50, 50]; // if no values are returned, set both to 50%
     }
 }
 
