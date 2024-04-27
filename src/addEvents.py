@@ -32,7 +32,7 @@ def addEvents():
                 'date' : f'2024-05-{e}',
                 'start_hour' : i, 
                 'end_hour' : (i := (new_hour if new_hour % 100 < 60 else (new_hour // 100 + 1) * 100)), 
-                'category' : f'{categories[random.randint(0, len(categories))]}', 'operator_id' : 1
+                'category' : f'{categories[random.randint(0, len(categories) - 1)]}', 'operator_id' : 1
             })
             assert r.status_code == 200
             
