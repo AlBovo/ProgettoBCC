@@ -14,16 +14,6 @@ app.config['MYSQL_DB'] = os.getenv('MYSQL_DATABASE', 'flask')
 app.config['LOG_DIR'] = os.getenv('LOG_DIR', './logs/')
 app.secret_key = os.urandom(32).hex()
 csrf = CSRFProtect()
-
-if DEBUG:
-    with app.app_context():
-        import addEvents
-        try:
-            addEvents.addEvents()
-            app.logger.info('Events added successfully.')
-        except Exception as e:
-            app.logger.error(f'An error occurred while adding events: {e}')
-            pass
     
 if __name__ == '__main__':
     # add routes
