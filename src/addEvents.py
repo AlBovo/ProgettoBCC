@@ -1,22 +1,22 @@
 import os, requests, random
 
 def addEvents():
-    URL_addEvent = 'http://localhost:5000/api/add_event'
-    URL_register = 'http://localhost:5000/api/register'
-    URL_login = 'http://localhost:5000/api/login'
+    URL_addEvent = 'http://127.0.0.1:5000/api/add_event'
+    URL_register = 'http://127.0.0.1:5000/api/register'
+    URL_login = 'http://127.0.0.1:5000/api/login'
 
     data = {
         "email": os.urandom(4).hex() + "@tests.com",
         "password": (password := os.urandom(8).hex()),
         "password_confirm": password
     }
-
-    r = requests.post(URL_register, data=data, allow_redirects=True)
-    assert r.status_code == 200 and r.url == 'http://localhost:5000/api/login'
-    data.pop("password_confirm")
+    
     s = requests.Session()
+    r = s.post(URL_register, data=data, allow_redirects=True)
+    assert r.status_code == 200 and r.url == 'http://127.0.0.1:5000/api/login'
+    data.pop("password_confirm")
     r = s.post(URL_login, data=data, allow_redirects=True)
-    assert r.status_code == 200 and r.url == 'http://localhost:5000/api/dashboard'
+    assert r.status_code == 200 and r.url == 'http://127.0.0.1:5000/api/dashboard'
 
     categories = ["Mutuo", "Consulenza", "Assicurazione", "Investimento", "Apertura conto", "Chiusura conto", "Consulenza finanziaria"]
     for e in range(1, 31):
