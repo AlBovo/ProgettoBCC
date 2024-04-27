@@ -22,10 +22,9 @@ def operator_stats():
     events = operator.getAllEvents()
 
     for event in events:
-        if event.getTimeSpan() < 1200:
+        if event.getTimeSpan()[1] < 1200:
             morning += 1
         else:
             afternoon += 1
     
     return json({'morning' : f'{morning/len(events):.2f}', 'afternoon': f'{afternoon/len(events):.2f}'}), 200
-        

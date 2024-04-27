@@ -27,8 +27,8 @@ def get_operator_day():
             "date"      : event.getDate(),
             "email"     : event.getUser().get_email(),
             "category"  : category,
-            "start_hour": timeSpan[0],
-            "end_hour"  : timeSpan[1]
+            "start_hour": timeSpan[1],
+            "end_hour"  : timeSpan[2]
         })
     
     return render_template('operator.html', events=response)
