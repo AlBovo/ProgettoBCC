@@ -41,10 +41,10 @@
                                 {{ event.date }}
                             </td>
                             <td class="px-6 py-4"> <!-- Start hour -->
-                                {{ event.start_hour }}
+                                {{ event.start_hour // 100 }}:{{ event.start_hour % 100 }}
                             </td>
                             <td class="px-6 py-4"> <!-- End hour -->
-                               {{ event.end_hour }}
+                               {{ event.end_hour // 100 }}:{{ event.end_hour % 100 }}
                             </td>
                         </tr>
                     </tbody>
