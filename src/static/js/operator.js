@@ -51,17 +51,16 @@ const pieOptions = {
     }
 };
 
+// Creazione del grafico a torta
+document.addEventListener('DOMContentLoaded', async function() {
 // Dati per il grafico a torta
 const pieData = {
     labels: ['Morning', 'Afternoon'],
     datasets: [{
-        data: getMorningAndAfternoonPercentages(),
+        data: await getMorningAndAfternoonPercentages(),
         backgroundColor: ['#006F34', '#95BF74']
     }]
 };
-
-// Creazione del grafico a torta
-document.addEventListener('DOMContentLoaded', function() {
 const pieCtx = document.getElementById('PieChart').getContext('2d');
 const pieChart = new Chart(pieCtx, {
     type: 'pie',
