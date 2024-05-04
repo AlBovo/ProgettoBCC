@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Errore {{ status_code }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="flex h-screen">
+        <!-- Div di sinistra -->
+        <div class="bg-[#FAF9F6] w-1/2 p-8 shadow-md flex flex-col justify-center items-start">
+            <div class="text-left">
+                <p class="text-2xl font-bold mb-4 text-[#94bf73]">{{ status_code }}</p>
+                <h1 class="mb-5 text-3xl font-bold text-[#212427]">{{ error.title }}</h1>
+                <p class="mb-8 text-base leading-7 text-[#212427]">{{ error.description }}</p>
+                <a href="{{ url_for('main.index') }}" class="items-center text-[#007034] hover:text-[#4d9ee0] font-bold text-lg"><i class="w-3 h-4 mr-2 fa-solid fa-arrow-left"></i>
+                    Torna alla home
+                </a>
+            </div>
+        </div>
+
+        <!-- Div di destra -->
+        <div class="w-1/2 p-8 shadow-md relative">
+            <img src="{{ url_for('static', filename='images/sad_dog.jpg') }}" alt="background" class="absolute inset-0 w-full h-full object-cover">
+        <div class="bg-black opacity-35 absolute inset-0"></div>
+    </div>
+{% endblock %}

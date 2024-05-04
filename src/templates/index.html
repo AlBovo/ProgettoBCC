@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Homepage</title>
+{% endblock %}
+
+{% block content %}
+    <header class="relative bg-cover bg-center min-h-screen flex items-center justify-center text-white" style="background-image: url('{{ url_for('static', filename='images/grattacieli.jpg') }}');">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="relative z-10 text-center">
+            <h1 class="animate-typing text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-4">UN PROGETTO DI</h1>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8">BLAISONE</h2>
+        </div>
+    </header>
+
+
+    <section id="us" class="py-16 md:py-32">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-gray-700 font-bold mb-8">About</h1>
+                <img src="{{ url_for('static', filename='images/stretta.jpg')}}" alt="Stretta di mano" class="mx-auto w-full md:w-3/4 lg:w-5/6 xl:w-4/5 max-w-3xl mb-8">
+
+                <p class="text-lg text-gray-600 italic leading-relaxed">
+                    Un gestionale per prenotazioni online offre una serie di vantaggi significativi per le aziende che gestiscono servizi basati su appuntamenti o prenotazioni. 
+                    In primo luogo, semplifica notevolmente il processo di prenotazione per i clienti, consentendo loro di prenotare facilmente e comodamente da qualsiasi dispositivo
+                    con accesso a Internet, migliorando così l'esperienza complessiva del cliente. Inoltre, un sistema di prenotazione online può automatizzare molti compiti manuali,
+                    come la gestione degli orari disponibili, l'invio di conferme e promemoria agli utenti, riducendo il carico di lavoro amministrativo e consentendo al personale
+                    di concentrarsi su attività più strategiche. Questi sistemi spesso offrono anche funzionalità di reporting avanzate, consentendo alle aziende di monitorare e 
+                    analizzare le loro prestazioni, identificare tendenze e prendere decisioni informate per ottimizzare le operazioni. Infine, un gestionale per prenotazioni online
+                    può migliorare l'efficienza complessiva dell'azienda, consentendo una migliore gestione delle risorse e una maggiore flessibilità nell'adattarsi alle esigenze
+                    dei clienti e alle variazioni nel carico di lavoro.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="footer" class="py-16 md:py-32 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold mb-8">Chi Siamo?</h1>
+                <img src="{{ url_for('static', filename='images/logo_pascal.jpg')}}" alt="Logo Pascal" class="mx-auto rounded-lg w-full md:w-3/4 lg:w-4/5 xl:w-3/4 h-auto max-w-6xl mb-8">
+
+
+                <div class="flex flex-col md:flex-row justify-between">
+                    <div class="md:w-1/2">
+                        <img src="{{ url_for('static', filename='images/foto_bovo.jpg')}}" alt="Logo Pascal" class="mx-auto rounded-lg w-full md:w-3/4 lg:w-4/5 xl:w-3/4 h-auto max-w-6xl mb-8">
+                        <h2 class="text-2xl md:text-3xl text-white lg:text-4xl font-bold mb-4">Alan Davide Bovo</h2>
+                        <p class="text-lg text-gray-100 mb-4">Backend - Frontend Developer</p>
+                        <p class="text-lg text-gray-100 mb-4">Classe 3H Blaise Pascal</p>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="{{ url_for('static', filename='images/foto_marco.jpg')}}" alt="Logo Pascal" class="mx-auto rounded-lg w-full md:w-3/4 lg:w-4/5 xl:w-3/4 h-auto max-w-6xl mb-8">
+                        <h2 class="text-2xl md:text-3xl text-white lg:text-4xl font-bold mb-4">Marco Balducci</h2>
+                        <p class="text-lg text-gray-100 mb-4">Backend - Frontend Developer</p>
+                        <p class="text-lg text-gray-100 mb-4">Classe 3H Blaise Pascal</p>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="{{ url_for('static', filename='images/foto_antonio.jpg')}}" alt="Logo Pascal" class="mx-auto rounded-lg w-full md:w-3/4 lg:w-4/5 xl:w-3/4 h-auto max-w-6xl mb-8">
+                        <h2 class="text-2xl md:text-3xl text-white lg:text-4xl font-bold mb-4">Antonio De Rosa</h2>
+                        <p class="text-lg text-gray-100 mb-4">Backend Developer</p>
+                        <p class="text-lg text-gray-100 mb-4">Classe 3H Blaise Pascal</p>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="{{ url_for('static', filename='images/foto_daniele.jpg')}}" alt="Logo Pascal" class="mx-auto rounded-lg w-full md:w-3/4 lg:w-4/5 xl:w-3/4 h-auto max-w-6xl mb-8">
+                        <h2 class="text-2xl md:text-3xl text-white lg:text-4xl font-bold mb-4">Daniele Broccoli</h2>
+                        <p class="text-lg text-gray-100 mb-4">Frontend Developer</p>
+                        <p class="text-lg text-gray-100 mb-4">Classe 3H Blaise Pascal</p>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="{{ url_for('static', filename='images/foto_cecca.jpg')}}" alt="Logo Pascal" class="mx-auto rounded-lg w-full md:w-3/4 lg:w-4/5 xl:w-3/4 h-auto max-w-6xl mb-8">
+                        <h2 class="text-2xl md:text-3xl text-white lg:text-4xl font-bold mb-4">Simone Ceccarelli</h2>
+                        <p class="text-lg text-gray-100 mb-4">Frontend Developer</p>
+                        <p class="text-lg text-gray-100 mb-4">Classe 3H Blaise Pascal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

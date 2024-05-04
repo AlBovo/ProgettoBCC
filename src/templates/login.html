@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Login</title>
+{% endblock %}
+
+{% block content %}  
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div id="modelConfirm" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-60 overflow-y-auto h-full w-full px-4 ">
+        <div class="relative top-40 mx-auto shadow-xl rounded-md bg-white max-w-md">
+    
+            <div class="flex justify-end p-2">
+                <button id="buttonClose" type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+  
+          <div class="p-6 pt-0 text-center">
+              <svg class="w-20 h-20 text-red-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <h3 class="text-xl font-normal text-gray-500 mt-5 mb-6">{{ messages[0] }}</h3>
+              <a href="#" id="buttonOk"
+                  class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2">
+                  OK
+              </a>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endwith %}
+  
+  <div class="mx-auto overflow-hidden bg-gray-900">
+    <div class="grid grid-cols-3">
+      <div id="background-container" class="p-0 col-span-3 sm:col-span-2">
+        <!-- parte sfondo -->
+        <img id="background-image-1" src="{{ url_for('static', filename='images/image1.jpg') }}" alt="Background Image" class="w-full h-full object-cover opacity-100 transition-opacity duration-500">
+        <img id="background-image-2" src="{{ url_for('static', filename='images/image2.jpg') }}" alt="Background Image" class="w-full h-full object-cover opacity-100 transition-opacity duration-500" hidden>
+        <img id="background-image-3" src="{{ url_for('static', filename='images/image3.jpg') }}" alt="Background Image" class="w-full h-full object-cover opacity-100 transition-opacity duration-500" hidden>
+      </div>
+      <div class="bg-gray-200 p-0 col-span-3 sm:col-span-1">
+        <!-- parte login -->
+        <div class="flex justify-center items-center h-screen">
+          <div class="w-full max-w-xs">
+            <!-- card form -->
+            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-0" method="post" action="{{ url_for('api.login') if login else url_for('api.register') }}">
+
+              <!-- username -->
+              <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                  Email
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="email" type="text" placeholder="Email" required>
+              </div>
+
+              <!-- password -->
+              <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                  Password
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="password" type="password" placeholder="**********" minlength="8" required>
+              </div>
+
+              <!-- confirm password -->
+              {% if not login %}
+              <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                  Confirm password
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="password_confirm" type="password" placeholder="**********" minlength="8" required>
+              </div>
+              {% endif %}
+
+              <div class="flex items-center justify-between mb-3">
+                {% if csrf_token is defined %}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                {% endif %}
+                <!-- sign in button -->
+                <button class="bg-green-800 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                  {% if login %}
+                    Sign In
+                  {% else %}
+                    Sign Up
+                  {% endif %}
+                </button>
+                <!-- forgot password -->
+                <a class="inline-block align-baseline font-bold text-sm text-[#4D9DE0] hover:text-[#6EABDC]" href="#">
+                  Forgot Password?
+                </a>
+              </div>
+              
+              {% if login %}
+              <!-- create an account -->
+              <div class="relative flex pt-5 items-center">
+                <div class="flex-grow border-t border-green-800"></div>
+                <a class="flex-shrink mx-4 text-[#4D9DE0] hover:text-[#6EABDC]" href="{{ url_for('main.register') }}">
+                  Create an Account
+                </a>
+                <div class="flex-grow border-t border-[#4D9DE0]"></div>
+              </div>
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% import 'components/buttons.html' as buttons %}
+{% import 'components/navbar.html' as navbar %}
+
+{%block content%}
+    <div class="flex h-screen">
+        <!-- Left column -->
+        <nav class="w-2/3 flex-1 overflow-y-auto bg-gray-900">
+            <div class="relative overflow-x-auto shadow-md ">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-slate-950 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Email dell'utente</b>
+                            </th>
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Categoria</b>
+                            </th>
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Data</b>
+                            </th>
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Ora d'inizio</b>
+                            </th>
+                            <th scope="col" class="text-xl px-6 py-3">
+                                <b>Ora di fine</b>
+                            </th>
+                        </tr>
+                    </thead>
+                    {% if events %}
+                    {% for event in events %}
+                    <tbody>
+                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <!-- Email -->
+                                {{ event.email }}
+                            </th>
+                            <td class="px-6 py-4"> <!-- Category -->
+                                {{ event.category }}
+                            </td>
+                            <td class="px-6 py-4"> <!-- Date -->
+                                {{ event.date }}
+                            </td>
+                            <td class="px-6 py-4"> <!-- Start hour -->
+                                {{ event.start_hour // 100 }}:{{ event.start_hour % 100 }}
+                            </td>
+                            <td class="px-6 py-4"> <!-- End hour -->
+                               {{ event.end_hour // 100 }}:{{ event.end_hour % 100 }}
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+                    {% else %}
+                    <tbody>
+                        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                No data available
+                            </th>
+                            <td class="px-6 py-4">
+                                No data available
+                            </td>
+                            <td class="px-6 py-4">
+                                No data available
+                            </td>
+                            <td class="px-6 py-4">
+                                No data available
+                            </td>
+                            <td class="px-6 py-4">
+                                No data available
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% endif %}
+                </table>
+            </div>
+                </tbody>
+            </table>
+        </nav>
+
+        <!-- Right column -->
+        <div class="py-4 px-4 flex flex-col bg-green-700">
+            <div class="relative">
+                <div id="generics" class="border-4 rounded-lg p-6 bg-neutral-200 mt-4"> 
+
+                    <div class="w-full mb-4">
+                        <canvas id="PieChart" class="w-full h-64"></canvas>
+                    </div>
+                
+                    <div class="w-full">
+                        <canvas id="LineChart" class="w-full h-64"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/operator.js') }}"></script>
+{%endblock%}
