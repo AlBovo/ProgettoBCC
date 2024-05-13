@@ -13,10 +13,14 @@
         <div class="hidden md:flex space-x-4 mr-4 p-2">
           <a href="{{ url_for('main.index') }}" class="text-white hover:text-gray-300">Home</a>
           {% if current_user.is_authenticated %}
-          <a href="{{ url_for('main.dashboard') }}" class="text-white hover:text-gray-300">Dashboard</a>
+            {% if current_user.get_privilege() %}
+              <a href="{{ url_for('admin.get_operator_day') }}" class="text-white hover:text-gray-300">Panel</a>
+            {% else %}
+              <a href="{{ url_for('main.dashboard') }}" class="text-white hover:text-gray-300">Dashboard</a>
+            {% endif %}
           {% else %}
-          <a href="{{ url_for('main.login') }}" class="text-white hover:text-gray-300">Login</a>
-          <a href="{{ url_for('main.register') }}" class="text-white hover:text-gray-300">Register</a>
+            <a href="{{ url_for('main.login') }}" class="text-white hover:text-gray-300">Login</a>
+            <a href="{{ url_for('main.register') }}" class="text-white hover:text-gray-300">Register</a>
           {% endif %}
         </div>
 
@@ -49,10 +53,10 @@
   <div class="mobile-menu md:hidden bg-gray-900 overflow-hidden hidden px-8 pb-8" id="mobileMenu">
     <a href="{{ url_for('main.index') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Home</a>
     {% if current_user.is_authenticated %}
-      {% if not current_user.get_privilege() %}
-        <a href="{{ url_for('main.dashboard') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Dashboard</a>
+      {% if current_user.get_privilege() %}
+        <a href="{{ url_for('admin.get_operator_day') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Panel</a>
       {% else %}
-        <a href="{{ url_for('admin.events') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Panel</a>
+        <a href="{{ url_for('main.dashboard') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Dashboard</a>
       {% endif %}
     {% else %}
       <a href="{{ url_for('main.login') }}" class="block text-white py-2 px-4 hover:bg-gray-800">Login</a>
