@@ -7,6 +7,7 @@ app.config['SECRET_KEY'] = 'gasighoagohsaighaoigshaisgh'
 csrf = CSRFProtect(app)
 api = Blueprint('api', __name__)
 main = Blueprint('main', __name__)
+admin = Blueprint('admin', __name__)
 
 class prova:
   def __init__(self, name, surname):
@@ -15,6 +16,10 @@ class prova:
     self.is_authenticated = True
   def get_email(self):
     return 'prova@prova.com'
+  
+@admin.route('/events', methods=['POST'])
+def events():
+  return jsonify([{'start_hour': '830', 'end_hour': '900'}] * 20), 200
 
 @api.route('/login', methods=['POST'])
 def login():
@@ -61,5 +66,6 @@ def error():
 
 if __name__ == '__main__':
   app.register_blueprint(api, url_prefix='/api')
+  app.register_blueprint(admin, url_prefix='/admin')
   app.register_blueprint(main, url_prefix='/')
   app.run('0.0.0.0', debug=True)
