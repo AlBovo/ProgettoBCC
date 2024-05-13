@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, flash, redirect, Blueprint, jsonify
 from flask_wtf import CSRFProtect
+import random
 
 app = Flask(__name__)
 app.config['FRONTEND'] = True
@@ -16,9 +17,11 @@ class prova:
     self.is_authenticated = True
   def get_email(self):
     return 'prova@prova.com'
+  def get_privilege(self):
+    return random.randint(0, 1) == 1
   
 @admin.route('/events', methods=['POST'])
-def events():
+def get_operator_day():
   return jsonify([{'start_hour': '830', 'end_hour': '900'}] * 20), 200
 
 @api.route('/login', methods=['POST'])
@@ -50,7 +53,7 @@ def index():
 
 @main.route('/dashboard')
 def dashboard():
-  return render_template('dashboard.html', current_user=prova('John', 'Doe'))
+  return render_template('dashboard.html', current_user=prova('John', 'Doe'), categories=['Category 1', 'Category 2', 'Category 3'])
 
 @main.route('/register')
 def register():
