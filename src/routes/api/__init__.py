@@ -10,6 +10,7 @@ from . import month
 from . import question
 from . import register
 from . import week
+from . import categories
 
 apibp  =   Blueprint('api', __name__)
 
@@ -23,3 +24,4 @@ apibp.route('/month', methods=['POST'])(login_required(month.get_month))
 apibp.route('/question', methods=['POST'])(login_required(question.question))
 apibp.route('/register', methods=['POST'])(register.register)
 apibp.route('/week', methods=['POST'])(login_required(week.get_week))
+apibp.route('/categories', methods=['POST'])(login_required(categories.get_categories))

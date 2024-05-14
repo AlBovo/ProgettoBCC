@@ -465,6 +465,20 @@ class OperatorManager(object):
         return Operator(res[0], res[1], res[2], res[3]) # id, name, surname, categories, events
     
     @staticmethod
+    def getAllCategories() -> list[str]:
+        """
+        Retrieves all categories in the system.
+
+        Returns:
+            list[str]: A list of all categories.
+        """
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        cur.execute("SELECT DISTINCT categories FROM operators")
+        return [row[0] for row in cur.fetchall()]
+    
+    @staticmethod
     def get(id: int) -> Operator | None:
         """
         Retrieves an operator by its ID.

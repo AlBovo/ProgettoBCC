@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS events(
     date DATE NOT NULL, -- timestamp of the day
     start_hour INT NOT NULL, -- military time ex. 830 == 8:30
     end_hour INT NOT NULL,   -- military time
-    category VARCHAR(30) NOT NULL,    -- unique code for each category
+    category TEXT NOT NULL,    -- unique code for each category
     user_id INT NOT NULL,
     operator_id INT NOT NULL
 );
