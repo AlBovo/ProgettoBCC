@@ -29,6 +29,10 @@ def login():
   flash('You have been logged in!', 'success')
   return redirect(url_for('main.login'))
 
+@api.route('/categories', methods=['POST'])
+def categories():
+  return jsonify(['Category 1', 'Category 2', 'Category 3']), 200
+
 @api.route('/logout')
 def logout():
   flash('You have been logged out!', 'success')
