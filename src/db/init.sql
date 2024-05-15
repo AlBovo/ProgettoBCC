@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS operators(
     This script creates the 'questions' table if it does not already exist.
     The 'questions' table stores information about questions, including the user who asked the question,
     the admin who answered the question, the title of the question, the content of the question,
-    and the status of the question (open or closed).
+    and the status of the question (open [0] or closed [1]).
 */
 CREATE TABLE IF NOT EXISTS questions(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -51,5 +51,5 @@ CREATE TABLE IF NOT EXISTS questions(
     id_admin INT NOT NULL DEFAULT 1,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
-    status ENUM('aperta', 'chiusa') NOT NULL DEFAULT 'aperta'
+    status BIT NOT NULL DEFAULT 0
 );

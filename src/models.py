@@ -542,3 +542,25 @@ class OperatorManager(object):
         return added_operator
     
 ################## END OF OPERATOR MANAGER ##################
+
+################## START OF QUESTION CLASS ##################
+class Question():
+    """
+    Represents a question in the system.
+
+    Attributes:
+        __id (int): The ID of the question.
+        __id_users (int): The ID of the user who asked the question.
+        __id_admin (int): The ID of the admin who answered the question.
+        __title (str): The title of the question.
+        __content (str): The content of the question.
+        __status (bool): The status of the question.
+    """
+    def __init__(self, id: int, id_users: int, id_admin: int, title: str, content: str, status: bool) -> None:
+        self.__id = id
+        self.__id_users = id_users
+        self.__id_admin = id_admin
+        self.__title = title
+        self.__content = content
+        self.__status = status
+        super().__init__()
