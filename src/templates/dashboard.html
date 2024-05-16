@@ -67,6 +67,79 @@
                 </div>
                 <div id="date" class="p-2 mt-4 hidden">
                     <div class="font-bold text-gray-600 text-xs leading-8 uppercase h-6 mb-3">Data e Orario</div>
+                    <div class="items-center justify-center py-4 px-4">
+                        <div class="max-w-sm w-full shadow-lg">
+                            <div class="md:p-8 p-5 bg-white rounded">
+                                <div class="px-4 flex items-center justify-between">
+                                    <span id="calendar" tabindex="0" class="focus:outline-none text-base font-bold text-teal-700"></span>
+                                    <div class="flex items-center">
+                                        <button onclick="previousMonth()" aria-label="calendar backward" class="focus:text-teal-400 hover:text-teal-400 text-teal-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <polyline points="15 6 9 12 15 18" />
+                                            </svg>
+                                        </button>
+                                        <button onclick="nextMonth()" aria-label="calendar forward" class="focus:text-teal-400 hover:text-teal-400 ml-3 text-teal-600"> 
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler  icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <polyline points="9 6 15 12 9 18" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between pt-12 overflow-x-auto">
+                                    <table class="w-full">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <div class="w-full flex justify-center">
+                                                        <p class="text-base font-medium text-center text-gray-800">Lun</p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div class="w-full flex justify-center">
+                                                        <p class="text-base font-medium text-center text-gray-800">Mar</p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div class="w-full flex justify-center">
+                                                        <p class="text-base font-medium text-center text-gray-800">Mer</p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div class="w-full flex justify-center">
+                                                        <p class="text-base font-medium text-center text-gray-800">Gio</p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div class="w-full flex justify-center">
+                                                        <p class="text-base font-medium text-center text-gray-800">Ven</p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div class="w-full flex justify-center">
+                                                        <p class="text-base font-medium text-center text-gray-800">Sab</p>
+                                                    </div>
+                                                </th>
+                                                <th>
+                                                    <div class="w-full flex justify-center">
+                                                        <p class="text-base font-medium text-center text-gray-800">Dom</p>
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr id="week0"></tr>
+                                            <tr id="week1"></tr>
+                                            <tr id="week2"></tr>
+                                            <tr id="week3"></tr>
+                                            <tr id="week4"></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div id="operator" class="p-2 mt-4 hidden">
                     <div class="font-bold text-gray-600 text-xs leading-8 uppercase h-6 mb-3">Operatore</div>

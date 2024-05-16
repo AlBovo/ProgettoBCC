@@ -1,10 +1,97 @@
+const month = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
+const currentDate = new Date();
+const calendarDate = new Date();
+
+function getDaysData(year, month) {
+    const last = new Date(year, month+1, 0);
+    const first = new Date(year, month, 1);
+    return [last.getDate(), first.getDay()];
+}
+
+function resetMonth() {
+    for (let i = 0; i < 5; i++) {
+        const week = document.getElementById(`week${i}`);
+        week.innerHTML = "";
+    }
+}
+
+function updateMonth(year, month) {
+    const date = new Date();
+    const data = getDaysData(year, month);
+
+    for (let i = 0, day = 1; i < 7 * 5; i++) {
+        const dayDiv = document.createElement("div");
+        const innerDay = document.createElement("div");
+        let textDay = document.createElement("p");
+        const week = document.getElementById(`week${Math.floor(i / 7)}`)
+        const td = document.createElement("td");
+
+        innerDay.classList.add("px-2", "py-2", "cursor-pointer", "flex", "w-full", "justify-center", "text-gray-600");
+        textDay.classList.add("text-base", "font-medium", "text-gray-500");
+
+        if(day == 1 && i < data[1] - 1) {
+            textDay.innerText = "";
+        }
+        else if (day > data[0]) {
+            textDay.innerText = "";
+        }
+        else {
+            if (day == date.getDate() && year == currentDate.getFullYear() && month == currentDate.getMonth()) {
+                textDay = document.createElement("a");
+                textDay.setAttribute('role', 'link');
+                textDay.setAttribute('tabindex', '0');
+                textDay.classList.add(...[
+                    "focus:outline-none", "focus:ring-2", "focus:ring-offset-2", "focus:ring-teal-600", 
+                    "focus:bg-teal-400", "text-base", "w-8", "h-8", "flex", "items-center", "justify-center", 
+                    "font-medium", "text-white", "bg-teal-600", "rounded-full", "hover:bg-teal-400"
+                ]);
+
+                dayDiv.classList.add("w-full", "h-full");
+
+                innerDay.classList.remove("px-2", "py-2", "flex", "text-gray-600");
+                innerDay.classList.add("flex", "items-center", "rounded-full");                                                
+            }
+            textDay.innerText = `${day}`;
+            day++;
+        }
+
+        innerDay.appendChild(textDay);
+        dayDiv.appendChild(innerDay);
+        td.appendChild(dayDiv);
+        week.appendChild(td);
+    }
+}
+
+function nextMonth() {
+    resetMonth();
+    calendarDate.setMonth(calendarDate.getMonth() + 1);
+
+    const date = document.getElementById("calendar");    
+    date.innerText = `${month[calendarDate.getMonth()]} ${calendarDate.getFullYear()}`;
+
+    updateMonth(calendarDate.getFullYear(), calendarDate.getMonth());
+}
+
+function previousMonth() {
+    if (currentDate.getMonth() == calendarDate.getMonth() && currentDate.getFullYear() == calendarDate.getFullYear()) {
+        return;
+    }
+    resetMonth();
+    calendarDate.setMonth(calendarDate.getMonth() - 1);
+
+    const date = document.getElementById("calendar");    
+    date.innerText = `${month[calendarDate.getMonth()]} ${calendarDate.getFullYear()}`;
+
+    updateMonth(calendarDate.getFullYear(), calendarDate.getMonth());
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     async function showCategories() {
         let csrftoken = document.getElementById('csrf_token');
         csrftoken = csrftoken === null ? "testingvalue" : csrftoken.value;
 
         const response = await fetch("/api/categories", {
-            method: "POST",
+            method: "GET",
             headers: {
                 'X-CSRFToken': csrftoken
             },
@@ -12,15 +99,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const categories = await response.json();
         
         for (let i = 0; i < categories.length; i+=2) {
-            const category = categories[i];
             const categoryElement = document.createElement("div");
             categoryElement.classList.add(...["flex", "flex-col", "md:flex-row", "text-sm", "font-medium"]);
             
             categoryElement.innerHTML = `
                 <div class="w-full bg-white rounded-lg my-2 flex-1 mr-4 svelte-1l8159u">
                     <div class="flex items-center ps-3 border-gray-200 svelte-1l8159u">
-                        <input id="tag" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded">
-                        <label for="tag" class="w-full py-3 ms-2 text-sm font-medium text-gray-800">${categories[i]}</label>
+                        <input id="${categories[i].replace(" ", "").toLowerCase()}" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded">
+                        <label for="${categories[i].replace(" ", "").toLowerCase()}" class="w-full py-3 ms-2 text-sm font-medium text-gray-800">${categories[i]}</label>
                     </div>
                 </div>
             `;
@@ -29,8 +115,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 categoryElement.innerHTML += `
                 <div class="w-full bg-white rounded-lg my-2 flex-1 ml-4 svelte-1l8159u">
                     <div class="flex items-center ps-3 border-gray-200 svelte-1l8159u">
-                        <input id="tag" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded">
-                        <label for="tag" class="w-full py-3 ms-2 text-sm font-medium text-gray-800">${categories[i+1]}</label>
+                        <input id="${categories[i+1].replace(" ", "").toLowerCase()}" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded">
+                        <label for="${categories[i+1].replace(" ", "").toLowerCase()}" class="w-full py-3 ms-2 text-sm font-medium text-gray-800">${categories[i+1]}</label>
                     </div>
                 </div>
                 `;
@@ -47,9 +133,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    showCategories();
-});
+    // set calendar to current month
+    function updateDate() {
+        const date = document.getElementById("calendar");
+        const d = new Date();
+        
+        date.innerText = `${month[d.getMonth()]} ${d.getFullYear()}`;
+        updateMonth(d.getFullYear(), d.getMonth());
+    }
 
+    showCategories();
+    updateDate();
+});
 
 function nextPage() {
     let page = document.getElementById("current").value - '0';

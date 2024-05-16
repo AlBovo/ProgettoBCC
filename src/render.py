@@ -1,6 +1,6 @@
-from flask import Flask, render_template, url_for, flash, redirect, Blueprint, jsonify
+from flask import Flask, render_template, url_for, flash, redirect, Blueprint, jsonify, request
 from flask_wtf import CSRFProtect
-import random
+import random, calendar
 
 app = Flask(__name__)
 app.config['FRONTEND'] = True
@@ -29,9 +29,9 @@ def login():
   flash('You have been logged in!', 'success')
   return redirect(url_for('main.login'))
 
-@api.route('/categories', methods=['POST'])
+@api.route('/categories', methods=['GET'])
 def categories():
-  return jsonify(['Category 1', 'Category 2', 'Category 3']), 200
+  return jsonify([f'Category {random.randbytes(4).hex()}' for i in range(random.randint(0, 30))]), 200
 
 @api.route('/logout')
 def logout():
@@ -46,6 +46,11 @@ def register():
 @api.route('/day', methods=['POST'])
 def day():
   return jsonify([{'start_hour': '830', 'end_hour': '900'}] * 20), 200
+
+@api.route('/month', methods=['POST'])
+def month():
+  data = request.json
+  return jsonify([random.randint(0, 100) for i in range(calendar.monthrange(data["year"], data["month"])[1])] * 20), 200
 
 @main.route('/login')
 def login():
