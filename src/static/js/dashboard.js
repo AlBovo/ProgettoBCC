@@ -15,9 +15,24 @@ function resetMonth() {
     }
 }
 
-function updateMonth(year, month) {
+async function updateMonth(year, month) {
     const date = new Date();
     const data = getDaysData(year, month);
+    
+    let csrftoken = document.getElementById('csrf_token');
+    csrftoken = csrftoken === null ? "testingvalue" : csrftoken.value;
+    let monthValues = await fetch("/api/month", {
+        method: "POST",
+        headers: {
+            'Content-type':'application/json', 
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({
+            year: year,
+            month: month + 1
+        })
+    });
+    monthValues = await monthValues.json();
 
     for (let i = 0, day = 1; i < 7 * 5; i++) {
         const dayDiv = document.createElement("div");
@@ -28,15 +43,16 @@ function updateMonth(year, month) {
 
         innerDay.classList.add("px-2", "py-2", "cursor-pointer", "flex", "w-full", "justify-center", "text-gray-600");
         textDay.classList.add("text-base", "font-medium", "text-gray-500");
+        textDay.setAttribute('onclick', `selectedDay(${day}, ${month+1}, ${year})`);
 
-        if(day == 1 && i < data[1] - 1) {
+        if(day === 1 && i < data[1] - 1) {
             textDay.innerText = "";
         }
         else if (day > data[0]) {
             textDay.innerText = "";
         }
         else {
-            if (day == date.getDate() && year == currentDate.getFullYear() && month == currentDate.getMonth()) {
+            if (day === date.getDate() && year === currentDate.getFullYear() && month === currentDate.getMonth()) {
                 textDay = document.createElement("a");
                 textDay.setAttribute('role', 'link');
                 textDay.setAttribute('tabindex', '0');
@@ -51,6 +67,10 @@ function updateMonth(year, month) {
                 innerDay.classList.remove("px-2", "py-2", "flex", "text-gray-600");
                 innerDay.classList.add("flex", "items-center", "rounded-full");                                                
             }
+            else if(monthValues[day] === 0 || (day < date.getDate() && year == currentDate.getFullYear() && month == currentDate.getMonth())) {
+                innerDay.classList.add("opacity-50", "cursor-not-allowed");
+                innerDay.setAttribute('disabled', 'true');
+            }
             textDay.innerText = `${day}`;
             day++;
         }
@@ -60,6 +80,25 @@ function updateMonth(year, month) {
         td.appendChild(dayDiv);
         week.appendChild(td);
     }
+}
+
+async function selectedDay(day, month, year) {
+    let csrftoken = document.getElementById('csrf_token');
+    csrftoken = csrftoken === null ? "testingvalue" : csrftoken.value;
+
+    let response = await fetch("/api/daydata", {
+        method: "POST",
+        headers: {
+            'Content-type':'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify({
+            day: day,
+            month: month,
+            year: year
+        })
+    });
+    response = await response.json();
 }
 
 function nextMonth() {
@@ -73,7 +112,7 @@ function nextMonth() {
 }
 
 function previousMonth() {
-    if (currentDate.getMonth() == calendarDate.getMonth() && currentDate.getFullYear() == calendarDate.getFullYear()) {
+    if (currentDate.getMonth() === calendarDate.getMonth() && currentDate.getFullYear() === calendarDate.getFullYear()) {
         return;
     }
     resetMonth();

@@ -49,8 +49,9 @@ def day():
 
 @api.route('/month', methods=['POST'])
 def month():
-  data = request.json
-  return jsonify([random.randint(0, 100) for i in range(calendar.monthrange(data["year"], data["month"])[1])] * 20), 200
+  data = request.get_json()
+  print(data)
+  return jsonify([random.randint(0, 100) for i in range(calendar.monthrange(data["year"], data["month"])[1])]), 200
 
 @main.route('/login')
 def login():
