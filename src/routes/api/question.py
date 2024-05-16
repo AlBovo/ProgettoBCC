@@ -1,6 +1,6 @@
 from flask import request, jsonify, redirect, url_for
 
-def ask_quesstion():
+def ask_question():
     """
     Retrieves the question data of a specific ID.
     Structure of post request: {"question": questionID}
