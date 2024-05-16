@@ -475,7 +475,7 @@ class OperatorManager(object):
         conn = db.getConnection(current_app)
         cur = conn.cursor()
         
-        cur.execute("SELECT DISTINCT categories FROM operators")
+        cur.execute("SELECT DISTINCT category FROM operators")
         return [row[0] for row in cur.fetchall()]
     
     @staticmethod
