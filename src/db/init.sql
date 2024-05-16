@@ -7,7 +7,7 @@
     The is_admin column is a boolean flag indicating whether the user is an admin or not.
 */
 CREATE TABLE IF NOT EXISTS users(
-    id INT AUTO_INCREMENT PRIMARY KEY ,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL, -- Hash of the real password
     is_admin BOOLEAN NOT NULL DEFAULT false
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users(
     The table stores information about events, including the day, start and end time, user ID, and category.
 */
 CREATE TABLE IF NOT EXISTS events(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     date DATE NOT NULL, -- timestamp of the day
     start_hour INT NOT NULL, -- military time ex. 830 == 8:30
     end_hour INT NOT NULL,   -- military time
@@ -33,11 +33,11 @@ CREATE TABLE IF NOT EXISTS events(
     The 'operators' table stores information about operators, including their name, surname, and categories.
 */
 CREATE TABLE IF NOT EXISTS operators(
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
     surname VARCHAR(30) NOT NULL,
-    category TEXT NOT NULL
-);  -- unique code for each category
+    category TEXT NOT NULL -- unique code for each category
+) AUTO_INCREMENT = 0;  -- unique id for each operator and auto-incremented
 
 /*
     This script creates the 'questions' table if it does not already exist.
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS operators(
     and the status of the question (open [0] or closed [1]).
 */
 CREATE TABLE IF NOT EXISTS questions(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     id_users INT NOT NULL,
     id_admin INT NOT NULL DEFAULT 1,
     title VARCHAR(255) NOT NULL,
