@@ -73,13 +73,13 @@
                                 <div class="px-4 flex items-center justify-between">
                                     <span id="calendar" tabindex="0" class="focus:outline-none text-base font-bold text-teal-700"></span>
                                     <div class="flex items-center">
-                                        <button onclick="previousMonth()" aria-label="calendar backward" class="focus:text-teal-400 hover:text-teal-400 text-teal-600">
+                                        <button id="previousMonth" aria-label="calendar backward" class="focus:text-teal-400 hover:text-teal-400 text-teal-600">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <polyline points="15 6 9 12 15 18" />
                                             </svg>
                                         </button>
-                                        <button onclick="nextMonth()" aria-label="calendar forward" class="focus:text-teal-400 hover:text-teal-400 ml-3 text-teal-600"> 
+                                        <button id="nextMonth" aria-label="calendar forward" class="focus:text-teal-400 hover:text-teal-400 ml-3 text-teal-600"> 
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler  icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                                 <polyline points="9 6 15 12 9 18" />
@@ -154,20 +154,20 @@
                         bg-gray-100 
                         text-gray-700 
                         border duration-200 ease-in-out 
-                        border-gray-600 transition invisible" onclick="previousPage()">Previous</button>
+                        border-gray-600 transition invisible">Previous</button>
                     <div class="flex-auto flex flex-row-reverse">
                         <button id="next" class="text-base  ml-2  hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
                             hover:bg-teal-600  
                             bg-teal-600 
                             text-teal-100 
                             border duration-200 ease-in-out 
-                            border-teal-600 transition" onclick="nextPage()">Next</button>
+                            border-teal-600 transition">Next</button>
                         <button id="skip" class="text-base hover:scale-110 focus:outline-none flex justify-center px-4 py-2 rounded font-bold cursor-pointer 
                             hover:bg-teal-200  
                             bg-teal-100 
                             text-teal-700 
                             border duration-200 ease-in-out 
-                            border-teal-600 transition invisible" onclick="skipPage()">Skip</button>
+                            border-teal-600 transition invisible">Skip</button>
                     </div>
                 </div>
             </div>

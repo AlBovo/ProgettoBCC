@@ -43,7 +43,9 @@ async function updateMonth(year, month) {
 
         innerDay.classList.add("px-2", "py-2", "cursor-pointer", "flex", "w-full", "justify-center", "text-gray-600");
         textDay.classList.add("text-base", "font-medium", "text-gray-500");
-        textDay.setAttribute('onclick', `selectedDay(${day}, ${month+1}, ${year})`);
+        textDay.addEventListener("click", function() {
+            selectedDay(day, month+1, year);
+        });
 
         if(day === 1 && i < data[1] - 1) {
             textDay.innerText = "";
@@ -280,3 +282,8 @@ function previousPage() {
     document.getElementById("current").setAttribute('value', `${page-1}`);
 }
 
+document.getElementById("previousMonth").addEventListener("click", previousMonth);
+document.getElementById("nextMonth").addEventListener("click", nextMonth);
+document.getElementById("previous").addEventListener("click", previousPage);
+document.getElementById("next").addEventListener("click", nextPage);
+document.getElementById("skip").addEventListener("click", nextPage);
