@@ -71,3 +71,15 @@ def code_to_category(code: str) -> str: #TODO: add logic
     Returns the correspondig category of a code
     """
     return ""
+
+def is_past_date(date_str: str) -> bool:
+    """
+    Check if a given date string is in the past.
+
+    Args:
+        date_str (str): The date string to be checked.
+
+    Returns:
+        bool: True if the date is in the past, False otherwise.
+    """
+    return datetime.strptime(date_str, '%Y-%m-%d').date() < datetime.now().date()

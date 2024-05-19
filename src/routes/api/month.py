@@ -11,7 +11,7 @@ def get_month():
     """
     data = request.json
 
-    if not data.get("month", type=int) or not data.get("year", type=str):
+    if not data.get("month") or not data.get("year"):
         return jsonify({"error":"Missing parameters"}), 400
     if not isinstance(data["month"], int) or not isinstance(data["year"], str):
         return jsonify({"error":"Invalid parameters"}), 400

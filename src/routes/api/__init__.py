@@ -11,6 +11,7 @@ from . import question
 from . import register
 from . import week
 from . import categories
+from . import available
 
 apibp  =   Blueprint('api', __name__)
 
@@ -25,3 +26,4 @@ apibp.route('/question', methods=['POST'])(login_required(question.ask_question)
 apibp.route('/register', methods=['POST'])(register.register)
 apibp.route('/week', methods=['POST'])(login_required(week.get_week))
 apibp.route('/categories', methods=['GET'])(login_required(categories.get_categories))
+apibp.route('/available', methods=['POST'])(login_required(available.get_available))

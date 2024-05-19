@@ -183,7 +183,7 @@ class Event(object):
         Get the time span of the event.
 
         Returns:
-            tuple: A tuple containing the start hour and end hour of the event.
+            tuple: A tuple containing the date, the start hour and end hour of the event.
         """
         return (self.__date, self.__start_hour, self.__end_hour)
     
@@ -391,7 +391,7 @@ class EventManager(object):
 
 ##################### OPERATOR CLASS ####################
 class Operator(object):
-    def __init__(self, id: int, name: str, surname: str, categories: str) -> None: # TODO list should be list[str]
+    def __init__(self, id: int, name: str, surname: str, categories: str) -> None:
         """
         Initializes an Operator object.
 
@@ -405,7 +405,7 @@ class Operator(object):
         Returns:
             None
         """
-        self.__id = id
+        self.id = id
         self.__name = name
         self.__surname = surname
         self.__categories = categories
@@ -479,6 +479,21 @@ class OperatorManager(object):
         return [row[0] for row in cur.fetchall()]
     
     @staticmethod
+    def getAllOpearators() -> list[Operator]:
+        """
+        Retrieves all operators in the system.
+
+        Returns:
+            list[Operator]: A list of all operators.
+        """
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        cur.execute("SELECT * FROM operators")
+        res = cur.fetchall()
+        return [OperatorManager.resultRowToOperator(row) for row in res]
+    
+    @staticmethod
     def get(id: int) -> Operator | None:
         """
         Retrieves an operator by its ID.
@@ -514,6 +529,48 @@ class OperatorManager(object):
         cur.execute("SELECT * FROM operators WHERE categories = %s", (category, ))
         res = cur.fetchall()
         return [OperatorManager.resultRowToOperator(row) for row in res]
+    
+    @staticmethod
+    def getAllAvailable(date: str) -> dict[int, list[int]]: # TODO : may be broken
+        """
+        Retrieves all available operators for a given date.
+
+        Args:
+            date (str): The date for which to retrieve available operators.
+
+        Returns:
+            dict[int, list[int]]: A dictionary where the keys represent the available timeslots
+            and the values are lists of operator IDs available at each timeslot.
+        """
+        events = EventManager.getEventsByDate(date)
+        operators = OperatorManager.getAllOpearators()
+        
+        available = {int : []}
+        
+        for event in events:
+            timespan = event.getTimeSpan()
+            
+            if available.get(timespan[1]) == None:
+                available[timespan[1]] = []
+            
+            available[timespan[1]].append(-event.operator_id)
+        
+        for operator in operators:
+            i = 830
+            while i < 1730:
+                if available.get(i) == None:
+                    available[i] = []
+                
+                if (operator.id * -1) in available[i]:
+                    available[i].remove(operator.id * -1)
+                else:
+                    available[i].append(operator.id)
+                
+                i += 30
+                if i % 100 == 60:
+                    i += 40
+                    
+        return available
     
     @staticmethod
     def add(id: int, name: str, surname: str, categories: list[str]) -> Operator | None:
