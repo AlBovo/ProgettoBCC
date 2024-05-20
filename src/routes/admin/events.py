@@ -24,7 +24,7 @@ def get_operator_day():
         category = code_to_category(event.getCategory())
         timeSpan = event.getTimeSpan()
         
-        if datetime.now().date() != datetime.strptime(event.getDate(), "%Y-%m-%d").date():
+        if datetime.now().date() != event.getDate():
             continue
 
         response.append({
