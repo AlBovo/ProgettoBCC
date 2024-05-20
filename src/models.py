@@ -545,7 +545,7 @@ class OperatorManager(object):
         events = EventManager.getEventsByDate(date)
         operators = OperatorManager.getAllOpearators()
         
-        available = {int : []}
+        available = dict[int, list[int]]()
         
         for event in events:
             timespan = event.getTimeSpan()
