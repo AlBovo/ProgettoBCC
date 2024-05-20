@@ -33,6 +33,10 @@ def login():
 def categories():
   return jsonify([f'Category {random.randbytes(4).hex()}' for i in range(random.randint(0, 30))]), 200
 
+@api.route('/available', methods=['POST'])
+def available():
+  return jsonify({'830': [3, 1, 5], '900': [2], '930': [5, 1, 4], '1000': [4, 2, 1]}), 200
+
 @api.route('/logout')
 def logout():
   flash('You have been logged out!', 'success')

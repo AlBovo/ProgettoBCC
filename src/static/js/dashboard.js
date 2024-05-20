@@ -88,16 +88,14 @@ async function selectedDay(day, month, year) {
     let csrftoken = document.getElementById('csrf_token');
     csrftoken = csrftoken === null ? "testingvalue" : csrftoken.value;
 
-    let response = await fetch("/api/daydata", {
+    let response = await fetch("/api/available", {
         method: "POST",
         headers: {
             'Content-type':'application/json',
             'X-CSRFToken': csrftoken
         },
         body: JSON.stringify({
-            day: day,
-            month: month,
-            year: year
+            date: new Date(year, month, day).toISOString().slice(0, 10)
         })
     });
     response = await response.json();

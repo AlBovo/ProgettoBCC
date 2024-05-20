@@ -2,7 +2,7 @@
 {% import 'components/buttons.html' as buttons %}
 
 {% block title %}
-    <title>Eventi</title>
+    <title>Dashboard</title>
 {% endblock %}
 
 {% block content %}
@@ -67,8 +67,8 @@
                 </div>
                 <div id="date" class="p-2 mt-4 hidden">
                     <div class="font-bold text-gray-600 text-xs leading-8 uppercase h-6 mb-3">Data e Orario</div>
-                    <div class="items-center justify-center py-4 px-4">
-                        <div class="max-w-sm w-full shadow-lg">
+                    <div class="flex justify-between">
+                        <div class="h-fit max-w-sm w-full shadow-lg">
                             <div class="md:p-8 p-5 bg-white rounded">
                                 <div class="px-4 flex items-center justify-between">
                                     <span id="calendar" tabindex="0" class="focus:outline-none text-base font-bold text-teal-700"></span>
@@ -139,6 +139,35 @@
                                 </div>
                             </div>
                         </div>
+                        <!--<div id="timelines" class="w-1/2">
+                            <div id="timeline1" class="w-full py-4">
+                                <div class="flex justify-between mx-10 py-2">
+                                    <div class="mt-2 p-5 h-min w-40 bg-white rounded-lg shadow-xl">
+                                        <div class="flex justify-around text-xl text-gray-800">
+                                            <span id="hour">09</span>
+                                            <span>:</span>
+                                            <span id="minute">30</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2 p-5 h-min w-40 bg-white rounded-lg shadow-xl">
+                                        <div class="flex justify-around text-xl text-gray-800">
+                                            <span id="hour">10</span>
+                                            <span>:</span>
+                                            <span id="minute">00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-full bg-white my-2 flex-1 rounded-lg shadow-xl">
+                                    <div class="ps-3 border-gray-200">
+                                        <ul class="list-disc w-full py-3 ms-2 text-l text-gray-800">
+                                            <span class="font-bold">Gli operatori liberi sono</span>
+                                            <li class="ml-8">Mario Rossi</li>
+                                        </ul>
+                                        <button class="bg-teal-600 text-teal-100 py-4 rounded-lg">Prenota</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
                     </div>
                 </div>
                 <div id="operator" class="p-2 mt-4 hidden">
