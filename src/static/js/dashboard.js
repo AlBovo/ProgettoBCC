@@ -69,7 +69,7 @@ async function updateMonth(year, month) {
                 innerDay.classList.remove("px-2", "py-2", "flex", "text-gray-600");
                 innerDay.classList.add("flex", "items-center", "rounded-full");                                                
             }
-            else if(monthValues[day] === 0 || (day < date.getDate() && year == currentDate.getFullYear() && month == currentDate.getMonth())) {
+            else if (day < date.getDate() && year == currentDate.getFullYear() && month == currentDate.getMonth()) {
                 innerDay.classList.add("opacity-50", "cursor-not-allowed");
                 innerDay.setAttribute('disabled', 'true');
             }
