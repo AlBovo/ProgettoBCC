@@ -1,6 +1,7 @@
 from flask import request, jsonify
 from models import OperatorManager
-import calendar, datetime
+from datetime import datetime
+import calendar
 
 def get_month():
     """
