@@ -431,7 +431,7 @@ class Operator(object):
             list[Event]: A list of events associated with the operator.
         """
 
-        return EventManager.getEventsByoperator(self.__id)
+        return EventManager.getEventsByoperator(self.id)
     
     def getInformations(self) -> tuple:
         """
