@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from flask import current_app
-import db, utils
+import db, utils, json, os
 
 ##################### USER CLASS #####################
 class User(UserMixin):
@@ -610,19 +610,28 @@ class Ticket():
         __id_users (int): The ID of the user who asked the question.
         __id_admin (int): The ID of the admin who answered the question.
         __title (str): The title of the question.
-        __content_id (int): The content_id of the question.
         __opentime (str): Open timestamp of the question.
         __status (bool): The status of the question.
     """
-    def __init__(self, id: int, id_users: int, id_admin: int, title: str, content_id: int, opentime: str, status: bool) -> None:
+    def __init__(self, id: int, id_users: int, id_admin: int, title: str, opentime: str, status: bool) -> None:
         self.__id = id
         self.__id_users = id_users
         self.__id_admin = id_admin
         self.__title = title
-        self.__content_id = content_id
         self.__opentime = opentime
         self.__status = status
         super().__init__()
+    
+    def getContent(self):
+        """
+        Get the content of the question.
+        """
+        if not os.path.exists(f'tickets/{self.__id}.json'):
+            with open(f'tickets/{self.__id}.json', 'w') as f:
+                f.write(json.dumps({}))
+
+        return json.load(open(f'tickets/{self.__id}.json'))
+
 ################## END OF TICKET CLASS ##################
 
 ############# START OF TICKET MANAGER CLASS #############
@@ -655,7 +664,7 @@ class TicketManager(object):
             return TicketManager.resultRowToTicket(res)
         
     @staticmethod
-    def getTicketByUser(id_users: int) -> list[Ticket]:
+    def getTicketByUser(id_users: int) -> list[Ticket] | None:
         """
         Retrieves questions by user ID.
         """
@@ -664,10 +673,11 @@ class TicketManager(object):
         
         cur.execute("SELECT * FROM tickets WHERE id_users = %s", (id_users, ))
         res = cur.fetchall()
-        return [TicketManager.resultRowToTicket(row) for row in res]
+        if res:
+            return [TicketManager.resultRowToTicket(row) for row in res]
     
     @staticmethod
-    def addTicket(id: int, id_users: int, id_admin: int, title: str, content_id: int, opentime: str, status: bool):
+    def add(id: int, id_users: int, id_admin: int, title: str, opentime: str, status: bool):
         """
         Adds a new question to the system.
         """
@@ -677,9 +687,12 @@ class TicketManager(object):
         if TicketManager.getTicketById(id):
             return None
         
-        cur.execute("INSERT INTO tickets (id, id_users, id_admin, title, content_id, opentime, status) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
-                    (id, id_users, id_admin, title, content_id, opentime, status))
+        cur.execute("INSERT INTO tickets (id, id_users, id_admin, title, opentime, status) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
+                    (id, id_users, id_admin, title, opentime, status))
         conn.commit()
+        
+        # check for actual insertion
         added_ticket = TicketManager.getTicketById(cur.lastrowid)
         assert added_ticket != None
+        
         return added_ticket

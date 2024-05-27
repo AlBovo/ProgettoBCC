@@ -51,7 +51,6 @@ CREATE TABLE IF NOT EXISTS questions(
     id_admin INT NOT NULL DEFAULT 1, -- admin is the one with minor ticket opened in that category
     title VARCHAR(50) NOT NULL,
     category TEXT NOT NULL,
-    content_id INT AUTO_INCREMENT NOT NULL ,
     opentime VARCHAR(16) NOT NULL, -- "YYYY-MM-DD hh:mm"
     status BIT NOT NULL DEFAULT 0
 ) AUTO_INCREMENT = 0;
