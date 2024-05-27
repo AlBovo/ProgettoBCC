@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}
+    <title></title>
+{% endblock %}
+
+<!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
+
+{% block content %}
+<div>
+    <!-- header -->
+    
+    <!-- end header -->
+    <!-- Chatting -->
+    <div class="flex flex-row justify-between bg-white">
+      <!-- chat list -->
+      <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+        <!-- user list -->
+        {% for ticket in tickets %}
+        <div
+          class="flex flex-row py-4 px-2 justify-center items-center border-b-2"
+        >
+          <div class="w-1/4">
+            <img
+              src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
+              class="object-cover h-12 w-12 rounded-full"
+              alt=""
+            />
+          </div>
+          <div class="w-full">
+            <div class="text-lg font-semibold">{{ ticket.title }}</div>
+            <span class="text-gray-500">{{ ticket.opened_time }}</span>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- end user list -->
+      </div>
+      <!-- end chat list -->
+      <!-- message -->
+      {% for ticket in tickets %}
+      <div class="w-full px-5 flex flex-col justify-between" hidden="">
+        <div class="flex flex-col mt-5">
+        {% for message in ticket.content %}
+            {% if message.isUser %}
+            <div class="flex justify-end mb-4">
+            {% else %}
+            <div class="flex justify-start mb-4"></div>
+            {% endif %}
+            <div
+              class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
+            >
+             {{ message.text }}
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+      <!-- end message -->
+      </div>
+    </div>
+</div>
+{% endblock %}
