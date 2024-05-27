@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
-{% import 'components/buttons.html' as buttons %}
-{% import 'components/navbar.html' as navbar %}
 
-{%block content%}
+{% block title %}
+  <title>Panel</title>
+{% endblock %}
+
+{% block content %}
     <div class="flex h-screen">
         <!-- Left column -->
         <nav class="w-2/3 flex-1 overflow-y-auto bg-gray-900">
@@ -94,4 +96,4 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ url_for('static', filename='js/operator.js') }}"></script>
-{%endblock%}
+{% endblock %}

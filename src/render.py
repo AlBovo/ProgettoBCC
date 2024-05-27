@@ -29,6 +29,10 @@ def login():
   flash('You have been logged in!', 'success')
   return redirect(url_for('main.login'))
 
+@main.route('/ticket', methods=['GET'])
+def ticket():
+  return render_template('ticket.html', current_user=prova('John', 'Doe'), tickets=[{'title': 'prova', 'opened_time': '2024-02-02 10:32', 'content' : [{'text' : 'prova', 'is_user': True}, {'text': 'prova', 'is_user': False}]}])
+
 @api.route('/categories', methods=['GET'])
 def categories():
   return jsonify([f'Category {random.randbytes(4).hex()}' for i in range(random.randint(0, 30))]), 200
@@ -80,6 +84,10 @@ def operator():
 @main.route('/error')
 def error():
   return render_template('error.html', status_code=404, error={'message': 'Page not found', 'description': 'The page you are looking for does not exist.'})
+
+@main.route('/faq')
+def faq():
+  return render_template('faq.html', current_user=prova('John', 'Doe'))
 
 if __name__ == '__main__':
   app.register_blueprint(api, url_prefix='/api')

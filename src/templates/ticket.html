@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Tickets</title>
+{% endblock %}
+
+{% block content %}
+<div>
+  <!-- Chatting -->
+  <div class="flex flex-row justify-between bg-white">
+    <!-- chat list -->
+      <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+        <!-- user list -->
+        {% for ticket in tickets %}
+        <div
+          class="flex flex-row py-4 px-2 justify-center items-center border-b-2"
+        >
+          <div align="center" class="w-full">
+            <div class="text-lg font-semibold">{{ ticket.title }}</div>
+            <span class="text-gray-500">{{ ticket.opened_time }}</span>
+          </div>
+        </div>
+        {% endfor %}
+        <!-- end user list -->
+      </div>
+      <!-- end chat list -->
+      <!-- message -->
+      {% for ticket in tickets %}
+      <div class="w-full px-5 flex flex-col justify-between" hidden="">
+        <div class="flex flex-col mt-5">
+        {% for message in ticket.content %}
+            {% if message.is_user %}
+            <div class="flex justify-end mb-4">
+            <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
+            {% else %}
+            <div class="flex justify-start mb-4">
+            <div class="ml-2 py-3 px-4 bg-green-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
+            {% endif %}
+             {{ message.text }}
+            </div>
+          </div>
+        {% endfor %}
+      {% endfor %}
+      <!-- end message -->
+      <!-- user message -->
+      <div class="py-5">
+        <input
+          class="w-full bg-gray-300 py-5 px-3 rounded-xl"
+          type="text"
+          placeholder="scrivi qui il tuo messaggio per il consulente!"
+        />
+      </div>
+      <!-- end user message -->
+      </div>
+    </div>
+</div>
+{% endblock %}

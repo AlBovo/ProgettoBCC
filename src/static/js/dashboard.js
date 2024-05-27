@@ -1,6 +1,7 @@
 const month = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
 const currentDate = new Date();
 const calendarDate = new Date();
+var currentSelected = null;
 
 function getDaysData(year, month) {
     const last = new Date(year, month+1, 0);
@@ -141,21 +142,23 @@ document.addEventListener('DOMContentLoaded', function () {
             const categoryElement = document.createElement("div");
             categoryElement.classList.add(...["flex", "flex-col", "md:flex-row", "text-sm", "font-medium"]);
             
+            let currentCategory = categories[i].replace(" ", "").toLowerCase();
             categoryElement.innerHTML = `
                 <div class="w-full bg-white rounded-lg my-2 flex-1 mr-4 svelte-1l8159u">
                     <div class="flex items-center ps-3 border-gray-200 svelte-1l8159u">
-                        <input id="${categories[i].replace(" ", "").toLowerCase()}" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded">
-                        <label for="${categories[i].replace(" ", "").toLowerCase()}" class="w-full py-3 ms-2 text-sm font-medium text-gray-800">${categories[i]}</label>
+                        <input id="${currentCategory}" onclick="changedChecked('${currentCategory}')" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded">
+                        <label for="${currentCategory}" class="w-full py-3 ms-2 text-sm font-medium text-gray-800">${categories[i]}</label>
                     </div>
                 </div>
             `;
             
             if (i + 1 < categories.length) {
+                currentCategory = categories[i+1].replace(" ", "").toLowerCase();
                 categoryElement.innerHTML += `
                 <div class="w-full bg-white rounded-lg my-2 flex-1 ml-4 svelte-1l8159u">
                     <div class="flex items-center ps-3 border-gray-200 svelte-1l8159u">
-                        <input id="${categories[i+1].replace(" ", "").toLowerCase()}" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded">
-                        <label for="${categories[i+1].replace(" ", "").toLowerCase()}" class="w-full py-3 ms-2 text-sm font-medium text-gray-800">${categories[i+1]}</label>
+                        <input id="${currentCategory}" onclick="changedChecked('${currentCategory}')" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded">
+                        <label for="${currentCategory}" class="w-full py-3 ms-2 text-sm font-medium text-gray-800">${categories[i+1]}</label>
                     </div>
                 </div>
                 `;
@@ -278,6 +281,14 @@ function previousPage() {
     text.classList.add("text-gray-500");
 
     document.getElementById("current").setAttribute('value', `${page-1}`);
+}
+
+function changedChecked(id){
+    if (currentSelected !== null) {
+        const previous = document.getElementById(currentSelected);
+        previous.checked = false;
+    }
+    currentSelected = id;
 }
 
 document.getElementById("previousMonth").addEventListener("click", previousMonth);
