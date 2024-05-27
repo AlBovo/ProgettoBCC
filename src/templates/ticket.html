@@ -1,32 +1,20 @@
 {% extends "base.html" %}
 {% block title %}
-    <title></title>
+    <title>Tickets</title>
 {% endblock %}
-
-<!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
 
 {% block content %}
 <div>
-    <!-- header -->
-    
-    <!-- end header -->
-    <!-- Chatting -->
-    <div class="flex flex-row justify-between bg-white">
-      <!-- chat list -->
+  <!-- Chatting -->
+  <div class="flex flex-row justify-between bg-white">
+    <!-- chat list -->
       <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
         <!-- user list -->
         {% for ticket in tickets %}
         <div
           class="flex flex-row py-4 px-2 justify-center items-center border-b-2"
         >
-          <div class="w-1/4">
-            <img
-              src="https://source.unsplash.com/_7LbC5J-jw4/600x600"
-              class="object-cover h-12 w-12 rounded-full"
-              alt=""
-            />
-          </div>
-          <div class="w-full">
+          <div align="center" class="w-full">
             <div class="text-lg font-semibold">{{ ticket.title }}</div>
             <span class="text-gray-500">{{ ticket.opened_time }}</span>
           </div>

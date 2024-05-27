@@ -31,7 +31,7 @@ def login():
 
 @main.route('/ticket', methods=['GET'])
 def ticket():
-  return render_template('ticket.html')
+  return render_template('ticket.html', current_user=prova('John', 'Doe'), tickets=[{'title': 'prova', 'opened_time': '2024-02-02 10:32', 'content' : [{'text' : 'prova', 'is_user': True}, {'text': 'prova', 'is_user': False}]}])
 
 @api.route('/categories', methods=['GET'])
 def categories():
