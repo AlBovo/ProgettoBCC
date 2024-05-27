@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from flask import current_app
-import db, utils
+import db, utils, json, os
 
 ##################### USER CLASS #####################
 class User(UserMixin):
@@ -600,8 +600,8 @@ class OperatorManager(object):
     
 ################## END OF OPERATOR MANAGER ##################
 
-################## START OF QUESTION CLASS ##################
-class Question():
+################## START OF TICKET CLASS ##################
+class Ticket():
     """
     Represents a question in the system.
 
@@ -610,14 +610,89 @@ class Question():
         __id_users (int): The ID of the user who asked the question.
         __id_admin (int): The ID of the admin who answered the question.
         __title (str): The title of the question.
-        __content (str): The content of the question.
+        __opentime (str): Open timestamp of the question.
         __status (bool): The status of the question.
     """
-    def __init__(self, id: int, id_users: int, id_admin: int, title: str, content: str, status: bool) -> None:
+    def __init__(self, id: int, id_users: int, id_admin: int, title: str, opentime: str, status: bool) -> None:
         self.__id = id
         self.__id_users = id_users
         self.__id_admin = id_admin
         self.__title = title
-        self.__content = content
+        self.__opentime = opentime
         self.__status = status
         super().__init__()
+    
+    def getContent(self):
+        """
+        Get the content of the question.
+        """
+        if not os.path.exists(f'tickets/{self.__id}.json'):
+            with open(f'tickets/{self.__id}.json', 'w') as f:
+                f.write(json.dumps({}))
+
+        return json.load(open(f'tickets/{self.__id}.json'))
+
+################## END OF TICKET CLASS ##################
+
+############# START OF TICKET MANAGER CLASS #############
+class TicketManager(object):
+
+    @staticmethod
+    def resultRowToTicket(res: tuple) -> Ticket:
+        """
+        Converts a result row from the database to a Ticket object.
+
+        Args:
+            res (tuple): The result row from the database.
+
+        Returns:
+            Ticket: The Ticket object.
+        """
+        return Ticket(res[0], res[1], res[2], res[3], res[4], res[5], res[6])
+    
+    @staticmethod
+    def getTicketById(id: int) -> Ticket | None:
+        """
+        Retrieves a question by its ID.
+        """
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        cur.execute("SELECT * FROM tickets WHERE id = %s", (id, ))
+        res = cur.fetchone()
+        if res:
+            return TicketManager.resultRowToTicket(res)
+        
+    @staticmethod
+    def getTicketByUser(id_users: int) -> list[Ticket] | None:
+        """
+        Retrieves questions by user ID.
+        """
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        cur.execute("SELECT * FROM tickets WHERE id_users = %s", (id_users, ))
+        res = cur.fetchall()
+        if res:
+            return [TicketManager.resultRowToTicket(row) for row in res]
+    
+    @staticmethod
+    def add(id: int, id_users: int, id_admin: int, title: str, opentime: str, status: bool):
+        """
+        Adds a new question to the system.
+        """
+        conn = db.getConnection(current_app)
+        cur = conn.cursor()
+        
+        if TicketManager.getTicketById(id):
+            return None
+        
+        cur.execute("INSERT INTO tickets (id, id_users, id_admin, title, opentime, status) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
+                    (id, id_users, id_admin, title, opentime, status))
+        conn.commit()
+        
+        # check for actual insertion
+        added_ticket = TicketManager.getTicketById(cur.lastrowid)
+        assert added_ticket != None
+        
+        return added_ticket
