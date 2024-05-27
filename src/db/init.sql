@@ -48,8 +48,9 @@ CREATE TABLE IF NOT EXISTS operators(
 CREATE TABLE IF NOT EXISTS questions(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_users INT NOT NULL,
-    id_admin INT NOT NULL DEFAULT 1,
-    title VARCHAR(255) NOT NULL,
-    content TEXT NOT NULL,
+    id_admin INT NOT NULL DEFAULT 1, -- admin is the one with minor ticket opened in that category
+    title VARCHAR(50) NOT NULL,
+    category TEXT NOT NULL,
+    content_id INT NOT NULL,
     status BIT NOT NULL DEFAULT 0
 );
