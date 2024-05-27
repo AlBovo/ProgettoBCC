@@ -29,6 +29,10 @@ def login():
   flash('You have been logged in!', 'success')
   return redirect(url_for('main.login'))
 
+@main.route('/ticket', methods=['GET'])
+def ticket():
+  return render_template('ticket.html')
+
 @api.route('/categories', methods=['GET'])
 def categories():
   return jsonify([f'Category {random.randbytes(4).hex()}' for i in range(random.randint(0, 30))]), 200
