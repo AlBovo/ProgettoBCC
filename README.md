@@ -5,7 +5,7 @@
     <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/albovo/ProgettoBCC">
 </p>
 
-This repository is about a project related to the _[BCC Bank's scholarship](https://www.bccromagnolo.it/)_ for the academic year 2023/2024. <br>
+This repository is about a project related to the _[BCC Bank's scholarship](https://www.labcc.it/)_ for the academic year 2023/2024. <br>
 
 This project was designed to make communication between bank employees and customers faster and more effective, making consultations easily accessible and editable through a simple and clear style.
 In the development of the website, many knowledge and techniques that the group studied at __[ITT Blaise Pascal](https://www.ispascalcomandini.it)__ over the years in various subjects were also implemented and used.<br>
