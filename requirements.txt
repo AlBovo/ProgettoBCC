@@ -1,5 +1,5 @@
 Flask==3.0.2
-mysql-connector-python==8.3.0
+mysql-connector-python==9.1.0
 Flask-Login==0.6.3
 email_validator==2.1.1
 pytest==8.1.1
